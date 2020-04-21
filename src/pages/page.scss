@@ -1,0 +1,104 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins/breakpoints";
+@import "../mixins";
+@import "../variables";
+
+.page-body {
+  position: absolute;
+  top: 0;
+  bottom: 50px;
+  width: 100%;
+  text-align: justify;
+  overflow: auto;
+
+  &.no-footer {
+    bottom: 0;
+  }
+
+  color: $color;
+  background: url(so-white.png);
+
+  .page {
+    min-height: 100%;
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    .page-title {
+      flex: 0 1 auto;
+
+      text-align: center;
+      margin-bottom: 20px;
+      padding: $page-padding $page-padding 0 $page-padding;
+
+      h1 {
+        font-size: 1.5em;
+
+        @include text-empty(400px, $font-size: 1.2em) {
+          margin-left: auto;
+          margin-right: auto;
+        }
+      }
+    }
+
+    .page-content {
+      flex: 1 1 auto;
+      padding: 0 $page-padding $page-padding $page-padding;
+    }
+
+    @include media-breakpoint-up(sm) {
+      .page-title h1 {
+        font-size: 2em;
+      }
+    }
+
+    @include media-breakpoint-up(md) {
+      .page-title h1 {
+        font-size: 3.5em;
+      }
+    }
+  }
+}
+
+.footer {
+  position: absolute;
+  height: 50px;
+  bottom: 0;
+  width: 100%;
+
+  border-top: 1px solid #eee;
+
+  .fa-heart {
+    color: #FF4D4D;
+    margin: 0 .5ch;
+    vertical-align: bottom;
+  }
+
+  .logo {
+    @include center;
+    height: 30px;
+
+    svg {
+      height: 30px;
+    }
+  }
+
+  .copyright {
+    @include center-y;
+    right: 20px;
+  }
+
+  @include media-breakpoint-down(xs) {
+    .logo {
+      display: none;
+    }
+
+    .copyright {
+      text-align: center;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+}

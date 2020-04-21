@@ -1,0 +1,30 @@
+@import "~react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min";
+
+body {
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body, h1, h2, h3, h4 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  background: transparent !important;
+}
+
+html.swal2-height-auto, body.swal2-height-auto {
+  height: 100% !important
+}

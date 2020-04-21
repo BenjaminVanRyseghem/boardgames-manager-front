@@ -1,0 +1,20 @@
+.gamePreview {
+  display: flex;
+  flex-direction: row;
+
+
+  .type {
+    margin-right: 1ch;
+  }
+
+  .name {
+
+    .match {
+      font-weight: bold;
+    }
+  }
+
+  .yearOfPublication {
+    margin-left: .5ch;
+  }
+}
