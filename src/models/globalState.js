@@ -1,5 +1,6 @@
 import Cookies from "js-cookie";
 import jwt from "jsonwebtoken";
+import { roles } from "./accessControl";
 import User from "./user";
 
 const user = Symbol("user");
@@ -28,7 +29,8 @@ class GlobalState {
 	user() {
 		if (process.env.NODE_ENV === "development") { // eslint-disable-line no-process-env
 			return new User({
-				id: "benjamin.vanryseghem@cyberzen.com"
+				id: "benjamin.vanryseghem@cyberzen.com",
+				role: roles.admin
 			});
 		}
 

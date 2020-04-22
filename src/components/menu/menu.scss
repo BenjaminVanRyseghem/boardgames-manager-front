@@ -1,10 +1,16 @@
+@import "../../variables";
+
 .menu {
+  .form-group {
+    margin-bottom: 2em;
+  }
+
   .input-range__slider {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: #3f51b5;
-    border: 1px solid #3f51b5;
+    background: $blue;
+    border: 1px solid $blue;
     border-radius: 100%;
     cursor: pointer;
     display: block;
@@ -15,8 +21,6 @@
     position: absolute;
     top: 50%;
     -webkit-transition: box-shadow 0.3s ease-out, -webkit-transform 0.3s ease-out;
-    transition: box-shadow 0.3s ease-out, -webkit-transform 0.3s ease-out;
-    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
     transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, -webkit-transform 0.3s ease-out;
     width: 1rem;
   }
@@ -44,7 +48,7 @@
   }
 
   .input-range__label {
-    color: #aaaaaa;
+    color: #444;
     font-family: "Helvetica Neue", san-serif;
     font-size: 0.8rem;
     -webkit-transform: translateZ(0);
@@ -81,7 +85,7 @@
   }
 
   .input-range__track {
-    background: #eeeeee;
+    background: #ccc;
     border-radius: 0.3rem;
     cursor: pointer;
     display: block;
@@ -89,10 +93,6 @@
     position: relative;
     -webkit-transition: left 0.3s ease-out, width 0.3s ease-out;
     transition: left 0.3s ease-out, width 0.3s ease-out;
-  }
-
-  .input-range--disabled .input-range__track {
-    background: #eeeeee;
   }
 
   .input-range__track--background {
@@ -104,7 +104,7 @@
   }
 
   .input-range__track--active {
-    background: #3f51b5;
+    background: $blue;
   }
 
   .input-range {
@@ -112,5 +112,22 @@
     position: relative;
     width: 100%;
     margin: 20px 0;
+  }
+
+  .age-group .input-range__track .input-range__label-container {
+    &:after {
+      content: "+"
+    }
+  }
+
+
+  .input-range--disabled {
+    .input-range__label {
+      color: #aaaaaa;
+    }
+
+    .input-range__track {
+      background: #eeeeee;
+    }
   }
 }

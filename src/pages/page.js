@@ -1,11 +1,8 @@
 import "./page.scss";
 import fetcher from "helpers/fetcher";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import globalState from "models/globalState";
-import { ReactComponent as Logo } from "./logo.svg";
 
 import React from "react";
-import yearCopyright from "../helpers/yearCopyright";
 
 const requests = Symbol("requests");
 
@@ -41,7 +38,7 @@ export default class Page extends React.Component {
 		init.headers["Content-Type"] = init.headers["Content-Type"] || "application/json";
 		init.body = init.body === undefined ? undefined : JSON.stringify(init.body);
 
-		let currentUser = globalState.getUser();
+		let currentUser = globalState.user();
 
 		if (currentUser) {
 			init.headers.Authorization = `Bearer ${currentUser.token()}`;
@@ -72,36 +69,17 @@ export default class Page extends React.Component {
 		throw new Error("[Page/renderContent] Must be overridden");
 	}
 
-	renderFooter() {
-		if (this.noFooter) {
-			return null;
-		}
-
-		return (
-			<div className="footer">
-				<div className="logo">
-					Provided with <FontAwesomeIcon icon="heart"/> by <span className="font-weight-bold">Benjamin Van Ryseghem</span>
-				</div>
-			</div>
-		);
-	}
-
 	render() {
 		return (
-			<>
-				<div className={`page-body ${this.noFooter ? "no-footer" : ""}`}>
-					<div className={`page 
-							${this.className ? this.className : this.constructor.key || ""}
-							${this.title ? "" : "no-title"}
-						`}>
-						{this.renderTitle()}
-						<div className="page-content">
-							{this.renderContent()}
-						</div>
-					</div>
+			<div className={`page 
+				${this.className ? this.className : this.constructor.key || ""}
+				${this.title ? "" : "no-title"}
+			`}>
+				{this.renderTitle()}
+				<div className="page-content">
+					{this.renderContent()}
 				</div>
-				{this.renderFooter()}
-			</>
+			</div>
 		);
 	}
 }

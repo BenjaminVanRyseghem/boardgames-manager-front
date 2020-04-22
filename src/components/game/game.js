@@ -1,3 +1,4 @@
+import "./game.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import he from "he";
 import PropTypes from "prop-types";
@@ -37,13 +38,15 @@ export default class Game extends React.Component {
 
 		let mechanics = (
 			<ul className="mechanics">
-				{game.mechanics.sort().map((mechanic) => <li key={mechanic} className="mechanic">{mechanic}</li>)}
+				{game.mechanics.sort().map((mechanic) => <li key={mechanic.foreignID} className="mechanic">{mechanic.value}</li>)}
 			</ul>
 		);
 		return (
 			<div className="line multi">
 				<div className="info mechanics">
-					<FontAwesomeIcon icon="cogs"/>
+					<div className="icon">
+						<FontAwesomeIcon icon="cogs"/>
+					</div>
 					<div className="text">{mechanics}</div>
 				</div>
 			</div>
@@ -60,7 +63,7 @@ export default class Game extends React.Component {
 
 		let categories = game.categories && (
 			<ul className="categories">
-				{game.categories.sort().map((category) => <li key={category} className="category">{category}</li>)}
+				{game.categories.sort().map((category) => <li key={category.foreignID} className="category">{category.value}</li>)}
 			</ul>
 		);
 
@@ -83,7 +86,7 @@ export default class Game extends React.Component {
 								{this.renderInfo("chess-pawn", `${game.minPlayers}-${game.maxPlayers}`)}
 								{this.renderInfo("stopwatch", time)}
 								{this.renderInfo("birthday-cake", game.minAge)}
-								{this.renderInfo("map-marker-alt", game.box)}
+								{this.renderInfo("map-marker-alt", () => game.location.name, { shouldRender: !!game.location })}
 								{this.renderInfo("tags", categories, { className: "categories" })}
 							</div>
 							{this.renderMechanics(game)}

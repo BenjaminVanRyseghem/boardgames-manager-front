@@ -1,8 +1,13 @@
 import "./switch.scss";
-import { Toggle } from "react-toggle-component";
 import { Label } from "reactstrap";
 import PropTypes from "prop-types";
 import React from "react";
+import { Toggle } from "react-toggle-component";
+
+const nextName = (() => {
+	let id = 0;
+	return () => `switch-${id++}`;
+})();
 
 export default class Switch extends React.Component {
 	static propTypes = {
@@ -12,17 +17,19 @@ export default class Switch extends React.Component {
 	};
 
 	render() {
+		let name = nextName();
 		return (
 			<div className="switch">
-				<Label htmlFor="toggle-2">
+				<Label htmlFor={name}>
 					<Toggle
 						checked={this.props.value}
 						knobRadius="2px"
-						name="toggle-2"
+						name={name}
 						radius="3px"
 						radiusBackground="2px"
 						onToggle={this.props.onChange}
 					/>
+					{" "}
 					{this.props.text}
 				</Label>
 			</div>

@@ -11,7 +11,7 @@ const game = {
 	minAge: 13,
 	picture: "https://cf.geekdo-images.com/original/img/FwnbGGrU7av4j8kB11VZZRB58U4=/0x0/pic1196191.jpg",
 	borrowed: null,
-	box: 7,
+	location: 7,
 	publisher: "CMON Limited",
 	yearPublished: "2012",
 	categories: ["Horror", "Miniatures", "Zombies"],

@@ -1,0 +1,35 @@
+@import "../../variables";
+@import "../../mixins";
+
+.games {
+  .menu, .content {
+    position: absolute;
+  }
+
+  .menu {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: $menu-width;
+    padding: $menu-padding;
+
+    border-right: 1px solid #CCC;
+  }
+
+  .content {
+    top: 0;
+    left: $menu-width + (2 * $menu-padding);
+    right: 0;
+    bottom: 0;
+
+    .games {
+      padding: 0;
+      margin: 0;
+      width: 100%;
+
+      li {
+        list-style: none;
+      }
+    }
+  }
+}

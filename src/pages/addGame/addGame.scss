@@ -1,2 +1,57 @@
-.add {
+@import "../../variables";
+@import "../../mixins";
+
+.addGame {
+  .no-game, .loading {
+    text-align: center;
+    width: 100%;
+  }
+
+  .form-container {
+    background: #eee;
+    box-shadow: 0 0 100px #bbb;
+    padding: 2em;
+    margin-bottom: 3em;
+    margin-top: 1em;
+    border-radius: 8px;
+
+    #exact {
+      margin-top: 0.8em;
+    }
+  }
+
+  .candidates {
+    .counter {
+      margin-bottom: 1em;
+    }
+
+    .game-preview {
+      list-style: none;
+
+      button {
+        background: $add-background;
+        border-radius: 50%;
+        border: 0 none;
+        margin: 1ch 2ch 1ch 0;
+        vertical-align: super;
+        font-size: 14px;
+        line-height: 14px;
+        width: 30px;
+        height: 30px;
+        position: relative;
+
+        &:hover {
+          background: darken($add-background, 10%);
+        }
+
+        svg {
+          @include center;
+        }
+      }
+
+      & > * {
+        display: inline-block;
+      }
+    }
+  }
 }

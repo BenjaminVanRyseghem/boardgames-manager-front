@@ -1,5 +1,6 @@
 import "./menu.scss";
-import { FormGroup } from "reactstrap";
+import { FormGroup, Input, Label } from "reactstrap";
+import globalState from "models/globalState";
 import InputRange from "react-input-range";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -7,7 +8,14 @@ import React from "react";
 import Switch from "components/switch/switch";
 
 const DELAY = 500;
-const updatableKeys = ["numberOfPlayers", "name"];
+
+const updatableKeys = [
+	"age",
+	"numberOfPlayers",
+	"name",
+	"showBorrowed"
+];
+
 const defaults = {
 	name: "",
 	numberOfPlayers: 2
@@ -18,23 +26,24 @@ export default class Menu extends React.Component {
 		setGameFilters: PropTypes.func.isRequired
 	};
 
-	constructor(...args) {
-		super(...args);
+	timeout = null;
 
-		this.timeout = null;
-
-		this.state = {
-			numberOfPlayers: null,
-			name: null,
-			numberOfPlayersFilter: false
-		};
-	}
+	state = {
+		numberOfPlayers: null,
+		name: "",
+		numberOfPlayersFilter: false,
+		nameFilter: true,
+		showBorrowed: 1,
+		showBorrowedFilter: false,
+		age: 18,
+		ageFilter: false
+	};
 
 	buildFilters() {
 		let result = {};
 		updatableKeys.forEach((name) => {
 			let state = this.getStateFor(name);
-			if (state === null) {
+			if (state === null || state === "") {
 				return;
 			}
 
@@ -68,17 +77,53 @@ export default class Menu extends React.Component {
 	}
 
 	changeName(event) {
-		this.setState({ name: event.target.value || false });
+		this.setState({ name: event.target.value });
 	}
 
 	numberOfPlayersFilter({ target: { checked: numberOfPlayersFilter } }) {
 		this.setState({ numberOfPlayersFilter });
 	}
 
+	showBorrowedFilter({ target: { checked: showBorrowedFilter } }) {
+		this.setState({ showBorrowedFilter });
+	}
+
+	ageFilter({ target: { checked: ageFilter } }) {
+		this.setState({ ageFilter });
+	}
+
+	renderActions() {
+		let actions = [];
+
+		if (globalState.user().canAddGames()) {
+			actions.push(<Link key="add-game" to="/add-game">Add</Link>);
+		}
+
+		return (
+			<div className="action">
+				<div>
+					{actions}
+				</div>
+			</div>
+		);
+	}
+
 	render() {
 		return (
 			<div className="menu">
-				<form className="form">
+				<form className="form" onSubmit={(event) => event.preventDefault()}>
+					<FormGroup>
+						<Label for="name"
+							text="Name"
+						>
+							{"Name"}
+						</Label>
+						<Input
+							id="name"
+							value={this.state.name}
+							onChange={this.changeName.bind(this)}
+						/>
+					</FormGroup>
 					<FormGroup>
 						<Switch
 							text="Number of Players"
@@ -93,12 +138,29 @@ export default class Menu extends React.Component {
 							onChange={(numberOfPlayers) => this.setState({ numberOfPlayers })}
 						/>
 					</FormGroup>
+					<FormGroup className="age-group">
+						<Switch
+							text="Age"
+							value={this.state.ageFilter}
+							onChange={this.ageFilter.bind(this)}
+						/>
+						<InputRange
+							disabled={!this.state.ageFilter}
+							maxValue={18}
+							minValue={0}
+							value={this.state.age}
+							onChange={(age) => this.setState({ age })}
+						/>
+					</FormGroup>
+					<FormGroup>
+						<Switch
+							text="Show borrowed"
+							value={this.state.showBorrowedFilter}
+							onChange={this.showBorrowedFilter.bind(this)}
+						/>
+					</FormGroup>
 				</form>
-				<div className="action">
-					<div>
-						<Link to="/add">Add</Link>
-					</div>
-				</div>
+				{this.renderActions()}
 			</div>
 		);
 	}

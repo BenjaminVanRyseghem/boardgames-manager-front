@@ -1,10 +1,10 @@
 import {
 	faBirthdayCake, faChess, faChessKnight,
-	faChessPawn,
-	faCogs, faDiceD20,
+	faChessPawn, faCogs,
+	faDiceD20,
 	faDoorOpen, faGamepad,
 	faHeart,
-	faIndustry, faMapMarkerAlt, faPuzzlePiece,
+	faIndustry, faMapMarkerAlt, faPlus, faPuzzlePiece,
 	faStopwatch,
 	faTags
 } from "@fortawesome/free-solid-svg-icons";
@@ -23,6 +23,7 @@ library.add(
 	faDoorOpen,
 	faGamepad,
 	faHeart,
+	faPlus,
 	faPuzzlePiece,
 	faIndustry,
 	faStopwatch,
