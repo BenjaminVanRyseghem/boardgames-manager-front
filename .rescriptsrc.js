@@ -1,8 +1,10 @@
-const webpackConfig = require("./webpack.config");
+const CopyPlugin = require("copy-webpack-plugin");
 const jestConfig = require("./jest.config");
+const webpackConfig = require("./webpack.config");
 
 module.exports = [
 	["use-babel-config", ".babelrc"],
+	"rescript-disable-eslint",
 	{
 		jest: (config) => {
 			let result = Object.assign({}, config, jestConfig);
@@ -15,9 +17,20 @@ module.exports = [
 
 			if (cssPlugin) {
 				cssPlugin.options = {
-					filename: "main.css"
+					filename: "main.css",
+					moduleFilename: ({name}) => `${name}.css`
 				};
 			}
+
+			webpack.plugins.push(
+				new CopyPlugin([
+					{
+						from: "src/i18n/locales/**/*.json",
+						to:"./public",
+						transformPath: (path) => path.replace("src/i18n/", "")
+					}
+				])
+			);
 
 			webpack.resolve.modules = webpackConfig.resolve.modules;
 			webpack.optimization.splitChunks = webpackConfig.optimization.splitChunks;

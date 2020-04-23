@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import React from "react";
 import Switch from "components/switch/switch";
+import Translate from "../i18n/translate";
 
 const DELAY = 500;
 
@@ -96,7 +97,7 @@ export default class Menu extends React.Component {
 		let actions = [];
 
 		if (globalState.user().canAddGames()) {
-			actions.push(<Link key="add-game" to="/add-game">Add</Link>);
+			actions.push(<Link key="add-game" to="/add-game"><Translate i18nKey="addAGameAction">+ add a game</Translate></Link>);
 		}
 
 		return (
@@ -116,7 +117,7 @@ export default class Menu extends React.Component {
 						<Label for="name"
 							text="Name"
 						>
-							{"Name"}
+							<Translate i18nKey="name">Name</Translate>
 						</Label>
 						<Input
 							id="name"
@@ -126,7 +127,7 @@ export default class Menu extends React.Component {
 					</FormGroup>
 					<FormGroup>
 						<Switch
-							text="Number of Players"
+							text={<Translate i18nKey="numberOfPlayers">Number of Players</Translate>}
 							value={this.state.numberOfPlayersFilter}
 							onChange={this.numberOfPlayersFilter.bind(this)}
 						/>
@@ -140,7 +141,7 @@ export default class Menu extends React.Component {
 					</FormGroup>
 					<FormGroup className="age-group">
 						<Switch
-							text="Age"
+							text={<Translate i18nKey="age">Age</Translate>}
 							value={this.state.ageFilter}
 							onChange={this.ageFilter.bind(this)}
 						/>
@@ -154,7 +155,7 @@ export default class Menu extends React.Component {
 					</FormGroup>
 					<FormGroup>
 						<Switch
-							text="Show borrowed"
+							text={<Translate i18nKey="showBorrowed">Show Borrowed</Translate>}
 							value={this.state.showBorrowedFilter}
 							onChange={this.showBorrowedFilter.bind(this)}
 						/>

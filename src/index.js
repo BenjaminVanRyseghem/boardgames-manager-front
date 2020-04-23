@@ -1,12 +1,11 @@
 import "core-js";
 import "whatwg-fetch";
-
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./helpers/fontAwesome";
 import "sweetalert2/src/sweetalert2.scss";
 import "./index.scss";
 import "moment/locale/fr";
-
+import "./i18n/i18n";
 import * as serviceWorker from "./serviceWorker";
 import App from "./app";
 import moment from "moment";

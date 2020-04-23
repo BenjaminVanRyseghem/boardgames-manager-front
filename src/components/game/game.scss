@@ -6,6 +6,31 @@
   border-bottom: 1px solid #ccc;
   position: relative;
 
+  .popup-arrow {
+    display: none;
+    visibility: hidden;
+  }
+
+  .popup-content {
+    text-align: center;
+    border: 0 none !important;
+    box-shadow: 0 0 100px #a8a8a8 !important;
+  }
+
+  .summary .info-bar .group.stack .info.publishers {
+    display: flex;
+    align-items: center;
+
+    .text.publishers {
+      max-width: 200px;
+      white-space: nowrap;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+      display: inline-block;
+      padding: .5ch;
+    }
+  }
+
   .image {
     @include center-y;
     height: 180px;

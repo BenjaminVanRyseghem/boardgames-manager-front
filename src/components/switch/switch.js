@@ -12,7 +12,7 @@ const nextName = (() => {
 export default class Switch extends React.Component {
 	static propTypes = {
 		onChange: PropTypes.func.isRequired,
-		text: PropTypes.string.isRequired,
+		text: PropTypes.node.isRequired,
 		value: PropTypes.bool.isRequired
 	};
 
@@ -20,7 +20,7 @@ export default class Switch extends React.Component {
 		let name = nextName();
 		return (
 			<div className="switch">
-				<Label htmlFor={name}>
+				<Label className="switch-container" htmlFor={name}>
 					<Toggle
 						checked={this.props.value}
 						knobRadius="2px"
@@ -29,8 +29,7 @@ export default class Switch extends React.Component {
 						radiusBackground="2px"
 						onToggle={this.props.onChange}
 					/>
-					{" "}
-					{this.props.text}
+					<div className="switch-content">{this.props.text}</div>
 				</Label>
 			</div>
 		);

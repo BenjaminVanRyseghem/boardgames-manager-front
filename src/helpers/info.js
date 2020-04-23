@@ -1,4 +1,7 @@
-import Swal from "sweetalert2/dist/sweetalert2.min";
+import RawSwal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
+const Swal = withReactContent(RawSwal);
 
 export default function info(options) {
 	Swal.fire(options);

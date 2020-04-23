@@ -1,6 +1,7 @@
 import "./game.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import he from "he";
+import Popup from "reactjs-popup";
 import PropTypes from "prop-types";
 import React from "react";
 
@@ -38,7 +39,9 @@ export default class Game extends React.Component {
 
 		let mechanics = (
 			<ul className="mechanics">
-				{game.mechanics.sort().map((mechanic) => <li key={mechanic.foreignID} className="mechanic">{mechanic.value}</li>)}
+				{game.mechanics.sort().map((mechanic) => <li key={mechanic.foreignID} className="mechanic">
+					{mechanic.value}
+				</li>)}
 			</ul>
 		);
 		return (
@@ -63,15 +66,15 @@ export default class Game extends React.Component {
 
 		let categories = game.categories && (
 			<ul className="categories">
-				{game.categories.sort().map((category) => <li key={category.foreignID} className="category">{category.value}</li>)}
+				{game.categories.sort().map((category) => <li key={category.foreignID} className="category">
+					{category.value}
+				</li>)}
 			</ul>
 		);
 
-		let { publisher } = game;
-
-		if (game.yearPublished) {
-			publisher += ` (${game.yearPublished})`;
-		}
+		let publishers = game.publishers
+			.map((publisher) => publisher.value)
+			.join(", ");
 
 		return (
 			<div>
@@ -91,10 +94,24 @@ export default class Game extends React.Component {
 							</div>
 							{this.renderMechanics(game)}
 						</div>
-						<span className="group stack float-right">
-							{this.renderInfo("industry", publisher)}
+						<div className="group stack float-right">
+							<div className={"info publishers"}>
+								<FontAwesomeIcon icon="industry"/>
+								<div>
+									<Popup
+										on="hover"
+										position="center center"
+										trigger={
+											<div className="text publishers">{publishers}</div>
+										}
+									>
+										{publishers}
+									</Popup>
+								</div>
+								{game.yearPublished && <span className="text">{`(${game.yearPublished})`}</span>}
+							</div>
 							{this.renderInfo("door-open", () => `${game.borrowed.firstName} ${game.borrowed.lastName}`, { shouldRender: !!game.borrowed })}
-						</span>
+						</div>
 					</div>
 					<div className="description">{he.decode(he.decode(game.description))}</div>
 				</div>

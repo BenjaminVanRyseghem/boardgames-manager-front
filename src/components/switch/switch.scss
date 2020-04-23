@@ -1,2 +1,10 @@
 .switch {
+  .switch-container {
+    display: flex;
+    align-items: center;
+
+    .switch-content {
+      margin-left: 1ch;
+    }
+  }
 }

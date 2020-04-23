@@ -1,0 +1,21 @@
+{
+  "addAGameAction": "+ ajouter un jeu",
+  "addAGame": "Ajouter un jeu",
+  "success": "Succès",
+  "gameAddedSuccessfully": "%name% ajouté avec succès",
+  "gameAddedUnsuccessfully": "Erreur lors de l'ajout de %name%",
+  "name": "Nom",
+  "boardgame": "Jeu de plateau",
+  "boardgameExpansion": "Extension de jeu de plateau",
+  "boardgameAccessory": "Accessoire de jeu de plateau",
+  "videoGame": "Jeu vidéo",
+  "rpg": "Jeu de rôle",
+  "exactMatch": "Correspondance exacte ?",
+  "failedToLoadGames": "Echec lors du chargement des jeux",
+  "noGameFound": "Aucun jeu trouvé !",
+  "gamesFound": "%count% jeu trouvé",
+  "gamesFound_plural": "%count% jeux trouvés",
+  "numberOfPlayers": "Nombre de Joueurs",
+  "age": "Âge",
+  "showBorrowed": "Afficher les jeux empruntés"
+}
