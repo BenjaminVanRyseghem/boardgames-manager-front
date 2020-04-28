@@ -14,7 +14,7 @@ function GameContainer({ id }) { // eslint-disable-line react/prop-types
 
 	if (error) {
 		info.error({
-			html: <Translate i18nKey="failedToLoadGames">Failed to load games!</Translate>
+			html: <Translate i18nKey="failedToLoadGame">Failed to load game!</Translate>
 		});
 		return null;
 	}
@@ -22,13 +22,13 @@ function GameContainer({ id }) { // eslint-disable-line react/prop-types
 		return <div><Loading/></div>;
 	}
 
-	if (!data.length) {
+	if (data === null) {
 		return <div><Translate i18nKey="noGameFound">No game found!</Translate></div>;
 	}
 
 	return (
 		<div className="game-container">
-			<GameComponent game={data.rows[0]}/>
+			<GameComponent game={data}/>
 		</div>
 	);
 }

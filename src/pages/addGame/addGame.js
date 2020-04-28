@@ -38,7 +38,7 @@ function Candidates({ addGame, query = "", types = {}, exact = false }) { // esl
 		<div className="candidates">
 			<div className="counter"><Translate count={data.length} i18nKey="gamesFound">%count% games found</Translate></div>
 			<ul className="previews">
-				{data.rows.map((game) => {
+				{data.map((game) => {
 					let { id } = game;
 					return <li key={id} className="game-preview">
 						<Button onClick={() => addGame(id, game.name)}><FontAwesomeIcon icon="plus"/></Button>

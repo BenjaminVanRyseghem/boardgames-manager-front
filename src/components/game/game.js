@@ -52,10 +52,8 @@ export default class Game extends React.Component {
 
 		let categories = game.categories && (
 			<>
-				{/* eslint-disable-next-line no-underscore-dangle */}
-				{game.categories.sort().map((category) => <div key={category._id} className="tag category">
-					{/* eslint-disable-next-line no-underscore-dangle */}
-					<Link to={`/games?categories=${category._id}`}>
+				{game.categories.sort().map((category) => <div key={category.id} className="tag category">
+					<Link to={`/games?categories=${category.id}`}>
 						{category.value}
 					</Link>
 				</div>)}
@@ -64,10 +62,8 @@ export default class Game extends React.Component {
 
 		let mechanics = game.mechanics && (
 			<>
-				{/* eslint-disable-next-line no-underscore-dangle */}
-				{game.mechanics.sort().map((mechanic) => <div key={mechanic._id} className="tag category">
-					{/* eslint-disable-next-line no-underscore-dangle */}
-					<Link to={`/mechanic/${mechanic._id}`}>
+				{game.mechanics.sort().map((mechanic) => <div key={mechanic.id} className="tag category">
+					<Link to={`/mechanic/${mechanic.id}`}>
 						{mechanic.value}
 					</Link>
 				</div>)}
@@ -76,10 +72,8 @@ export default class Game extends React.Component {
 
 		let publishers = game.publishers && (
 			<>
-				{/* eslint-disable-next-line no-underscore-dangle */}
-				{game.publishers.sort().map((publisher) => <div key={publisher._id} className="tag publisher">
-					{/* eslint-disable-next-line no-underscore-dangle */}
-					<Link to={`/publisher/${publisher._id}`}>
+				{game.publishers.sort().map((publisher) => <div key={publisher.id} className="tag publisher">
+					<Link to={`/publisher/${publisher.id}`}>
 						{publisher.value}
 					</Link>
 				</div>)}

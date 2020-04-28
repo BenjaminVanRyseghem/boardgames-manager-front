@@ -56,8 +56,7 @@ export default class GameCard extends React.Component {
 		}
 
 		return (
-			// eslint-disable-next-line no-underscore-dangle
-			<a className={`gameCard${game.borrowed ? " borrowed" : ""}`} href={`/game/${game._id}`} onClick={this.props.onClick}>
+			<a className={`gameCard${game.borrowed ? " borrowed" : ""}`} href={`/game/${game.id}`} onClick={this.props.onClick}>
 				<div className="image">
 					<img alt={`${game.name} preview`} src={game.picture}/>
 				</div>

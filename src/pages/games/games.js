@@ -26,18 +26,21 @@ function GamesContainer({ filters = {} }) { // eslint-disable-line react/prop-ty
 	}
 
 	if (!data.length) {
-		return <div><Translate i18nKey="noGameFound">No game found!</Translate></div>;
+		return (
+			<Container className="content">
+				<Row className="games">
+					<div className="no-game"><Translate i18nKey="noGameFound">No game found!</Translate></div>
+				</Row>
+			</Container>
+		);
 	}
 
 	return (
 		<Container className="content">
 			<Row className="games">
-				{data.rows.map((game) => {
-					let id = game._id; // eslint-disable-line no-underscore-dangle
-					return <Col key={id} className="card-holder" sm={4}>
+				{data.map((game) => <Col key={game.id} className="card-holder" sm={4}>
 						<GameCard game={game}/>
-					</Col>;
-				})}
+					</Col>)}
 			</Row>
 		</Container>
 	);
@@ -56,6 +59,19 @@ function CategoriesContainer({ transform }) {
 	return transform(data);
 }
 
+function MechanicsContainer({ transform }) {
+	const { data, error } = useSWR("/api/v1/mechanic", fetcher);
+
+	if (error) {
+		info.error({
+			html: <Translate i18nKey="failedToLoadMechanics">Failed to load mechanics!</Translate>
+		});
+		return null;
+	}
+
+	return transform(data);
+}
+
 export default class Games extends Page {
 	static key = "games";
 
@@ -67,6 +83,7 @@ export default class Games extends Page {
 		};
 	}
 
+	// eslint-disable-next-line max-statements
 	initializeStateFromQueries(search) {
 		if (!search) {
 			return {};
@@ -94,7 +111,7 @@ export default class Games extends Page {
 		}
 
 		if (search.categories) {
-			state.categories = [...search.categories.split(",").map((each) => +each)];
+			state.categories = [...search.categories.split(",")];
 		}
 
 		return state;
@@ -115,6 +132,7 @@ export default class Games extends Page {
 				<Menu
 					categoriesContainer={CategoriesContainer}
 					filters={this.state.filters}
+					mechanicsContainer={MechanicsContainer}
 					setGameFilters={this.setGameFilters.bind(this)}
 				/>
 				<GamesContainer filters={this.state.filters}/>

@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import "./menu.scss";
 import { FormGroup, Input, Label } from "reactstrap";
 import globalState from "models/globalState";
@@ -14,6 +13,7 @@ const DELAY = 500;
 const updatableKeys = [
 	"age",
 	"categories",
+	"mechanics",
 	"numberOfPlayers",
 	"name",
 	"showBorrowed"
@@ -27,6 +27,8 @@ const defaults = {
 const defaultState = {
 	categories: [],
 	categoriesFilter: true,
+	mechanics: [],
+	mechanicsFilter: true,
 	numberOfPlayers: null,
 	name: "",
 	numberOfPlayersFilter: false,
@@ -45,6 +47,7 @@ export default class Menu extends React.Component {
 	static propTypes = {
 		categoriesContainer: PropTypes.func.isRequired,
 		filters: PropTypes.object,
+		mechanicsContainer: PropTypes.func.isRequired,
 		setGameFilters: PropTypes.func.isRequired
 	};
 
@@ -60,7 +63,7 @@ export default class Menu extends React.Component {
 		let result = {};
 		updatableKeys.forEach((name) => {
 			let state = this.getStateFor(name);
-			if (state === null || state === "") {
+			if (state === null || state === "" || (state.constructor === Array && !state.length)) {
 				return;
 			}
 
@@ -142,8 +145,24 @@ export default class Menu extends React.Component {
 		});
 	}
 
-	renderCategories() {
-		let Klass = this.props.categoriesContainer;
+	toggleMechanic(mechanicId, checked) {
+		this.setState((previousState) => {
+			let mechanics = [];
+
+			if (checked) {
+				mechanics = [...previousState.mechanics, mechanicId];
+			} else {
+				mechanics = previousState.mechanics.filter((each) => each !== mechanicId);
+			}
+
+			return Object.assign({}, previousState, {
+				mechanics
+			});
+		});
+	}
+
+	renderMetaInfo({ container, state, toggleFn }) {
+		let Klass = container;
 		return <Klass transform={(data) => {
 			if (!data || !data.length) {
 				return "LOADING";
@@ -151,14 +170,14 @@ export default class Menu extends React.Component {
 
 			return (
 				<>
-					{data.rows.map((category) => (
-						<FormGroup key={category._id} check>
+					{data.map((category) => (
+						<FormGroup key={category.id} check>
 							<Label check>
 								<Input
-									checked={this.state.categories.includes(category._id)}
+									checked={state.includes(category.id)}
 									type="checkbox"
 									onChange={({ target: { checked } }) => {
-										this.toggleCategory(category._id, checked);
+										toggleFn(category.id, checked);
 									}}
 								/>{" "}
 								{category.value}
@@ -167,8 +186,23 @@ export default class Menu extends React.Component {
 					))}
 				</>
 			);
-		}
-		}/>;
+		}}/>;
+	}
+
+	renderCategories() {
+		return this.renderMetaInfo({
+			container: this.props.categoriesContainer,
+			state: this.state.categories,
+			toggleFn: this.toggleCategory.bind(this)
+		});
+	}
+
+	renderMechanics() {
+		return this.renderMetaInfo({
+			container: this.props.mechanicsContainer,
+			state: this.state.mechanics,
+			toggleFn: this.toggleMechanic.bind(this)
+		});
 	}
 
 	render() {
@@ -225,6 +259,10 @@ export default class Menu extends React.Component {
 					<FormGroup tag="fieldset">
 						<legend><Translate i18nKey="categories">Categories</Translate></legend>
 						{this.renderCategories()}
+					</FormGroup>
+					<FormGroup tag="fieldset">
+						<legend><Translate i18nKey="mechanics">Mechanics</Translate></legend>
+						{this.renderMechanics()}
 					</FormGroup>
 				</form>
 				{this.renderActions()}
