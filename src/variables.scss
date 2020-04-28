@@ -2,6 +2,8 @@
 
 $blue: #3887b7;
 $green: #5eb738;
+$light-grey: #ccc;
+$darkish: #212529;
 
 // Sizes
 
@@ -10,9 +12,13 @@ $footer-height: 40px;
 $menu-width: 240px;
 $menu-padding: 20px;
 
+$card-height: 300px;
+$card-width: 300px;
+
 // Variables
 
-$color: black;
+$color: $darkish;
 $add-background: $green;
 $link-color: $blue;
 $link-color-hover: lighten($link-color, 10%);
+$card-border: $light-grey;

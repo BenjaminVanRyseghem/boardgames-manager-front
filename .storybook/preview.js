@@ -1,7 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../src/helpers/fontAwesome";
 import "../src/index.scss";
-
 import { addDecorator, addParameters, configure } from "@storybook/react";
 import fetchMock from "fetch-mock";
 import React from "react";

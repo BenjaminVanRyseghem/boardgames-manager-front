@@ -8,12 +8,13 @@ import {
 	faStopwatch,
 	faTags
 } from "@fortawesome/free-solid-svg-icons";
-import { faCopyright } from "@fortawesome/free-regular-svg-icons";
+import { faCalendar, faCopyright } from "@fortawesome/free-regular-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 
 library.add(
 	faBirthdayCake,
 	faMapMarkerAlt,
+	faCalendar,
 	faChess,
 	faChessKnight,
 	faChessPawn,

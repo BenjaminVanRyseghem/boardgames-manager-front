@@ -51,34 +51,6 @@
     "build-storybook": "npx build-storybook -c .storybook -s public -o storybook-static",
     "build-doc": "esdoc"
   },
-  "eslintConfig": {
-    "extends": [
-      "eslint-config-benjamin-van-ryseghem"
-    ],
-    "settings": {
-      "react": {
-        "version": "none"
-      },
-      "import/resolver": "webpack"
-    },
-    "rules": {
-      "id-length": [
-        "error",
-        {
-          "exceptions": [
-            "x",
-            "y",
-            "i",
-            "j",
-            "_",
-            "t"
-          ]
-        }
-      ],
-      "jsdoc/no-undefined-types": "off",
-      "jsdoc/require-jsdoc": "off"
-    }
-  },
   "browserslist": [
     ">0.2%",
     "not dead",
@@ -96,6 +68,7 @@
     "@storybook/addon-links": "^5.3.18",
     "@storybook/addons": "^5.3.18",
     "@storybook/cli": "^5.3.18",
+    "@storybook/preset-create-react-app": "^2.1.1",
     "@storybook/react": "^5.3.18",
     "babel-jest": "^25.4.0",
     "babel-loader": "^8.1.0",

@@ -1,4 +1,3 @@
-/* eslint-disable jsdoc/check-indentation,jsdoc/require-param,jsdoc/require-returns,jsdoc/check-examples,jsdoc/check-tag-names,jsdoc/valid-types */
 import React, { Suspense } from "react";
 import PropTypes from "prop-types";
 import { useTranslation } from "react-i18next";

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import "./menu.scss";
 import { FormGroup, Input, Label } from "reactstrap";
 import globalState from "models/globalState";
@@ -12,6 +13,7 @@ const DELAY = 500;
 
 const updatableKeys = [
 	"age",
+	"categories",
 	"numberOfPlayers",
 	"name",
 	"showBorrowed"
@@ -22,23 +24,37 @@ const defaults = {
 	numberOfPlayers: 2
 };
 
+const defaultState = {
+	categories: [],
+	categoriesFilter: true,
+	numberOfPlayers: null,
+	name: "",
+	numberOfPlayersFilter: false,
+	nameFilter: true,
+	showBorrowed: 1,
+	showBorrowedFilter: false,
+	age: 18,
+	ageFilter: false
+};
+
 export default class Menu extends React.Component {
+	static defaultProps = {
+		filters: {}
+	};
+
 	static propTypes = {
+		categoriesContainer: PropTypes.func.isRequired,
+		filters: PropTypes.object,
 		setGameFilters: PropTypes.func.isRequired
 	};
 
 	timeout = null;
 
-	state = {
-		numberOfPlayers: null,
-		name: "",
-		numberOfPlayersFilter: false,
-		nameFilter: true,
-		showBorrowed: 1,
-		showBorrowedFilter: false,
-		age: 18,
-		ageFilter: false
-	};
+	constructor() {
+		super(...arguments); // eslint-disable-line prefer-rest-params
+
+		this.state = Object.assign({}, defaultState, this.props.filters);
+	}
 
 	buildFilters() {
 		let result = {};
@@ -97,7 +113,8 @@ export default class Menu extends React.Component {
 		let actions = [];
 
 		if (globalState.user().canAddGames()) {
-			actions.push(<Link key="add-game" to="/add-game"><Translate i18nKey="addAGameAction">+ add a game</Translate></Link>);
+			actions.push(<Link key="add-game" to="/add-game"><Translate i18nKey="addAGameAction">+ add a
+				game</Translate></Link>);
 		}
 
 		return (
@@ -107,6 +124,51 @@ export default class Menu extends React.Component {
 				</div>
 			</div>
 		);
+	}
+
+	toggleCategory(categoryId, checked) {
+		this.setState((previousState) => {
+			let categories = [];
+
+			if (checked) {
+				categories = [...previousState.categories, categoryId];
+			} else {
+				categories = previousState.categories.filter((each) => each !== categoryId);
+			}
+
+			return Object.assign({}, previousState, {
+				categories
+			});
+		});
+	}
+
+	renderCategories() {
+		let Klass = this.props.categoriesContainer;
+		return <Klass transform={(data) => {
+			if (!data || !data.length) {
+				return "LOADING";
+			}
+
+			return (
+				<>
+					{data.rows.map((category) => (
+						<FormGroup key={category._id} check>
+							<Label check>
+								<Input
+									checked={this.state.categories.includes(category._id)}
+									type="checkbox"
+									onChange={({ target: { checked } }) => {
+										this.toggleCategory(category._id, checked);
+									}}
+								/>{" "}
+								{category.value}
+							</Label>
+						</FormGroup>
+					))}
+				</>
+			);
+		}
+		}/>;
 	}
 
 	render() {
@@ -159,6 +221,10 @@ export default class Menu extends React.Component {
 							value={this.state.showBorrowedFilter}
 							onChange={this.showBorrowedFilter.bind(this)}
 						/>
+					</FormGroup>
+					<FormGroup tag="fieldset">
+						<legend><Translate i18nKey="categories">Categories</Translate></legend>
+						{this.renderCategories()}
 					</FormGroup>
 				</form>
 				{this.renderActions()}

@@ -5,4 +5,4 @@ import { storiesOf } from "@storybook/react";
 
 storiesOf("Pages/Games", module)
 	.addDecorator((storyFn) => <MemoryRouter>{storyFn()}</MemoryRouter>)
-	.add("shows", () => <Games/>);
+	.add("shows", () => <Games location={{}}/>);

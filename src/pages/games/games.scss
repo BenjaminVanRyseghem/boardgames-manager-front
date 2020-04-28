@@ -13,23 +13,19 @@
     width: $menu-width;
     padding: $menu-padding;
 
-    border-right: 1px solid #CCC;
   }
 
   .content {
     top: 0;
-    left: $menu-width + (2 * $menu-padding);
+    left: $menu-width;
     right: 0;
     bottom: 0;
+    padding: $menu-padding $menu-padding $menu-padding 2 * $menu-padding;
+    border-left: 1px solid #CCC;
+    overflow: auto;
 
-    .games {
-      padding: 0;
-      margin: 0;
-      width: 100%;
-
-      li {
-        list-style: none;
-      }
+    .card-holder {
+      padding: $menu-padding;
     }
   }
 }

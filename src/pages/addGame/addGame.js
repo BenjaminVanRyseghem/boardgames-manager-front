@@ -13,18 +13,11 @@ import useSWR from "swr";
 
 const DELAY = 500;
 
-// eslint-disable-next-line max-statements
 function Candidates({ addGame, query = "", types = {}, exact = false }) { // eslint-disable-line react/prop-types
 	let selectedTypes = Object.keys(types).filter((key) => types[key]);
 	let stringifiedTypes = selectedTypes.length ? selectedTypes.join(",") : "boardgame,boardgameexpansion";
-	let data = [];
-	let error = null;
 
-	if (query) {
-		let swr = useSWR(`api/v1/search/bgg?name=${query}&type=${stringifiedTypes}&exact=${exact}`, fetcher);
-		data = swr.data;
-		error = swr.error;
-	}
+	let { data, error } = useSWR(`api/v1/search/bgg?name=${query}&type=${stringifiedTypes}&exact=${exact}`, fetcher);
 
 	if (error) {
 		info.error({
@@ -38,10 +31,6 @@ function Candidates({ addGame, query = "", types = {}, exact = false }) { // esl
 	}
 
 	if (!data.length) {
-		if (!query) {
-			return null;
-		}
-
 		return <div className="no-game"><Translate i18nKey="noGameFound">No game found!</Translate></div>;
 	}
 
@@ -197,14 +186,14 @@ export default class AddGame extends Page {
 							{this.renderForm()}
 						</Col>
 					</Row>
-					<Row>
+					{this.state.query && <Row>
 						<Candidates
 							addGame={this.addGame.bind(this)}
 							owner={this}
 							query={this.state.query}
 							types={this.state.types}
 						/>
-					</Row>
+					</Row>}
 				</Container>
 			</div>
 		);

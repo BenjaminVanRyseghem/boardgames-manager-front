@@ -1,5 +1,6 @@
 import "./pages.scss";
 import AddGame from "./addGame/addGame";
+import Game from "./game/game";
 import Games from "./games/games";
 import globalState from "models/globalState";
 import Home from "./home/home";
@@ -34,6 +35,7 @@ export default class Pages extends React.Component {
 					<Route exact component={() => "TO DO"} path="/login"/>
 					<Route exact component={Home} path="/"/>
 					<PrivateRoute exact component={Games} path="/games"/>
+					<PrivateRoute exact component={({ match: { params: { id } } }) => <Game id={id}/>} path="/game/:id"/>
 					<Route exact component={() => "TO DO"} path="/register"/>
 					<PrivateRoute exact component={AddGame} conditionFn={(user) => user.canAddGames()} path="/add-game"/>
 					<Route component={Page404}/>
