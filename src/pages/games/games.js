@@ -46,6 +46,19 @@ function GamesContainer({ filters = {} }) { // eslint-disable-line react/prop-ty
 	);
 }
 
+function PublishersContainer({ transform }) {
+	const { data, error } = useSWR("/api/v1/publisher", fetcher);
+
+	if (error) {
+		info.error({
+			html: <Translate i18nKey="failedToLoadPublishers">Failed to load publishers!</Translate>
+		});
+		return null;
+	}
+
+	return transform(data);
+}
+
 function CategoriesContainer({ transform }) {
 	const { data, error } = useSWR("/api/v1/category", fetcher);
 
@@ -114,6 +127,14 @@ export default class Games extends Page {
 			state.categories = [...search.categories.split(",")];
 		}
 
+		if (search.mechanics) {
+			state.mechanics = [...search.mechanics.split(",")];
+		}
+
+		if (search.publishers) {
+			state.publishers = [...search.publishers.split(",")];
+		}
+
 		return state;
 	}
 
@@ -133,6 +154,7 @@ export default class Games extends Page {
 					categoriesContainer={CategoriesContainer}
 					filters={this.state.filters}
 					mechanicsContainer={MechanicsContainer}
+					publishersContainer={PublishersContainer}
 					setGameFilters={this.setGameFilters.bind(this)}
 				/>
 				<GamesContainer filters={this.state.filters}/>

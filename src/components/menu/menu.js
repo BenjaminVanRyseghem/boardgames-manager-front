@@ -14,8 +14,9 @@ const updatableKeys = [
 	"age",
 	"categories",
 	"mechanics",
-	"numberOfPlayers",
 	"name",
+	"numberOfPlayers",
+	"publishers",
 	"showBorrowed"
 ];
 
@@ -25,18 +26,20 @@ const defaults = {
 };
 
 const defaultState = {
+	age: 18,
+	ageFilter: false,
 	categories: [],
 	categoriesFilter: true,
 	mechanics: [],
 	mechanicsFilter: true,
-	numberOfPlayers: null,
 	name: "",
-	numberOfPlayersFilter: false,
 	nameFilter: true,
+	numberOfPlayers: null,
+	numberOfPlayersFilter: false,
+	publishers: [],
+	publishersFilter: true,
 	showBorrowed: 1,
-	showBorrowedFilter: false,
-	age: 18,
-	ageFilter: false
+	showBorrowedFilter: false
 };
 
 export default class Menu extends React.Component {
@@ -48,6 +51,7 @@ export default class Menu extends React.Component {
 		categoriesContainer: PropTypes.func.isRequired,
 		filters: PropTypes.object,
 		mechanicsContainer: PropTypes.func.isRequired,
+		publishersContainer: PropTypes.func.isRequired,
 		setGameFilters: PropTypes.func.isRequired
 	};
 
@@ -161,6 +165,22 @@ export default class Menu extends React.Component {
 		});
 	}
 
+	togglePublisher(publisherId, checked) {
+		this.setState((previousState) => {
+			let publishers = [];
+
+			if (checked) {
+				publishers = [...previousState.publishers, publisherId];
+			} else {
+				publishers = previousState.publishers.filter((each) => each !== publisherId);
+			}
+
+			return Object.assign({}, previousState, {
+				publishers
+			});
+		});
+	}
+
 	renderMetaInfo({ container, state, toggleFn }) {
 		let Klass = container;
 		return <Klass transform={(data) => {
@@ -202,6 +222,14 @@ export default class Menu extends React.Component {
 			container: this.props.mechanicsContainer,
 			state: this.state.mechanics,
 			toggleFn: this.toggleMechanic.bind(this)
+		});
+	}
+
+	renderPublishers() {
+		return this.renderMetaInfo({
+			container: this.props.publishersContainer,
+			state: this.state.publishers,
+			toggleFn: this.togglePublisher.bind(this)
 		});
 	}
 
@@ -263,6 +291,10 @@ export default class Menu extends React.Component {
 					<FormGroup tag="fieldset">
 						<legend><Translate i18nKey="mechanics">Mechanics</Translate></legend>
 						{this.renderMechanics()}
+					</FormGroup>
+					<FormGroup tag="fieldset">
+						<legend><Translate i18nKey="publishers">Publishers</Translate></legend>
+						{this.renderPublishers()}
 					</FormGroup>
 				</form>
 				{this.renderActions()}

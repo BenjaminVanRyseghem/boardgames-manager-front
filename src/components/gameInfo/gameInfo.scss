@@ -8,15 +8,16 @@ $image-size: 400px;
 $image-padding: 20px;
 $border-color: #CCC;
 
-.game {
+.gameInfo {
   border-bottom: 1px solid $border-color;
   position: relative;
 
   .title {
     font-weight: bold;
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
     font-family: Ubuntu, sans-serif;
+    padding: 20px;
   }
 
   .summary-container {

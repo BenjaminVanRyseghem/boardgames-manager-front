@@ -1,11 +1,12 @@
-import "./game.scss";
+import "./gameInfo.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import he from "he";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import React from "react";
+import Translate from "../i18n/translate";
 
-export default class Game extends React.Component {
+export default class GameInfo extends React.Component {
 	static defaultProps = {};
 
 	static propTypes = {
@@ -63,7 +64,7 @@ export default class Game extends React.Component {
 		let mechanics = game.mechanics && (
 			<>
 				{game.mechanics.sort().map((mechanic) => <div key={mechanic.id} className="tag category">
-					<Link to={`/mechanic/${mechanic.id}`}>
+					<Link to={`/games?mechanics=${mechanic.id}`}>
 						{mechanic.value}
 					</Link>
 				</div>)}
@@ -73,7 +74,7 @@ export default class Game extends React.Component {
 		let publishers = game.publishers && (
 			<>
 				{game.publishers.sort().map((publisher) => <div key={publisher.id} className="tag publisher">
-					<Link to={`/publisher/${publisher.id}`}>
+					<Link to={`/games?publishers=${publisher.id}`}>
 						{publisher.value}
 					</Link>
 				</div>)}
@@ -81,7 +82,7 @@ export default class Game extends React.Component {
 		);
 
 		return (
-			<div className="game">
+			<div className="gameInfo">
 				{this.renderTitle(game)}
 				<div className="summary-container">
 					<div className="image">
@@ -90,7 +91,12 @@ export default class Game extends React.Component {
 					<div className="summary">
 						<div className="line-container">
 							{!!game.borrowed && <div className="line">
-								{this.renderInfo("door-open", () => `${game.borrowed.firstName} ${game.borrowed.lastName}`, {
+								{this.renderInfo("door-open", () => <Translate
+									i18nKey="gameBorrowedBy"
+									name={`${game.borrowed.firstName} ${game.borrowed.lastName}`}
+								>
+									Borrowed by %name%
+								</Translate>, {
 									className: "borrowed"
 								})}
 							</div>}
@@ -98,8 +104,12 @@ export default class Game extends React.Component {
 								{this.renderInfo("chess-pawn", `${game.minPlayers}-${game.maxPlayers}`)}
 								{this.renderInfo("stopwatch", time)}
 								{this.renderInfo("birthday-cake", () => `${game.minAge}+`, { shouldRender: !!game.minAge })}
-								{this.renderInfo("map-marker-alt", () => game.location.name, { shouldRender: !!game.location })}
 							</div>
+							{game.location && <div className="line">
+								{this.renderInfo("map-marker-alt", () => <div className="tag">
+									<Link to={`/location/${game.location.id}`}>{game.location.name}</Link>
+								</div>, { className: "location tags" })}
+							</div>}
 							<div className="line">
 								{this.renderInfo("tags", categories, { className: "categories tags" })}
 							</div>

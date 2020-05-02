@@ -1,4 +1,4 @@
-import Game from "./game";
+import GameInfo from "./gameInfo";
 import React from "react";
 
 const game = {
@@ -19,8 +19,8 @@ const game = {
 };
 
 export default {
-	component: Game,
-	title: "Components/Game"
+	component: GameInfo,
+	title: "Components/GameInfo"
 };
 
-export const shows = () => <Game game={game}/>;
+export const shows = () => <GameInfo game={game}/>;

@@ -1,2 +1,13 @@
 .game {
+
+  .actions {
+    padding: 20px 0;
+    display: flex;
+    justify-content: right;
+
+    .action {
+      flex: 0 1 auto;
+      margin-right: 2em;
+    }
+  }
 }
