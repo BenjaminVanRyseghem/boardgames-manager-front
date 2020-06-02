@@ -1,10 +1,12 @@
 import "./gameInfo.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import globalState from "models/globalState";
 import he from "he";
+import Interpolate from "components/i18n/interpolate";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import React from "react";
-import Translate from "../i18n/translate";
+import Translate from "components/i18n/translate";
 
 export default class GameInfo extends React.Component {
 	static defaultProps = {};
@@ -40,6 +42,27 @@ export default class GameInfo extends React.Component {
 
 		return (
 			<h1 className="title">{icon}{game.name}</h1>
+		);
+	}
+
+	renderBorrower(borrowed) {
+		if (!globalState.user().canViewUsers()) {
+			return () => (
+				<Translate
+					i18nKey="gameBorrowedBy"
+					name={`${borrowed.firstName} ${borrowed.lastName}`}
+				>
+					Borrowed by %name%
+				</Translate>
+			);
+		}
+		return () => (
+			<Interpolate
+				i18nKey="gameBorrowedByWithLink"
+				name={`${borrowed.firstName} ${borrowed.lastName}`}
+			>
+				Borrowed by <a href={`/user/${borrowed.id}`}>%name%</a>
+			</Interpolate>
 		);
 	}
 
@@ -91,12 +114,7 @@ export default class GameInfo extends React.Component {
 					<div className="summary">
 						<div className="line-container">
 							{!!game.borrowed && <div className="line">
-								{this.renderInfo("door-open", () => <Translate
-									i18nKey="gameBorrowedBy"
-									name={`${game.borrowed.firstName} ${game.borrowed.lastName}`}
-								>
-									Borrowed by %name%
-								</Translate>, {
+								{this.renderInfo("door-open", this.renderBorrower(game.borrowed), {
 									className: "borrowed"
 								})}
 							</div>}

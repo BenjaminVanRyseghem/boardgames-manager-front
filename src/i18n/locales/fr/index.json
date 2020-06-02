@@ -15,6 +15,7 @@
   "gameAddedSuccessfully": "%name% ajouté avec succès",
   "gameAddedUnsuccessfully": "Erreur lors de l'ajout de %name%",
   "gameBorrowedBy": "Jeu emprunté par %name%",
+  "gameBorrowedByWithLink": "Jeu emprunté par <1>%name%</1>",
   "gameLentSuccessfully": "Jeu prêté avec succès",
   "gameRetrievedSuccessfully": "Jeu récupéré avec succès",
   "gamesFound": "%count% jeu trouvé",

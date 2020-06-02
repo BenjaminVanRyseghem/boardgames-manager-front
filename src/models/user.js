@@ -26,6 +26,22 @@ export default class User {
 		return accessControl.can(this[role]).create("game").granted;
 	}
 
+	canViewUsers() {
+		return accessControl.can(this[role]).read("user").granted;
+	}
+
+	canLendGame() {
+		return accessControl.can(this[role]).update("game").granted;
+	}
+
+	canMoveGame() {
+		return accessControl.can(this[role]).update("game").granted;
+	}
+
+	canDeleteGame() {
+		return accessControl.can(this[role]).delete("game").granted;
+	}
+
 	toJSON() {
 		return {
 			id: this[email],

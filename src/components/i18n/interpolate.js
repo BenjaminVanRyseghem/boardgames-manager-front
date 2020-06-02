@@ -8,6 +8,7 @@
 import HTML from "html-parse-stringify2";
 import PropTypes from "prop-types";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 /**
  * Return true when the node has at least a child.
@@ -170,7 +171,7 @@ function renderNodes(children, targetString, i18n, contextAndProps) {
 }
 
 /**
- * Interpolate allows to translate string with React markup
+ * Interpolate allows to translate string with React markup.
  *
  * @example
  *
@@ -178,62 +179,55 @@ function renderNodes(children, targetString, i18n, contextAndProps) {
  *     Hello <strong>%name%</strong>
  * </Interpolate>
  */
-export default class Interpolate extends React.Component {
-	/**
-	 * Render a translation markup string
-	 *
-	 * @return {React.node} Translated interpolation
-	 */
-	// eslint-disable-next-line max-statements
-	render() {
-		const contextAndProps = Object.assign({}, this.props, {
-			i18n: this.context.i18n,
-			t: this.context.t
-		});
+export default function Interpolate(props) { // eslint-disable-line max-statements
+	const { t: tFromContextAndProps, i18n } = useTranslation();
+	const contextAndProps = Object.assign({}, props, {
+		i18n,
+		t: tFromContextAndProps
+	});
 
-		const { children, count, parent, i18nKey, tOptions, values, defaults, components, ns: namespace, i18n, t: tFromContextAndProps } = contextAndProps; // eslint-disable-line max-len
-		const t = tFromContextAndProps || i18n.t.bind(i18n);
+	const { children, count, parent, i18nKey, tOptions, values, defaults, components, ns: namespace } = contextAndProps; // eslint-disable-line max-len
+	const t = tFromContextAndProps || i18n.t.bind(i18n);
 
-		const reactI18nextOptions = (i18n.options && i18n.options.react) || {};
-		const useAsParent = parent === undefined ? reactI18nextOptions.defaultTransParent : parent;
+	const reactI18nextOptions = (i18n.options && i18n.options.react) || {};
+	const useAsParent = parent === undefined ? reactI18nextOptions.defaultTransParent : parent;
 
-		const defaultValue = defaults || nodesToString("", children, 0);
-		const { hashTransKey } = reactI18nextOptions;
-		const key = i18nKey || (hashTransKey ? hashTransKey(defaultValue) : defaultValue);
+	const defaultValue = defaults || nodesToString("", children, 0);
+	const { hashTransKey } = reactI18nextOptions;
+	const key = i18nKey || (hashTransKey ? hashTransKey(defaultValue) : defaultValue);
 
-		const translation = key
-			? t(key, Object.assign(
-				{},
-				contextAndProps,
-				tOptions,
-				values,
-				{ defaultValue },
-				{ count },
-				{ ns: namespace }
-			))
-			: defaultValue;
-
-		if (reactI18nextOptions.exposeNamespace) {
-			let ns = typeof t.ns === "string" ? t.ns : t.ns[0];
-			if (i18nKey && i18n.options && i18n.options.nsSeparator && i18nKey.indexOf(i18n.options.nsSeparator) > -1) {
-				const parts = i18nKey.split(i18n.options.nsSeparator);
-				ns = parts[0]; // eslint-disable-line prefer-destructuring
-			}
-			if (t.ns) {
-				contextAndProps["data-i18next-options"] = JSON.stringify({ ns });
-			}
-		}
-
-		if (!useAsParent) {
-			return renderNodes(components || children, translation, i18n, contextAndProps);
-		}
-
-		return React.createElement(
-			useAsParent,
+	const translation = key
+		? t(key, Object.assign(
+			{},
 			contextAndProps,
-			renderNodes(components || children, translation, i18n, contextAndProps)
-		);
+			tOptions,
+			values,
+			{ defaultValue },
+			{ count },
+			{ ns: namespace }
+		))
+		: defaultValue;
+
+	if (reactI18nextOptions.exposeNamespace) {
+		let ns = typeof t.ns === "string" ? t.ns : t.ns[0];
+		if (i18nKey && i18n.options && i18n.options.nsSeparator && i18nKey.indexOf(i18n.options.nsSeparator) > -1) {
+			const parts = i18nKey.split(i18n.options.nsSeparator);
+			ns = parts[0]; // eslint-disable-line prefer-destructuring
+		}
+		if (t.ns) {
+			contextAndProps["data-i18next-options"] = JSON.stringify({ ns });
+		}
 	}
+
+	if (!useAsParent) {
+		return renderNodes(components || children, translation, i18n, contextAndProps);
+	}
+
+	return React.createElement(
+		useAsParent,
+		contextAndProps,
+		renderNodes(components || children, translation, i18n, contextAndProps)
+	);
 }
 
 Interpolate.propTypes = {

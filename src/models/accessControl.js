@@ -15,7 +15,8 @@ export const roles = {
 accessControl.grant(borrower);
 
 accessControl.grant(user).extend(borrower)
-	.readAny("games")
+	.readAny("user")
+	.readAny("game")
 	.readOwn("account")
 	.deleteOwn("account")
 	.updateOwn("account", ["password, name"]);
@@ -33,5 +34,7 @@ accessControl.grant(admin).extend(user)
 	.readAny("location")
 	.updateAny("location")
 	.deleteAny("location");
+
+accessControl.lock();
 
 export default accessControl;
