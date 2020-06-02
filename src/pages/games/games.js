@@ -1,6 +1,5 @@
 import "./games.scss";
 import { Col, Container, Row } from "reactstrap";
-import fetcher from "helpers/fetcher";
 import GameCard from "components/gameCard/gameCard";
 import info from "helpers/info";
 import Loading from "components/loading/loading";
@@ -12,8 +11,8 @@ import React from "react";
 import Translate from "components/i18n/translate";
 import useSWR from "swr";
 
-function GamesContainer({ filters = {} }) { // eslint-disable-line react/prop-types
-	const { data, error } = useSWR(`/api/v1/game?${querystring.stringify(filters)}`, fetcher);
+function GamesContainer({ filters = {}, fetch }) { // eslint-disable-line react/prop-types
+	const { data, error } = useSWR(`/api/v1/game?${querystring.stringify(filters)}`, fetch);
 
 	if (error) {
 		info.error({
@@ -46,8 +45,8 @@ function GamesContainer({ filters = {} }) { // eslint-disable-line react/prop-ty
 	);
 }
 
-function PublishersContainer({ transform }) {
-	const { data, error } = useSWR("/api/v1/publisher", fetcher);
+function PublishersContainer({ transform, fetch }) {
+	const { data, error } = useSWR("/api/v1/publisher", fetch);
 
 	if (error) {
 		info.error({
@@ -59,8 +58,8 @@ function PublishersContainer({ transform }) {
 	return transform(data);
 }
 
-function CategoriesContainer({ transform }) {
-	const { data, error } = useSWR("/api/v1/category", fetcher);
+function CategoriesContainer({ transform, fetch }) {
+	const { data, error } = useSWR("/api/v1/category", fetch);
 
 	if (error) {
 		info.error({
@@ -72,8 +71,8 @@ function CategoriesContainer({ transform }) {
 	return transform(data);
 }
 
-function MechanicsContainer({ transform }) {
-	const { data, error } = useSWR("/api/v1/mechanic", fetcher);
+function MechanicsContainer({ transform, fetch }) {
+	const { data, error } = useSWR("/api/v1/mechanic", fetch);
 
 	if (error) {
 		info.error({
@@ -148,16 +147,18 @@ export default class Games extends Page {
 	}
 
 	renderContent() {
+		let fetch = this.fetch.bind(this);
+
 		return (
 			<>
 				<Menu
-					categoriesContainer={CategoriesContainer}
+					categoriesContainer={<CategoriesContainer fetch={fetch}/>}
 					filters={this.state.filters}
-					mechanicsContainer={MechanicsContainer}
-					publishersContainer={PublishersContainer}
+					mechanicsContainer={<MechanicsContainer fetch={fetch}/>}
+					publishersContainer={<PublishersContainer fetch={fetch}/>}
 					setGameFilters={this.setGameFilters.bind(this)}
 				/>
-				<GamesContainer filters={this.state.filters}/>
+				<GamesContainer fetch={fetch} filters={this.state.filters}/>
 			</>
 		);
 	}

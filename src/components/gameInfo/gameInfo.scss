@@ -74,22 +74,21 @@ $border-color: #CCC;
               .tag {
                 flex: 0 0 auto;
                 font-size: 12px;
-                margin: 4px 10px 4px 0;
-                padding: 4px 10px;
-                border: 1px solid $border-color;
-                border-radius: 20px;
 
                 cursor: pointer;
 
                 a {
+                  margin: 4px 10px 4px 0;
+                  padding: 4px 10px;
+                  border: 1px solid $border-color;
+                  border-radius: 20px;
                   color: black;
                 }
 
                 &:hover {
-                  background: $blue;
-                  border-color: darken($blue, 10%);
-
                   a {
+                    background: $blue;
+                    border-color: darken($blue, 10%);
                     text-decoration: none;
                     color: white;
                   }

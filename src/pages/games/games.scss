@@ -11,8 +11,10 @@
     bottom: 0;
     left: 0;
     width: $menu-width;
-    padding: $menu-padding;
-
+    padding: $menu-padding 2 * $menu-padding $menu-padding $menu-padding;
+    border-right: 1px solid #CCC;
+    overflow: hidden;
+    overflow-y: auto;
   }
 
   .content {
@@ -20,9 +22,9 @@
     left: $menu-width;
     right: 0;
     bottom: 0;
-    padding: $menu-padding $menu-padding $menu-padding 2 * $menu-padding;
-    border-left: 1px solid #CCC;
+    padding: $menu-padding;
     overflow: auto;
+    margin: 0;
 
     .card-holder {
       padding: $menu-padding;

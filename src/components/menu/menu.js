@@ -3,10 +3,11 @@ import { FormGroup, Input, Label } from "reactstrap";
 import globalState from "models/globalState";
 import InputRange from "react-input-range";
 import { Link } from "react-router-dom";
+import Loading from "components/loading/loading";
 import PropTypes from "prop-types";
 import React from "react";
 import Switch from "components/switch/switch";
-import Translate from "../i18n/translate";
+import Translate from "components/i18n/translate";
 
 const DELAY = 500;
 
@@ -48,10 +49,10 @@ export default class Menu extends React.Component {
 	};
 
 	static propTypes = {
-		categoriesContainer: PropTypes.func.isRequired,
+		categoriesContainer: PropTypes.node.isRequired,
 		filters: PropTypes.object,
-		mechanicsContainer: PropTypes.func.isRequired,
-		publishersContainer: PropTypes.func.isRequired,
+		mechanicsContainer: PropTypes.node.isRequired,
+		publishersContainer: PropTypes.node.isRequired,
 		setGameFilters: PropTypes.func.isRequired
 	};
 
@@ -182,31 +183,28 @@ export default class Menu extends React.Component {
 	}
 
 	renderMetaInfo({ container, state, toggleFn }) {
-		let Klass = container;
-		return <Klass transform={(data) => {
+		let transform = (data) => {
 			if (!data || !data.length) {
-				return "LOADING";
+				return <Loading/>;
 			}
 
-			return (
-				<>
-					{data.map((category) => (
-						<FormGroup key={category.id} check>
-							<Label check>
-								<Input
-									checked={state.includes(category.id)}
-									type="checkbox"
-									onChange={({ target: { checked } }) => {
-										toggleFn(category.id, checked);
-									}}
-								/>{" "}
-								{category.value}
-							</Label>
-						</FormGroup>
-					))}
-				</>
-			);
-		}}/>;
+			return data.map((category) => (
+				<FormGroup key={category.id} check>
+					<Label check>
+						<Input
+							checked={state.includes(category.id)}
+							type="checkbox"
+							onChange={({ target: { checked } }) => {
+								toggleFn(category.id, checked);
+							}}
+						/>{" "}
+						{category.value}
+					</Label>
+				</FormGroup>
+			));
+		};
+
+		return React.cloneElement(container, { transform });
 	}
 
 	renderCategories() {
@@ -238,11 +236,7 @@ export default class Menu extends React.Component {
 			<div className="menu">
 				<form className="form" onSubmit={(event) => event.preventDefault()}>
 					<FormGroup>
-						<Label for="name"
-							text="Name"
-						>
-							<Translate i18nKey="name">Name</Translate>
-						</Label>
+						<Label for="name" text="Name"><Translate i18nKey="name">Name</Translate></Label>
 						<Input
 							id="name"
 							value={this.state.name}

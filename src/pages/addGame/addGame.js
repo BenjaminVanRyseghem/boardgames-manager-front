@@ -1,6 +1,5 @@
 import "./addGame.scss";
 import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
-import fetcher from "helpers/fetcher";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import GamePreview from "components/gamePreview/gamePreview";
 import info from "helpers/info";
@@ -13,11 +12,11 @@ import useSWR from "swr";
 
 const DELAY = 500;
 
-function Candidates({ addGame, query = "", types = {}, exact = false }) { // eslint-disable-line react/prop-types
+function Candidates({ addGame, fetch, query = "", types = {}, exact = false }) { // eslint-disable-line react/prop-types
 	let selectedTypes = Object.keys(types).filter((key) => types[key]);
 	let stringifiedTypes = selectedTypes.length ? selectedTypes.join(",") : "boardgame,boardgameexpansion";
 
-	let { data, error } = useSWR(`api/v1/search/bgg?name=${query}&type=${stringifiedTypes}&exact=${exact}`, fetcher);
+	let { data, error } = useSWR(`/api/v1/search/bgg?name=${query}&type=${stringifiedTypes}&exact=${exact}`, fetch);
 
 	if (error) {
 		info.error({
@@ -189,6 +188,7 @@ export default class AddGame extends Page {
 					{this.state.query && <Row>
 						<Candidates
 							addGame={this.addGame.bind(this)}
+							fetch={this.fetch}
 							owner={this}
 							query={this.state.query}
 							types={this.state.types}
