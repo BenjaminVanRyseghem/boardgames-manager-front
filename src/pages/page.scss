@@ -7,9 +7,15 @@
 .page {
   min-height: 100%;
   position: relative;
+  background: url("./so-white.png");
 
   display: flex;
   flex-direction: column;
+
+  .navigation {
+    flex: 0 1 $navigation-menu-height;
+    margin-bottom: 10px;
+  }
 
   .page-title {
     flex: 0 1 auto;

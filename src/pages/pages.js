@@ -4,6 +4,8 @@ import Game from "./game/game";
 import Games from "./games/games";
 import globalState from "models/globalState";
 import Home from "./home/home";
+import Location from "./location/location";
+import Locations from "./locations/locations";
 import Page404 from "./page404/page404";
 import React from "react";
 import { Route } from "react-router-dom";
@@ -35,7 +37,9 @@ export default class Pages extends React.Component {
 					<Route exact component={() => "TO DO"} path="/login"/>
 					<Route exact component={Home} path="/"/>
 					<PrivateRoute exact component={Games} path="/games"/>
+					<PrivateRoute exact component={Locations} path="/locations"/>
 					<PrivateRoute exact component={({ match: { params: { id } } }) => <Game id={id}/>} path="/game/:id"/>
+					<PrivateRoute exact component={({ match: { params: { id } } }) => <Location id={id}/>} path="/location/:id"/>
 					<Route exact component={() => "TO DO"} path="/register"/>
 					<PrivateRoute exact component={AddGame} conditionFn={(user) => user.canAddGames()} path="/add-game"/>
 					<Route component={Page404}/>

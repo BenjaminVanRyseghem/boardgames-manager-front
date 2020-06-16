@@ -6,82 +6,93 @@ import Loading from "components/loading/loading";
 import Menu from "components/menu/menu";
 import Page from "../page";
 import parseQuery from "helpers/parseQuery";
+import PropTypes from "prop-types";
 import querystring from "querystring";
 import React from "react";
 import Translate from "components/i18n/translate";
-import useSWR from "swr";
 
-function GamesContainer({ filters = {}, fetch }) { // eslint-disable-line react/prop-types
-	const { data, error } = useSWR(`/api/v1/game?${querystring.stringify(filters)}`, fetch);
-
-	if (error) {
-		info.error({
-			html: <Translate i18nKey="failedToLoadGames">Failed to load games!</Translate>
-		});
-		return null;
-	}
-	if (!data) {
-		return <div><Loading/></div>;
+export class GamesContainer extends React.Component {
+	static defaultProps = {
+		data: undefined,
+		error: undefined
 	}
 
-	if (!data.length) {
+	static propTypes = {
+		data: PropTypes.array,
+		error: PropTypes.bool
+	};
+
+	state = {};
+
+	render() {
+		let { data, error } = this.props;
+
+		if (error) {
+			info.error({
+				html: <Translate i18nKey="failedToLoadGames">Failed to load games!</Translate>
+			});
+			return null;
+		}
+		if (!data) {
+			return <div><Loading/></div>;
+		}
+
+		if (!data.length) {
+			return (
+				<Container className="content">
+					<Row className="games">
+						<div className="no-game"><Translate i18nKey="noGameFound">No game found!</Translate></div>
+					</Row>
+				</Container>
+			);
+		}
+
 		return (
 			<Container className="content">
 				<Row className="games">
-					<div className="no-game"><Translate i18nKey="noGameFound">No game found!</Translate></div>
+					{data.map((game) => <Col key={game.id} className="card-holder" sm={4}>
+						<GameCard game={game}/>
+					</Col>)}
 				</Row>
 			</Container>
 		);
 	}
-
-	return (
-		<Container className="content">
-			<Row className="games">
-				{data.map((game) => <Col key={game.id} className="card-holder" sm={4}>
-						<GameCard game={game}/>
-					</Col>)}
-			</Row>
-		</Container>
-	);
 }
 
-function PublishersContainer({ transform, fetch }) {
-	const { data, error } = useSWR("/api/v1/publisher", fetch);
-
+function menuContainer({ transform, data, error, html }) {
 	if (error) {
-		info.error({
-			html: <Translate i18nKey="failedToLoadPublishers">Failed to load publishers!</Translate>
-		});
+		info.error({ html });
 		return null;
 	}
 
 	return transform(data);
 }
 
-function CategoriesContainer({ transform, fetch }) {
-	const { data, error } = useSWR("/api/v1/category", fetch);
-
-	if (error) {
-		info.error({
-			html: <Translate i18nKey="failedToLoadCategories">Failed to load categories!</Translate>
-		});
-		return null;
-	}
-
-	return transform(data);
+function PublishersContainer({ transform, data, error }) {
+	return menuContainer({
+		transform,
+		data,
+		error,
+		html: <Translate i18nKey="failedToLoadPublishers">Failed to load publishers!</Translate>
+	});
 }
 
-function MechanicsContainer({ transform, fetch }) {
-	const { data, error } = useSWR("/api/v1/mechanic", fetch);
+function CategoriesContainer({ transform, data, error }) {
+	return menuContainer({
+		transform,
+		data,
+		error,
+		html: <Translate i18nKey="failedToLoadCategories">Failed to load categories!</Translate>
+	});
+}
 
-	if (error) {
-		info.error({
-			html: <Translate i18nKey="failedToLoadMechanics">Failed to load mechanics!</Translate>
-		});
-		return null;
-	}
-
-	return transform(data);
+function MechanicsContainer({ transform, data, error }) {
+	return menuContainer({
+		transform,
+		data,
+		error,
+		html: <Translate i18nKey="failedToLoadMechanics">Failed to load mechanics!</Translate>
+	});
 }
 
 export default class Games extends Page {
@@ -147,18 +158,18 @@ export default class Games extends Page {
 	}
 
 	renderContent() {
-		let fetch = this.fetch.bind(this);
-
 		return (
 			<>
 				<Menu
-					categoriesContainer={<CategoriesContainer fetch={fetch}/>}
+					categoriesContainer={<this.swr url="/api/v1/category"><CategoriesContainer/></this.swr>}
 					filters={this.state.filters}
-					mechanicsContainer={<MechanicsContainer fetch={fetch}/>}
-					publishersContainer={<PublishersContainer fetch={fetch}/>}
+					mechanicsContainer={<this.swr url="/api/v1/mechanic"><MechanicsContainer/></this.swr>}
+					publishersContainer={<this.swr url="/api/v1/publisher"><PublishersContainer/></this.swr>}
 					setGameFilters={this.setGameFilters.bind(this)}
 				/>
-				<GamesContainer fetch={fetch} filters={this.state.filters}/>
+				<this.swr url={`/api/v1/game?${querystring.stringify(this.state.filters)}`}>
+					<GamesContainer/>
+				</this.swr>
 			</>
 		);
 	}

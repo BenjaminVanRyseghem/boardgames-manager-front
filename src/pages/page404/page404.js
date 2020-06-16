@@ -22,7 +22,7 @@ export default class Page404 extends Page {
 						</div>
 						<p>{"The page you are trying to visit doesn't exist."}</p>
 						<p>{"You should go"}
-							<button className="link" onClick={() => window.history.back()}>{"back"}</button>
+							<button className="back-link" onClick={() => window.history.back()}>{"back"}</button>
 							{"!"}
 						</p>
 					</Col>

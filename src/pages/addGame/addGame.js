@@ -5,50 +5,64 @@ import GamePreview from "components/gamePreview/gamePreview";
 import info from "helpers/info";
 import Loading from "components/loading/loading";
 import Page from "../page";
+import PropTypes from "prop-types";
 import React from "react";
 import { Redirect } from "react-router";
 import Translate from "components/i18n/translate";
-import useSWR from "swr";
 
 const DELAY = 500;
 
-function Candidates({ addGame, fetch, query = "", types = {}, exact = false }) { // eslint-disable-line react/prop-types
-	let selectedTypes = Object.keys(types).filter((key) => types[key]);
-	let stringifiedTypes = selectedTypes.length ? selectedTypes.join(",") : "boardgame,boardgameexpansion";
-
-	let { data, error } = useSWR(`/api/v1/search/bgg?name=${query}&type=${stringifiedTypes}&exact=${exact}`, fetch);
-
-	if (error) {
-		info.error({
-			html: <Translate i18nKey="failedToLoadGames">Failed to load games!</Translate>
-		});
-		return null;
+export class GameAdditionCandidates extends React.Component {
+	static defaultProps = {
+		data: undefined,
+		error: undefined
 	}
 
-	if (!data) {
-		return <div className="loading"><Loading/></div>;
-	}
+	static propTypes = {
+		addGame: PropTypes.func.isRequired,
+		data: PropTypes.array,
+		error: PropTypes.bool,
+		query: PropTypes.string.isRequired
+	};
 
-	if (!data.length) {
-		return <div className="no-game"><Translate i18nKey="noGameFound">No game found!</Translate></div>;
-	}
+	state = {};
 
-	return (
-		<div className="candidates">
-			<div className="counter"><Translate count={data.length} i18nKey="gamesFound">%count% games found</Translate></div>
-			<ul className="previews">
-				{data.map((game) => {
-					let { id } = game;
-					return <li key={id} className="game-preview">
-						<Button onClick={() => addGame(id, game.name)}><FontAwesomeIcon icon="plus"/></Button>
-						<div className="content">
-							<GamePreview data={game} query={query}/>
-						</div>
-					</li>;
-				})}
-			</ul>
-		</div>
-	);
+	render() {
+		let { data, error, addGame, query } = this.props;
+
+		if (error) {
+			info.error({
+				html: <Translate i18nKey="failedToLoadGames">Failed to load games!</Translate>
+			});
+			return null;
+		}
+
+		if (!data) {
+			return <div className="loading"><Loading/></div>;
+		}
+
+		if (!data.length) {
+			return <div className="no-game"><Translate i18nKey="noGameFound">No game found!</Translate></div>;
+		}
+
+		return (
+			<div className="candidates">
+				<div className="counter"><Translate count={data.length} i18nKey="gamesFound">%count% games
+					found</Translate></div>
+				<ul className="previews">
+					{data.map((game) => {
+						let { id, type } = game;
+						return <li key={`${type}-${id}`} className="game-preview">
+							<Button onClick={() => addGame(id, game.name)}><FontAwesomeIcon icon="plus"/></Button>
+							<div className="content">
+								<GamePreview data={game} query={query}/>
+							</div>
+						</li>;
+					})}
+				</ul>
+			</div>
+		);
+	}
 }
 
 export default class AddGame extends Page {
@@ -177,6 +191,9 @@ export default class AddGame extends Page {
 			return <Redirect to="/games"/>;
 		}
 
+		let selectedTypes = Object.keys(this.state.types).filter((key) => this.state.types[key]);
+		let stringifiedTypes = selectedTypes.length ? selectedTypes.join(",") : "boardgame,boardgameexpansion";
+
 		return (
 			<div className="addGame">
 				<Container>
@@ -186,13 +203,13 @@ export default class AddGame extends Page {
 						</Col>
 					</Row>
 					{this.state.query && <Row>
-						<Candidates
-							addGame={this.addGame.bind(this)}
-							fetch={this.fetch}
-							owner={this}
-							query={this.state.query}
-							types={this.state.types}
-						/>
+						<this.swr url={`/api/v1/search/bgg?name=${this.state.query}&type=${stringifiedTypes}&exact=${this.state.exact}`}>
+							<GameAdditionCandidates
+								addGame={this.addGame.bind(this)}
+								owner={this}
+								query={this.state.query}
+							/>
+						</this.swr>
 					</Row>}
 				</Container>
 			</div>

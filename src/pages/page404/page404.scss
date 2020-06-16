@@ -15,13 +15,13 @@
     }
   }
 
-  .link {
+  .back-link {
     background: transparent;
     border: none;
     color: $link-color;
     text-decoration: underline;
     padding: 0;
-    margin: 0 0 0 1ch;
+    margin: 0 0 0 .5ch;
 
     &:hover {
       color: $link-color-hover;

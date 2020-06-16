@@ -1,0 +1,24 @@
+@import "../../variables";
+@import "../../mixins";
+
+$icon-size: 64px;
+
+.locationCard {
+  text-align: center;
+  padding: 40px;
+
+  .avatar {
+    height: $icon-size;
+    width: $icon-size;
+    font-size: 32px;
+    background: #eee;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    position: relative;
+    margin: auto auto 20px;
+
+    .icon {
+      @include center;
+    }
+  }
+}

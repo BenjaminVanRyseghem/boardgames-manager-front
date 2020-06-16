@@ -1,168 +1,147 @@
 import "./game.scss";
-import { Button, Form, FormGroup, Input, Label, ModalBody, ModalFooter } from "reactstrap";
-import React, { useState } from "react";
-import useSWR, { mutate } from "swr";
+import BorrowersContainer from "components/borrowersContainer/borrowersContainer";
+import DeleteGameButton from "components/deleteGameButton/deleteGameButton";
 import GameInfo from "components/gameInfo/gameInfo";
 import globalState from "models/globalState";
 import info from "helpers/info";
 import LendToButton from "components/lendToButton/lendToButton";
 import Loading from "components/loading/loading";
-import MoveToButton from "../../components/moveToButton/moveToButton";
+import LocationsContainer from "components/locationsContainer/locationsContainer";
+import MoveToButton from "components/moveToButton/moveToButton";
+import { mutate } from "swr";
 import Page from "../page";
 import PropTypes from "prop-types";
+import React from "react";
+import { Redirect } from "react-router";
 import Translate from "components/i18n/translate";
 
-function Users({ toggle, fetch, lendTo }) { // eslint-disable-line react/prop-types
-	let { data, error } = useSWR("/api/v1/user", fetch);
-	const [candidate, setCandidate] = useState(undefined);
+export class GameContainer extends React.Component {
+	static defaultProps = {
+		data: undefined,
+		error: undefined
+	}
 
-	if (error) {
-		info.error({
-			html: <Translate i18nKey="failedToLoadUsers">Failed to load users!</Translate>
+	static propTypes = {
+		Locations: PropTypes.node.isRequired,
+		Users: PropTypes.node.isRequired,
+		canDeleteGame: PropTypes.func.isRequired,
+		canLendGame: PropTypes.func.isRequired,
+		canMoveGame: PropTypes.func.isRequired,
+		data: PropTypes.object,
+		deleteGame: PropTypes.func.isRequired,
+		error: PropTypes.bool,
+		lendTo: PropTypes.func.isRequired,
+		moveTo: PropTypes.func.isRequired,
+		mutateSWR: PropTypes.func.isRequired,
+		redirect: PropTypes.func.isRequired,
+		url: PropTypes.string.isRequired
+	};
+
+	state = {};
+
+	deleteGame() {
+		this.props.deleteGame(this.props.data);
+	}
+
+	moveTo(location) {
+		this.props.moveTo(location, this.props.data)
+			.then((datum) => this.props.mutateSWR(this.props.url, datum, false));
+	}
+
+	lendTo(borrowed) {
+		this.props.lendTo(borrowed, this.props.data)
+			.then((datum) => this.props.mutateSWR(this.props.url, datum, false));
+	}
+
+	renderUsers() {
+		return React.cloneElement(this.props.Users, {
+			lendTo: this.lendTo.bind(this)
 		});
-		return null;
 	}
 
-	if (!data) {
-		return <div className="loading"><Loading/></div>;
+	renderLocations() {
+		return React.cloneElement(this.props.Locations, {
+			gameLocation: this.props.data.location.id,
+			moveTo: this.moveTo.bind(this)
+		});
 	}
 
-	if (!data.length) {
-		return <div className="no-user"><Translate i18nKey="noUserFound">No user found!</Translate></div>;
-	}
+	render() {
+		let { data, error } = this.props;
 
-	if (candidate === undefined) {
-		setCandidate(data[0].id);
-	}
+		if (error) {
+			info.error({
+				html: <Translate i18nKey="failedToLoadGame">Failed to load game!</Translate>
+			});
+			return null;
+		}
+		if (data === null) {
+			return <div><Translate i18nKey="noGameFound">No game found!</Translate></div>;
+		}
 
-	return (
-		<>
-			<ModalBody>
-				<Form>
-					<FormGroup>
-						<Label>
-							<Translate i18nKey="chooseAUser">Choose a user:</Translate>
-						</Label>
-						<Input type="select" onChange={(event) => setCandidate(event.target.value)}>
-							{
-								data.map((user) => <option key={user.id} value={user.id}>
-									{`${user.firstName} ${user.lastName}`}
-								</option>)
-							}
-						</Input>
-					</FormGroup>
-				</Form>
-			</ModalBody>
-			<ModalFooter>
-				<Button color="primary" onClick={() => {
-					toggle();
-					lendTo(candidate);
-				}}>
-					<Translate i18nKey="lend">Lend</Translate>
-				</Button>{" "}
-				<Button color="secondary" onClick={toggle}><Translate i18nKey="cancel">Cancel</Translate></Button>
-			</ModalFooter>
-		</>
-	);
+		if (!data) {
+			return <div><Loading/></div>;
+		}
+
+		return (
+			<div className="game-container">
+				<GameInfo game={data}/>
+				<div className="actions">
+					{this.props.canLendGame(data) && <div className="action lend">
+						<LendToButton
+							fetch={fetch}
+							lendTo={this.lendTo.bind(this)}
+							lent={!!data.borrowed}
+							Users={this.renderUsers()}
+						/>
+					</div>}
+					{this.props.canMoveGame(data) && <div className="action move">
+						<MoveToButton
+							fetch={fetch}
+							Locations={this.renderLocations()}
+						/>
+					</div>}
+					{this.props.canDeleteGame(data) && <div className="action delete">
+						<DeleteGameButton
+							game={data}
+							onDelete={this.deleteGame.bind(this)}
+						/>
+					</div>}
+				</div>
+			</div>
+		);
+	}
 }
 
-function Locations({ toggle, fetch, moveTo, gameLocation }) { // eslint-disable-line react/prop-types
-	let { data, error } = useSWR("/api/v1/location", fetch);
-	const [candidate, setCandidate] = useState(undefined);
+export default class Game extends Page {
+	static defaultProps = {};
 
-	if (error) {
-		info.error({
-			html: <Translate i18nKey="failedToLoadLocations">Failed to load locations!</Translate>
-		});
-		return null;
-	}
+	static propTypes = {
+		id: PropTypes.string.isRequired
+	};
 
-	if (!data) {
-		return <div className="loading"><Loading/></div>;
-	}
+	state = {
+		redirect: false
+	};
 
-	if (!data.length) {
-		return <div className="no-location"><Translate i18nKey="noLocationFound">No location found!</Translate></div>;
-	}
-
-	if (candidate === undefined) {
-		let firstLocation = data.find((each) => each.id !== gameLocation);
-		setCandidate(firstLocation.id);
-	}
-
-	return (
-		<>
-			<ModalBody>
-				<Form>
-					<FormGroup>
-						<Label>
-							<Translate i18nKey="chooseALocation">Choose a location:</Translate>
-						</Label>
-						<Input type="select" onChange={(event) => setCandidate(event.target.value)}>
-							{
-								data.map((location) => (
-									<option
-										key={location.id}
-										disabled={location.id === gameLocation}
-										value={location.id}
-									>
-										{location.name}
-									</option>
-								))
-							}
-						</Input>
-					</FormGroup>
-				</Form>
-			</ModalBody>
-			<ModalFooter>
-				<Button color="primary" onClick={() => {
-					toggle();
-					moveTo(candidate);
-				}}>
-					<Translate i18nKey="move">Move</Translate>
-				</Button>{" "}
-				<Button color="secondary" onClick={toggle}><Translate i18nKey="cancel">Cancel</Translate></Button>
-			</ModalFooter>
-		</>
-	);
-}
-
-function GameContainer({ id, fetch }) { // eslint-disable-line react/prop-types
-	const { data, error } = useSWR(`/api/v1/game/${id}`, fetch);
-
-	if (error) {
-		info.error({
-			html: <Translate i18nKey="failedToLoadGame">Failed to load game!</Translate>
-		});
-		return null;
-	}
-	if (data === null) {
-		return <div><Translate i18nKey="noGameFound">No game found!</Translate></div>;
-	}
-
-	if (!data) {
-		return <div><Loading/></div>;
-	}
-
-	function lendTo(borrowed) {
-		if (!globalState.user().canLendGame(data)) {
+	lendTo(borrowed, game) {
+		if (!globalState.user().canLendGame(game)) {
 			info.Error({
 				title: <Translate i18nKey="error">Error</Translate>,
 				html: <Translate i18nKey="unauthorizedAction">
 					{"Unauthorized action"}
 				</Translate>
 			});
-			return;
+			return Promise.reject(new Error());
 		}
 
-		fetch(`/api/v1/game/${data.id}`, {
+		return this.fetch(`/api/v1/game/${game.id}`, {
 			method: "PUT",
 			body: {
 				borrowed
 			}
 		})
-			.then((game) => mutate(`/api/v1/game/${id}`, game, false))
-			.then(() => {
+			.then((datum) => {
 				if (borrowed) {
 					info.success({
 						title: <Translate i18nKey="success">Success</Translate>,
@@ -178,11 +157,12 @@ function GameContainer({ id, fetch }) { // eslint-disable-line react/prop-types
 						</Translate>
 					});
 				}
+				return datum;
 			});
 	}
 
-	function moveTo(location) {
-		if (!globalState.user().canMoveGame(data)) {
+	deleteGame(game) {
+		if (!globalState.user().canDeleteGame(game)) {
 			info.Error({
 				title: <Translate i18nKey="error">Error</Translate>,
 				html: <Translate i18nKey="unauthorizedAction">
@@ -192,63 +172,77 @@ function GameContainer({ id, fetch }) { // eslint-disable-line react/prop-types
 			return;
 		}
 
-		fetch(`/api/v1/game/${data.id}`, {
+		this.fetch(`/api/v1/game/${game.id}`, {
+			method: "DELETE"
+		})
+			.then(() => {
+				this.props.redirect();
+				info.success({
+					title: <Translate i18nKey="success">Success</Translate>,
+					html: <Translate i18nKey="gameRemovedSuccessfully">
+						{"Game successfully removed"}
+					</Translate>
+				});
+			});
+	}
+
+	moveTo(location, game) {
+		if (!globalState.user().canMoveGame(game)) {
+			info.Error({
+				title: <Translate i18nKey="error">Error</Translate>,
+				html: <Translate i18nKey="unauthorizedAction">
+					{"Unauthorized action"}
+				</Translate>
+			});
+			return Promise.reject(new Error());
+		}
+
+		return this.fetch(`/api/v1/game/${game.id}`, {
 			method: "PUT",
 			body: {
 				location
 			}
 		})
-			.then((game) => mutate(`/api/v1/game/${id}`, game, false))
-			.then(() => {
+			.then((datum) => {
 				info.success({
 					title: <Translate i18nKey="success">Success</Translate>,
 					html: <Translate i18nKey="gameMovedSuccessfully">
 						{"Game successfully moved"}
 					</Translate>
 				});
-			});
 
+				return datum;
+			});
 	}
 
-	return (
-		<div className="game-container">
-			<GameInfo game={data}/>
-			<div className="actions">
-				{globalState.user().canLendGame(data) && <div className="action lend">
-					<LendToButton
-						fetch={fetch}
-						lendTo={lendTo}
-						lent={!!data.borrowed}
-						Users={<Users fetch={fetch} lendTo={lendTo}/>}
-					/>
-				</div>}
-				{globalState.user().canMoveGame(data) && <div className="action move">
-					<MoveToButton
-						fetch={fetch}
-						Locations={<Locations fetch={fetch} gameLocation={data.location.id} moveTo={moveTo}/>}
-					/>
-				</div>}
-				{globalState.user().canDeleteGame(data) && <div className="action delete">
-					<Button color="danger">
-						<Translate i18nKey="deleteGame">Delete</Translate>
-					</Button>
-				</div>}
-			</div>
-		</div>
-	);
-}
-
-export default class Game extends Page {
-	static defaultProps = {};
-
-	static propTypes = {
-		id: PropTypes.string.isRequired
-	};
-
 	renderContent() {
+		if (this.state.redirect) {
+			return (
+				<Redirect to="/games"/>
+			);
+		}
+
+		let canDeleteGame = (game) => globalState.user().canDeleteGame(game);
+		let canLendGame = (game) => globalState.user().canLendGame(game);
+		let canMoveGame = (game) => globalState.user().canMoveGame(game);
+
 		return (
 			<div className="game">
-				<GameContainer fetch={this.fetch.bind(this)} id={this.props.id}/>
+				<this.swr url={`/api/v1/game/${this.props.id}`}>
+					<GameContainer
+						canDeleteGame={canDeleteGame}
+						canLendGame={canLendGame}
+						canMoveGame={canMoveGame}
+						deleteGame={this.deleteGame.bind(this)}
+						lendTo={this.lendTo.bind(this)}
+						Locations={<this.swr url="/api/v1/location"><LocationsContainer/></this.swr>}
+						moveTo={this.moveTo.bind(this)}
+						mutateSWR={mutate}
+						redirect={() => this.setState({ redirect: true })}
+						url={`/api/v1/game/${this.props.id}`}
+						Users={<this.swr url="/api/v1/user"><BorrowersContainer/></this.swr>}
+					/>
+				</this.swr>
 			</div>
 		);
 	}

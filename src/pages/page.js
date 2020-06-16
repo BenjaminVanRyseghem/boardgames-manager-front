@@ -1,7 +1,8 @@
 import "./page.scss";
+import useSWR, { mutate } from "swr";
 import fetcher from "helpers/fetcher";
 import globalState from "models/globalState";
-
+import NavigationMenu from "components/navigationMenu/navigationMenu";
 import React from "react";
 
 const requests = Symbol("requests");
@@ -14,6 +15,18 @@ export default class Page extends React.Component {
 
 		this[requests] = [];
 		this.state = { [this.constructor.key]: null };
+		this.swr = this.swr.bind(this);
+	}
+
+	swr({ children, url, ...others }) {
+		let { data, error } = useSWR(url, this.fetch.bind(this));
+
+		return React.cloneElement(children, {
+			mutateSWR: mutate,
+			...others,
+			data,
+			error
+		});
 	}
 
 	isLoading() {
@@ -75,6 +88,9 @@ export default class Page extends React.Component {
 				${this.className ? this.className : this.constructor.key || ""}
 				${this.title ? "" : "no-title"}
 			`}>
+				<div className="navigation">
+					<NavigationMenu/>
+				</div>
 				{this.renderTitle()}
 				<div className="page-content">
 					{this.renderContent()}
