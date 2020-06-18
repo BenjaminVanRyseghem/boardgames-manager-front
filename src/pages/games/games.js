@@ -19,18 +19,23 @@ export class GamesContainer extends React.Component {
 
 	static propTypes = {
 		data: PropTypes.array,
-		error: PropTypes.bool
+		error: PropTypes.object
 	};
 
 	state = {};
+
+	componentDidUpdate(prevProps) {
+		if (prevProps.error !== this.props.error) {
+			info.error({
+				html: <Translate i18nKey="failedToLoadGames">Failed to load games!</Translate>
+			});
+		}
+	}
 
 	render() {
 		let { data, error } = this.props;
 
 		if (error) {
-			info.error({
-				html: <Translate i18nKey="failedToLoadGames">Failed to load games!</Translate>
-			});
 			return null;
 		}
 		if (!data) {
@@ -59,47 +64,67 @@ export class GamesContainer extends React.Component {
 	}
 }
 
-function menuContainer({ transform, data, error, html }) {
-	if (error) {
-		info.error({ html });
-		return null;
+class MenuContainer extends React.Component {
+	static propTypes = {
+		data: PropTypes.array,
+		error: PropTypes.object,
+		html: PropTypes.object.isRequired,
+		transform: PropTypes.func.isRequired
+	};
+
+	componentDidUpdate(prevProps) {
+		if (prevProps.error !== this.props.error) {
+			info.error({ html: this.props.html });
+		}
 	}
 
-	return transform(data);
+	render() {
+		return this.props.transform(this.props.data);
+	}
 }
 
-function PublishersContainer({ transform, data, error }) {
-	return menuContainer({
-		transform,
-		data,
-		error,
-		html: <Translate i18nKey="failedToLoadPublishers">Failed to load publishers!</Translate>
-	});
+function PublishersContainer({ transform, data, error }) { // eslint-disable-line react/prop-types
+	return (
+		<MenuContainer
+			data={data}
+			error={error}
+			html={<Translate i18nKey="failedToLoadPublishers">Failed to load publishers!</Translate>}
+			transform={transform}
+		/>
+	);
 }
 
-function CategoriesContainer({ transform, data, error }) {
-	return menuContainer({
-		transform,
-		data,
-		error,
-		html: <Translate i18nKey="failedToLoadCategories">Failed to load categories!</Translate>
-	});
+function CategoriesContainer({ transform, data, error }) { // eslint-disable-line react/prop-types
+	return (
+		<MenuContainer
+			data={data}
+			error={error}
+			html={<Translate i18nKey="failedToLoadCategories">Failed to load categories!</Translate>}
+			transform={transform}
+		/>
+	);
 }
 
-function MechanicsContainer({ transform, data, error }) {
-	return menuContainer({
-		transform,
-		data,
-		error,
-		html: <Translate i18nKey="failedToLoadMechanics">Failed to load mechanics!</Translate>
-	});
+function MechanicsContainer({ transform, data, error }) { // eslint-disable-line react/prop-types
+	return (
+		<MenuContainer
+			data={data}
+			error={error}
+			html={<Translate i18nKey="failedToLoadMechanics">Failed to load mechanics!</Translate>}
+			transform={transform}
+		/>
+	);
 }
 
 export default class Games extends Page {
 	static key = "games";
 
-	constructor() {
-		super(...arguments); // eslint-disable-line prefer-rest-params
+	static propTypes = {
+		user: PropTypes.object.isRequired
+	};
+
+	constructor(...args) {
+		super(...args);
 
 		this.state = {
 			filters: this.initializeStateFromQueries(parseQuery(this.props.location.search))
@@ -166,6 +191,7 @@ export default class Games extends Page {
 					mechanicsContainer={<this.swr url="/api/v1/mechanic"><MechanicsContainer/></this.swr>}
 					publishersContainer={<this.swr url="/api/v1/publisher"><PublishersContainer/></this.swr>}
 					setGameFilters={this.setGameFilters.bind(this)}
+					user={this.props.user}
 				/>
 				<this.swr url={`/api/v1/game?${querystring.stringify(this.state.filters)}`}>
 					<GamesContainer/>

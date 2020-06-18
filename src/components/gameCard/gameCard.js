@@ -1,17 +1,15 @@
 import "./gameCard.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import React from "react";
 import Translate from "../i18n/translate";
 
 export default class GameCard extends React.Component {
-	static defaultProps = {
-		onClick: () => {}
-	};
+	static defaultProps = {};
 
 	static propTypes = {
-		game: PropTypes.object.isRequired,
-		onClick: PropTypes.func
+		game: PropTypes.object.isRequired
 	};
 
 	state = {};
@@ -56,7 +54,10 @@ export default class GameCard extends React.Component {
 		}
 
 		return (
-			<a className={`gameCard${game.borrowed ? " borrowed" : ""}`} href={`/game/${game.id}`} onClick={this.props.onClick}>
+			<Link
+				className={`gameCard${game.borrowed ? " borrowed" : ""}`}
+				to={`/game/${game.id}`}
+			>
 				<div className="image">
 					<img alt={`${game.name} preview`} src={game.picture}/>
 				</div>
@@ -67,9 +68,9 @@ export default class GameCard extends React.Component {
 						{this.renderInfo("stopwatch", time)}
 						{this.renderInfo("birthday-cake", () => `${game.minAge}+`, { shouldRender: !!game.minAge })}
 					</div>
-				{this.renderBorrowed(game)}
+					{this.renderBorrowed(game)}
 				</div>
-			</a>
+			</Link>
 		);
 	}
 }

@@ -14,7 +14,7 @@ export default class LocationsContainer extends React.Component {
 
 	static propTypes = {
 		data: PropTypes.array,
-		error: PropTypes.bool,
+		error: PropTypes.object,
 		gameLocation: PropTypes.object,
 		moveTo: PropTypes.func,
 		toggle: PropTypes.func
@@ -28,10 +28,16 @@ export default class LocationsContainer extends React.Component {
 		this.setState({ candidate });
 	}
 
-	componentDidUpdate() {
+	componentDidUpdate(prevProps) {
 		if (this.props.data && this.state.candidate === undefined) {
 			let firstLocation = this.props.data.find((each) => each.id !== this.props.gameLocation);
 			this.setCandidate(firstLocation.id);
+		}
+
+		if (prevProps.error !== this.props.error) {
+			info.error({
+				html: <Translate i18nKey="failedToLoadLocations">Failed to load locations!</Translate>
+			});
 		}
 	}
 
@@ -39,9 +45,6 @@ export default class LocationsContainer extends React.Component {
 		let { data, error, gameLocation } = this.props;
 
 		if (error) {
-			info.error({
-				html: <Translate i18nKey="failedToLoadLocations">Failed to load locations!</Translate>
-			});
 			return null;
 		}
 

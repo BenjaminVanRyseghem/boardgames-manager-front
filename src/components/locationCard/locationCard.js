@@ -22,7 +22,7 @@ export default class LocationCard extends React.Component {
 						<div className="name">{location.name}</div>
 						<div className="number-of-games">
 							<Translate count={location.numberOfGames} i18nKey="numberOfGames">
-								%count% games
+								(%count% games)
 							</Translate>
 						</div>
 					</Link>

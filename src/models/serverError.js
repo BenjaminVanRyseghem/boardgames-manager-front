@@ -1,6 +1,6 @@
 export default class ServerError extends Error {
 	constructor(response, error) {
-		super(`[Server Error - ${response.status}] ${response.statusText} `); // eslint-disable-line prefer-rest-params
+		super(`[Server Error - ${response.status}] ${response.statusText} `);
 
 		this.response = response;
 		this.error = error;

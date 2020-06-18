@@ -1,6 +1,5 @@
 import "./menu.scss";
 import { FormGroup, Input, Label } from "reactstrap";
-import globalState from "models/globalState";
 import InputRange from "react-input-range";
 import { Link } from "react-router-dom";
 import Loading from "components/loading/loading";
@@ -53,13 +52,14 @@ export default class Menu extends React.Component {
 		filters: PropTypes.object,
 		mechanicsContainer: PropTypes.node.isRequired,
 		publishersContainer: PropTypes.node.isRequired,
-		setGameFilters: PropTypes.func.isRequired
+		setGameFilters: PropTypes.func.isRequired,
+		user: PropTypes.object.isRequired
 	};
 
 	timeout = null;
 
-	constructor() {
-		super(...arguments); // eslint-disable-line prefer-rest-params
+	constructor(...args) {
+		super(...args);
 
 		this.state = Object.assign({}, defaultState, this.props.filters);
 	}
@@ -120,7 +120,7 @@ export default class Menu extends React.Component {
 	renderActions() {
 		let actions = [];
 
-		if (globalState.user().canAddGames()) {
+		if (this.props.user.canAddGames()) {
 			actions.push(<Link key="add-game" to="/add-game"><Translate i18nKey="addAGameAction">+ add a
 				game</Translate></Link>);
 		}

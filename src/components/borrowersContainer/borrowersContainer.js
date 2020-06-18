@@ -14,7 +14,7 @@ export default class BorrowersContainer extends React.Component {
 
 	static propTypes = {
 		data: PropTypes.array,
-		error: PropTypes.bool,
+		error: PropTypes.object,
 		lendTo: PropTypes.func,
 		toggle: PropTypes.func
 	};
@@ -27,18 +27,21 @@ export default class BorrowersContainer extends React.Component {
 		this.setState({ candidate });
 	}
 
-	componentDidUpdate() {
+	componentDidUpdate(prevProps) {
 		if (this.props.data && this.state.candidate === undefined) {
 			this.setCandidate(this.props.data[0].id);
+		}
+
+		if (prevProps.error !== this.props.error) {
+			info.error({
+				html: <Translate i18nKey="failedToLoadUsers">Failed to load users!</Translate>
+			});
 		}
 	}
 
 	render() {
 		let { data, error } = this.props;
 		if (error) {
-			info.error({
-				html: <Translate i18nKey="failedToLoadUsers">Failed to load users!</Translate>
-			});
 			return null;
 		}
 

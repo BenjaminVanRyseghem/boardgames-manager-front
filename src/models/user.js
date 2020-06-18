@@ -22,6 +22,10 @@ export default class User {
 		return this[token];
 	}
 
+	role() {
+		return this[role];
+	}
+
 	canAddGames() {
 		return accessControl.can(this[role]).create("game").granted;
 	}
@@ -42,12 +46,26 @@ export default class User {
 		return accessControl.can(this[role]).delete("game").granted;
 	}
 
+	canNavigateToUsers() {
+		return accessControl.can(this[role]).readAny("user").granted;
+	}
+
 	toJSON() {
 		return {
 			id: this[email],
 			firstName: this[firstName],
 			lastName: this[lastName],
-			token: this[token]
+			token: this[token],
+			role: this[role]
 		};
+	}
+
+	static from(user, options = {}) {
+		let data = {
+			...user.toJSON(),
+			...options
+		};
+
+		return new this(data);
 	}
 }

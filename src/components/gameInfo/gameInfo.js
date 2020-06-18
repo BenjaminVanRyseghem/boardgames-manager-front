@@ -1,6 +1,5 @@
 import "./gameInfo.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import globalState from "models/globalState";
 import he from "he";
 import Interpolate from "components/i18n/interpolate";
 import { Link } from "react-router-dom";
@@ -12,7 +11,8 @@ export default class GameInfo extends React.Component {
 	static defaultProps = {};
 
 	static propTypes = {
-		game: PropTypes.object.isRequired
+		game: PropTypes.object.isRequired,
+		user: PropTypes.object.isRequired
 	};
 
 	state = {};
@@ -46,7 +46,7 @@ export default class GameInfo extends React.Component {
 	}
 
 	renderBorrower(borrowed) {
-		if (!globalState.user().canViewUsers()) {
+		if (!this.props.user.canViewUsers()) {
 			return () => (
 				<Translate
 					i18nKey="gameBorrowedBy"

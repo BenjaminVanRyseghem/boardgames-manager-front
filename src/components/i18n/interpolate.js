@@ -1,5 +1,3 @@
-/* eslint-disable jsdoc/check-indentation,jsdoc/require-param,jsdoc/require-returns,jsdoc/check-examples,jsdoc/check-tag-names,jsdoc/valid-types */
-
 /*
  * Copied from https://github.com/i18next/react-i18next/blob/master/src/Trans.js in order to fix interpolation
  * to match our way of translating.

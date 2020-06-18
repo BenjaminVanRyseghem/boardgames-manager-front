@@ -21,19 +21,24 @@ export class GameAdditionCandidates extends React.Component {
 	static propTypes = {
 		addGame: PropTypes.func.isRequired,
 		data: PropTypes.array,
-		error: PropTypes.bool,
+		error: PropTypes.object,
 		query: PropTypes.string.isRequired
 	};
 
 	state = {};
 
+	componentDidUpdate(prevProps) {
+		if (prevProps.error !== this.props.error) {
+			info.error({
+				html: <Translate i18nKey="failedToLoadGame">Failed to load game!</Translate>
+			});
+		}
+	}
+
 	render() {
 		let { data, error, addGame, query } = this.props;
 
 		if (error) {
-			info.error({
-				html: <Translate i18nKey="failedToLoadGames">Failed to load games!</Translate>
-			});
 			return null;
 		}
 

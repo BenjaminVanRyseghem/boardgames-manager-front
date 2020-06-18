@@ -2,7 +2,6 @@ import "./game.scss";
 import BorrowersContainer from "components/borrowersContainer/borrowersContainer";
 import DeleteGameButton from "components/deleteGameButton/deleteGameButton";
 import GameInfo from "components/gameInfo/gameInfo";
-import globalState from "models/globalState";
 import info from "helpers/info";
 import LendToButton from "components/lendToButton/lendToButton";
 import Loading from "components/loading/loading";
@@ -29,12 +28,13 @@ export class GameContainer extends React.Component {
 		canMoveGame: PropTypes.func.isRequired,
 		data: PropTypes.object,
 		deleteGame: PropTypes.func.isRequired,
-		error: PropTypes.bool,
+		error: PropTypes.object,
 		lendTo: PropTypes.func.isRequired,
 		moveTo: PropTypes.func.isRequired,
 		mutateSWR: PropTypes.func.isRequired,
 		redirect: PropTypes.func.isRequired,
-		url: PropTypes.string.isRequired
+		url: PropTypes.string.isRequired,
+		user: PropTypes.object.isRequired
 	};
 
 	state = {};
@@ -66,13 +66,18 @@ export class GameContainer extends React.Component {
 		});
 	}
 
+	componentDidUpdate(prevProps) {
+		if (prevProps.error !== this.props.error) {
+			info.error({
+				html: <Translate i18nKey="failedToLoadGame">Failed to load game!</Translate>
+			});
+		}
+	}
+
 	render() {
 		let { data, error } = this.props;
 
 		if (error) {
-			info.error({
-				html: <Translate i18nKey="failedToLoadGame">Failed to load game!</Translate>
-			});
 			return null;
 		}
 		if (data === null) {
@@ -85,7 +90,7 @@ export class GameContainer extends React.Component {
 
 		return (
 			<div className="game-container">
-				<GameInfo game={data}/>
+				<GameInfo game={data} user={this.props.user}/>
 				<div className="actions">
 					{this.props.canLendGame(data) && <div className="action lend">
 						<LendToButton
@@ -117,7 +122,8 @@ export default class Game extends Page {
 	static defaultProps = {};
 
 	static propTypes = {
-		id: PropTypes.string.isRequired
+		id: PropTypes.string.isRequired,
+		user: PropTypes.object.isRequired
 	};
 
 	state = {
@@ -125,7 +131,7 @@ export default class Game extends Page {
 	};
 
 	lendTo(borrowed, game) {
-		if (!globalState.user().canLendGame(game)) {
+		if (!this.props.user.canLendGame(game)) {
 			info.Error({
 				title: <Translate i18nKey="error">Error</Translate>,
 				html: <Translate i18nKey="unauthorizedAction">
@@ -162,7 +168,7 @@ export default class Game extends Page {
 	}
 
 	deleteGame(game) {
-		if (!globalState.user().canDeleteGame(game)) {
+		if (!this.props.user.canDeleteGame(game)) {
 			info.Error({
 				title: <Translate i18nKey="error">Error</Translate>,
 				html: <Translate i18nKey="unauthorizedAction">
@@ -187,7 +193,7 @@ export default class Game extends Page {
 	}
 
 	moveTo(location, game) {
-		if (!globalState.user().canMoveGame(game)) {
+		if (!this.props.user.canMoveGame(game)) {
 			info.Error({
 				title: <Translate i18nKey="error">Error</Translate>,
 				html: <Translate i18nKey="unauthorizedAction">
@@ -222,9 +228,9 @@ export default class Game extends Page {
 			);
 		}
 
-		let canDeleteGame = (game) => globalState.user().canDeleteGame(game);
-		let canLendGame = (game) => globalState.user().canLendGame(game);
-		let canMoveGame = (game) => globalState.user().canMoveGame(game);
+		let canDeleteGame = (game) => this.props.user.canDeleteGame(game);
+		let canLendGame = (game) => this.props.user.canLendGame(game);
+		let canMoveGame = (game) => this.props.user.canMoveGame(game);
 
 		return (
 			<div className="game">
@@ -240,6 +246,7 @@ export default class Game extends Page {
 						mutateSWR={mutate}
 						redirect={() => this.setState({ redirect: true })}
 						url={`/api/v1/game/${this.props.id}`}
+						user={this.props.user}
 						Users={<this.swr url="/api/v1/user"><BorrowersContainer/></this.swr>}
 					/>
 				</this.swr>

@@ -1,8 +1,8 @@
 import "./page.scss";
 import useSWR, { mutate } from "swr";
 import fetcher from "helpers/fetcher";
-import globalState from "models/globalState";
 import NavigationMenu from "components/navigationMenu/navigationMenu";
+import PropTypes from "prop-types";
 import React from "react";
 
 const requests = Symbol("requests");
@@ -10,8 +10,12 @@ const requests = Symbol("requests");
 export default class Page extends React.Component {
 	static key = "";
 
-	constructor() {
-		super(...arguments); // eslint-disable-line prefer-rest-params
+	static propTypes = {
+		user: PropTypes.object.isRequired
+	}
+
+	constructor(...args) {
+		super(...args);
 
 		this[requests] = [];
 		this.state = { [this.constructor.key]: null };
@@ -51,7 +55,7 @@ export default class Page extends React.Component {
 		init.headers["Content-Type"] = init.headers["Content-Type"] || "application/json";
 		init.body = init.body === undefined ? undefined : JSON.stringify(init.body);
 
-		let currentUser = globalState.user();
+		let currentUser = this.props.user;
 
 		if (currentUser) {
 			init.headers.Authorization = `Bearer ${currentUser.token()}`;
@@ -89,7 +93,7 @@ export default class Page extends React.Component {
 				${this.title ? "" : "no-title"}
 			`}>
 				<div className="navigation">
-					<NavigationMenu/>
+					<NavigationMenu user={this.props.user}/>
 				</div>
 				{this.renderTitle()}
 				<div className="page-content">
