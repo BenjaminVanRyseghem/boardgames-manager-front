@@ -1,5 +1,6 @@
 import "./games.scss";
 import { Col, Container, Row } from "reactstrap";
+import AddGameCard from "components/addGameCard/addGameCard";
 import GameCard from "components/gameCard/gameCard";
 import info from "helpers/info";
 import Loading from "components/loading/loading";
@@ -19,7 +20,8 @@ export class GamesContainer extends React.Component {
 
 	static propTypes = {
 		data: PropTypes.array,
-		error: PropTypes.object
+		error: PropTypes.object,
+		user: PropTypes.object
 	};
 
 	state = {};
@@ -30,6 +32,18 @@ export class GamesContainer extends React.Component {
 				html: <Translate i18nKey="failedToLoadGames">Failed to load games!</Translate>
 			});
 		}
+	}
+
+	renderAddGame() {
+		if (!this.props.user.canAddGames()) {
+			return null;
+		}
+
+		return (
+			<Col key="new-game" className="card-holder" sm={4}>
+				<AddGameCard/>
+			</Col>
+		);
 	}
 
 	render() {
@@ -55,6 +69,7 @@ export class GamesContainer extends React.Component {
 		return (
 			<Container className="content">
 				<Row className="games">
+					{this.renderAddGame()}
 					{data.map((game) => <Col key={game.id} className="card-holder" sm={4}>
 						<GameCard game={game}/>
 					</Col>)}
@@ -118,10 +133,6 @@ function MechanicsContainer({ transform, data, error }) { // eslint-disable-line
 
 export default class Games extends Page {
 	static key = "games";
-
-	static propTypes = {
-		user: PropTypes.object.isRequired
-	};
 
 	constructor(...args) {
 		super(...args);
@@ -191,10 +202,9 @@ export default class Games extends Page {
 					mechanicsContainer={<this.swr url="/api/v1/mechanic"><MechanicsContainer/></this.swr>}
 					publishersContainer={<this.swr url="/api/v1/publisher"><PublishersContainer/></this.swr>}
 					setGameFilters={this.setGameFilters.bind(this)}
-					user={this.props.user}
 				/>
 				<this.swr url={`/api/v1/game?${querystring.stringify(this.state.filters)}`}>
-					<GamesContainer/>
+					<GamesContainer user={this.props.user}/>
 				</this.swr>
 			</>
 		);

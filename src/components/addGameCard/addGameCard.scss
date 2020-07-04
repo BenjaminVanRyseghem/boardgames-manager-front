@@ -1,0 +1,48 @@
+@import "../../variables";
+@import "../../mixins";
+@import "../gameCard/gameCard";
+
+.addGameCard {
+  @extend .gameCard;
+
+  &:hover {
+    .icon {
+      color: $green;
+    }
+
+    .name {
+      background: $green;
+      color: white;
+    }
+  }
+
+  .icon {
+    height: $card-height * 2 / 3;
+    border-bottom: 1px solid #ccc;
+    position: relative;
+
+    .icon-content {
+      font-size: 128px;
+      @include center;
+    }
+  }
+
+  .name {
+    background: white;
+    height: $card-height / 3;
+    position: relative;
+
+    .name-content {
+      @include center;
+      text-align: center;
+      font-family: "Ubuntu", sans-serif;
+      font-weight: bold;
+      max-width: 100%;
+      padding: 0 10px;
+      white-space: nowrap;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+}

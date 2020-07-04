@@ -1,0 +1,10 @@
+@import "../../variables";
+@import "../locationCard/locationCard";
+
+.addLocationCard {
+  @extend .locationCard;
+
+  .avatar {
+    color: $green;
+  }
+}

@@ -1,5 +1,6 @@
 import "./locations.scss";
 import { Col, Container, Row } from "reactstrap";
+import AddLocationCard from "components/addLocationCard/addLocationCard";
 import info from "helpers/info";
 import Loading from "components/loading/loading";
 import LocationCard from "components/locationCard/locationCard";
@@ -16,7 +17,8 @@ export class LocationsContainer extends React.Component {
 
 	static propTypes = {
 		data: PropTypes.array,
-		error: PropTypes.object
+		error: PropTypes.object,
+		user: PropTypes.object.isRequired
 	};
 
 	componentDidUpdate(prevProps) {
@@ -25,6 +27,18 @@ export class LocationsContainer extends React.Component {
 				html: <Translate i18nKey="failedToLoadLocations">Failed to load locations!</Translate>
 			});
 		}
+	}
+
+	renderAddLocation() {
+		if (!this.props.user.canAddLocations()) {
+			return null;
+		}
+
+		return (
+			<Col key="new-game" className="card-holder" sm={4}>
+				<AddLocationCard/>
+			</Col>
+		);
 	}
 
 	render() {
@@ -41,7 +55,8 @@ export class LocationsContainer extends React.Component {
 			return (
 				<Container className="content">
 					<Row className="locations">
-						<div className="no-location"><Translate i18nKey="noLocationFound">No location found!</Translate>
+						<div className="no-location">
+							<Translate i18nKey="noLocationFound">No location found!</Translate>
 						</div>
 					</Row>
 				</Container>
@@ -51,6 +66,7 @@ export class LocationsContainer extends React.Component {
 		return (
 			<Container className="content">
 				<Row className="locations">
+					{this.renderAddLocation()}
 					{data.map((location) => <Col key={location.id} className="card-holder" sm={4}>
 						<LocationCard location={location}/>
 					</Col>)}
@@ -73,7 +89,7 @@ export default class Locations extends Page {
 		return (
 			<div className="locationsContainer">
 				<this.swr url="/api/v1/location">
-					<LocationsContainer/>
+					<LocationsContainer user={this.props.user}/>
 				</this.swr>
 			</div>
 		);

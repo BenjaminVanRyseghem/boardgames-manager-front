@@ -1,0 +1,13 @@
+.addLocation {
+  .add-location-form {
+    text-align: right;
+
+    label, .invalid-feedback {
+      text-align: left;
+    }
+
+    button {
+      margin-right: -15px;
+    }
+  }
+}

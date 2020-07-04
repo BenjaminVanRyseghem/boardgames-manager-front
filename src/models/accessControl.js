@@ -3,16 +3,19 @@ import { AccessControl } from "accesscontrol";
 const admin = "admin";
 const user = "user";
 const borrower = "borrower";
+const anonymous = "anonymous";
 
 const accessControl = new AccessControl();
 
 export const roles = {
 	admin,
 	user,
-	borrower
+	borrower,
+	anonymous
 };
 
-accessControl.grant(borrower);
+accessControl.grant(anonymous);
+accessControl.grant(borrower).extend(anonymous);
 
 accessControl.grant(user).extend(borrower)
 	.readAny("user")

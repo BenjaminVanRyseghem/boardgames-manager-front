@@ -1,4 +1,5 @@
 import "./app.scss";
+import User, { anonymousUser } from "models/user";
 import { BrowserRouter } from "react-router-dom";
 import Cookies from "js-cookie";
 import { i18nPromise } from "./i18n/i18n";
@@ -6,7 +7,6 @@ import jwt from "jsonwebtoken";
 import Pages from "./pages/pages";
 import React from "react";
 import { roles } from "models/accessControl";
-import User from "models/user";
 import UserKindSwitcher from "./components/userKindSwitcher/userKindSwitcher";
 
 const cookieName = "com.boardgames-manager";
@@ -15,7 +15,7 @@ class App extends React.Component {
 	constructor(...args) {
 		super(...args);
 
-		let user = null;
+		let user = anonymousUser;
 		let cookie = Cookies.getJSON(cookieName);
 
 		if (cookie) {

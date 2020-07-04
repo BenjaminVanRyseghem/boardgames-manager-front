@@ -8,7 +8,7 @@ $borrowed-line-height: 24px;
   color: $color;
 
   height: $card-height;
-  width: $card-width;
+  max-width: $card-width;
   box-shadow: 0 0 50px $card-border;
   cursor: pointer;
   overflow: hidden;

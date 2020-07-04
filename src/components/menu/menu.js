@@ -53,7 +53,6 @@ export default class Menu extends React.Component {
 		mechanicsContainer: PropTypes.node.isRequired,
 		publishersContainer: PropTypes.node.isRequired,
 		setGameFilters: PropTypes.func.isRequired,
-		user: PropTypes.object.isRequired
 	};
 
 	timeout = null;
@@ -119,11 +118,6 @@ export default class Menu extends React.Component {
 
 	renderActions() {
 		let actions = [];
-
-		if (this.props.user.canAddGames()) {
-			actions.push(<Link key="add-game" to="/add-game"><Translate i18nKey="addAGameAction">+ add a
-				game</Translate></Link>);
-		}
 
 		return (
 			<div className="action">

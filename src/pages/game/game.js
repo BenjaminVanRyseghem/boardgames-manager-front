@@ -32,7 +32,6 @@ export class GameContainer extends React.Component {
 		lendTo: PropTypes.func.isRequired,
 		moveTo: PropTypes.func.isRequired,
 		mutateSWR: PropTypes.func.isRequired,
-		redirect: PropTypes.func.isRequired,
 		url: PropTypes.string.isRequired,
 		user: PropTypes.object.isRequired
 	};
@@ -150,15 +149,15 @@ export default class Game extends Page {
 			.then((datum) => {
 				if (borrowed) {
 					info.success({
-						title: <Translate i18nKey="success">Success</Translate>,
-						html: <Translate i18nKey="gameLentSuccessfully">
+						title: <Translate i18nKey="info.success">Success</Translate>,
+						html: <Translate i18nKey="game.lentSuccessfully">
 							{"Game successfully lent"}
 						</Translate>
 					});
 				} else {
 					info.success({
-						title: <Translate i18nKey="success">Success</Translate>,
-						html: <Translate i18nKey="gameRetrievedSuccessfully">
+						title: <Translate i18nKey="info.success">Success</Translate>,
+						html: <Translate i18nKey="game.retrievedSuccessfully">
 							{"Game successfully retrieved"}
 						</Translate>
 					});
@@ -182,10 +181,10 @@ export default class Game extends Page {
 			method: "DELETE"
 		})
 			.then(() => {
-				this.props.redirect();
+				this.setState({ redirect: true });
 				info.success({
-					title: <Translate i18nKey="success">Success</Translate>,
-					html: <Translate i18nKey="gameRemovedSuccessfully">
+					title: <Translate i18nKey="info.success">Success</Translate>,
+					html: <Translate i18nKey="game.removedSuccessfully">
 						{"Game successfully removed"}
 					</Translate>
 				});
@@ -211,8 +210,8 @@ export default class Game extends Page {
 		})
 			.then((datum) => {
 				info.success({
-					title: <Translate i18nKey="success">Success</Translate>,
-					html: <Translate i18nKey="gameMovedSuccessfully">
+					title: <Translate i18nKey="info.success">Success</Translate>,
+					html: <Translate i18nKey="game.movedSuccessfully">
 						{"Game successfully moved"}
 					</Translate>
 				});
@@ -244,7 +243,6 @@ export default class Game extends Page {
 						Locations={<this.swr url="/api/v1/location"><LocationsContainer/></this.swr>}
 						moveTo={this.moveTo.bind(this)}
 						mutateSWR={mutate}
-						redirect={() => this.setState({ redirect: true })}
 						url={`/api/v1/game/${this.props.id}`}
 						user={this.props.user}
 						Users={<this.swr url="/api/v1/user"><BorrowersContainer/></this.swr>}

@@ -35,6 +35,7 @@ export default class UserKindSwitcher extends React.Component {
 							<option value={roles.admin}>Admin</option>
 							<option value={roles.user}>User</option>
 							<option value={roles.borrower}>Borrower</option>
+							<option value={roles.anonymous}>Anonymous</option>
 						</Input>
 					</FormGroup>
 				</Form>

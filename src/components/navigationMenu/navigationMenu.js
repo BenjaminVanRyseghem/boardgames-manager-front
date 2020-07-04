@@ -2,6 +2,7 @@ import "./navigationMenu.scss";
 import { NavLink } from "react-router-dom";
 import PropTypes from "prop-types";
 import React from "react";
+import Translate from "../i18n/translate";
 
 export default class NavigationMenu extends React.Component {
 	static defaultProps = {};
@@ -17,10 +18,10 @@ export default class NavigationMenu extends React.Component {
 
 		return (
 			<div className="navigationMenu">
-				<NavLink exact className="link" to="/">Home</NavLink>
-				<NavLink className="link" to="/games">Games</NavLink>
-				<NavLink className="link" to="/locations">Locations</NavLink>
-				{canNavigateToUsers && <NavLink className="link" to="/users">Users</NavLink>}
+				<NavLink exact className="link" to="/"><Translate i18nKey="home">Home</Translate></NavLink>
+				<NavLink className="link" to="/games"><Translate i18nKey="games">Games</Translate></NavLink>
+				<NavLink className="link" to="/locations"><Translate i18nKey="locations">Locations</Translate></NavLink>
+				{canNavigateToUsers && <NavLink className="link" to="/users"><Translate i18nKey="users">Users</Translate></NavLink>}
 			</div>
 		);
 	}

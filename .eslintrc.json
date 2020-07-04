@@ -1,6 +1,7 @@
 {
   "extends": [
-    "eslint-config-benjamin-van-ryseghem"
+    "eslint-config-benjamin-van-ryseghem",
+    "plugin:react-hooks/recommended"
   ],
   "settings": {
     "react": {

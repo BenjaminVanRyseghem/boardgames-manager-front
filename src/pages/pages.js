@@ -1,5 +1,6 @@
 import "./pages.scss";
 import AddGame from "./addGame/addGame";
+import AddLocation from "./addLocation/addLocation";
 import Game from "./game/game";
 import Games from "./games/games";
 import Home from "./home/home";
@@ -16,7 +17,7 @@ function PrivateRoute({ user, component: Component, conditionFn = () => true, ..
 	return (
 		<Route
 			{...routeProps}
-			render={(props) => (user && conditionFn(user)
+			render={(props) => (conditionFn(user)
 				? <Component {...props} user={user}/>
 				: <Page404 {...props} user={user}/>)
 			}
@@ -42,7 +43,7 @@ export default class Pages extends React.Component {
 					<Route exact component={() => "TO DO"} path="/login"/>
 					<Route exact component={Home} path="/"/>
 					<Route exact component={() => "TO DO"} path="/register"/>
-					<PrivateRoute exact component={Games} path="/games" user={this.props.user}/>
+					<PrivateRoute exact component={Games} conditionFn={(user) => user.canViewGames()} path="/games" user={this.props.user}/>
 					<PrivateRoute exact component={Locations} path="/locations" user={this.props.user}/>
 					<PrivateRoute exact component={({ user, match: { params: { id } } }) => <Game
 						id={id}
@@ -53,6 +54,7 @@ export default class Pages extends React.Component {
 						user={user}
 					/>} path="/location/:id" user={this.props.user}/>
 					<PrivateRoute exact component={AddGame} conditionFn={(user) => user.canAddGames()} path="/add-game" user={this.props.user}/>
+					<PrivateRoute exact component={AddLocation} conditionFn={(user) => user.canAddLocations()} path="/add-location" user={this.props.user}/>
 					<PrivateRoute exact component={Users} conditionFn={(user) => user.canNavigateToUsers()} path="/users" user={this.props.user}/>
 					<Route render={() => <Page404 user={this.props.user}/>}/>
 				</Switch>

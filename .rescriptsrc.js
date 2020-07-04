@@ -36,6 +36,7 @@ module.exports = [
 			webpack.optimization.splitChunks = webpackConfig.optimization.splitChunks;
 			webpack.optimization.runtimeChunk = webpackConfig.optimization.runtimeChunk;
 			webpack.output.filename = webpackConfig.output.filename;
+			webpack.resolve.alias = Object.assign({}, webpack.resolve.alias, webpackConfig.resolve.alias);
 
 			return webpack;
 		}

@@ -1,4 +1,4 @@
-import accessControl from "models/accessControl";
+import accessControl, { roles } from "models/accessControl";
 const email = Symbol("email");
 const firstName = Symbol("firstName");
 const lastName = Symbol("lastName");
@@ -30,8 +30,16 @@ export default class User {
 		return accessControl.can(this[role]).create("game").granted;
 	}
 
+	canAddLocations() {
+		return accessControl.can(this[role]).create("location").granted;
+	}
+
 	canViewUsers() {
 		return accessControl.can(this[role]).read("user").granted;
+	}
+
+	canViewGames() {
+		return accessControl.can(this[role]).read("game").granted;
 	}
 
 	canLendGame() {
@@ -69,3 +77,15 @@ export default class User {
 		return new this(data);
 	}
 }
+
+class AnonymousUser extends User {
+	id() {
+		return "anonymous";
+	}
+
+	role() {
+		return roles.anonymous;
+	}
+}
+
+export const anonymousUser = new AnonymousUser({});

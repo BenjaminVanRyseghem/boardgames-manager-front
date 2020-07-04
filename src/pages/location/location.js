@@ -1,11 +1,13 @@
 import "./location.scss";
 import { Col, Container, Row } from "reactstrap";
+import DeleteLocationButton from "components/deleteLocationButton/deleteLocationButton";
 import GameCard from "components/gameCard/gameCard";
 import info from "helpers/info";
 import Loading from "components/loading/loading";
 import Page from "../page";
 import PropTypes from "prop-types";
 import React from "react";
+import { Redirect } from "react-router";
 import Translate from "components/i18n/translate";
 
 export class LocationInfo extends React.Component {
@@ -16,7 +18,9 @@ export class LocationInfo extends React.Component {
 
 	static propTypes = {
 		data: PropTypes.object,
-		error: PropTypes.object
+		error: PropTypes.object,
+		onDeleteLocation: PropTypes.func.isRequired,
+		user: PropTypes.object
 	};
 
 	componentDidUpdate(prevProps) {
@@ -52,6 +56,19 @@ export class LocationInfo extends React.Component {
 		);
 	}
 
+	renderDeleteButton(data) {
+		let canDelete = this.props.user.canDeleteGame(data) && data.games.length === 0;
+
+		if (!canDelete) {
+			return null;
+		}
+
+		return <DeleteLocationButton
+			location={data}
+			onDelete={() => this.props.onDeleteLocation(data)}
+		/>;
+	}
+
 	render() {
 		let { data, error } = this.props;
 		if (error) {
@@ -64,7 +81,7 @@ export class LocationInfo extends React.Component {
 
 		return (
 			<div className="location-info">
-				<div className="page-title"><h1>{data.name}</h1></div>
+				<div className="page-title"><h1>{data.name} {this.renderDeleteButton(data)}</h1></div>
 				<Container className="content">
 					{this.renderGames(data.games)}
 				</Container>
@@ -77,18 +94,43 @@ export default class Location extends Page {
 	static defaultProps = {};
 
 	static propTypes = {
-		id: PropTypes.string.isRequired
+		id: PropTypes.string.isRequired,
+		user: PropTypes.object
 	};
 
-	state = {};
+	state = {
+		redirect: false
+	};
+
+	deleteLocation(data) {
+		this.fetch(`/api/v1/location/${data.id}`, {
+			method: "DELETE"
+		})
+			.then(() => {
+				this.setState({ redirect: true });
+				info.success({
+					title: <Translate i18nKey="info.success">Success</Translate>,
+					html: <Translate i18nKey="locationRemovedSuccessfully">
+						{"Location successfully removed"}
+					</Translate>
+				});
+			});
+	}
 
 	renderContent() {
 		let url = `/api/v1/location/${this.props.id}`;
 
+		if (this.state.redirect) {
+			return <Redirect to="/locations"/>;
+		}
+
 		return (
 			<div className="location">
 				<this.swr url={url}>
-					<LocationInfo/>
+					<LocationInfo
+						user={this.props.user}
+						onDeleteLocation={this.deleteLocation.bind(this)}
+					/>
 				</this.swr>
 			</div>
 		);

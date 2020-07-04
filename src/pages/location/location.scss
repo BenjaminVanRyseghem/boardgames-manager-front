@@ -1,5 +1,24 @@
+@import "../../variables";
+@import "../../mixins";
+
 .location {
   .content {
     margin-top: 100px;
+  }
+
+  .page-title h1 {
+    position: relative;
+
+    .deleteLocationButton {
+      cursor: pointer;
+      @include center-y;
+      right: 10px;
+      font-size: .7em;
+      color: $red;
+
+      &:hover {
+        color: lighten($red, 10%);
+      }
+    }
   }
 }

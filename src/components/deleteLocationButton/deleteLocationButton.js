@@ -1,15 +1,16 @@
-import "./deleteGameButton.scss";
+import "./deleteLocationButton.scss";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Interpolate from "components/i18n/interpolate";
 import PropTypes from "prop-types";
 import React from "react";
 import Translate from "components/i18n/translate";
 
-export default class DeleteGameButton extends React.Component {
+export default class DeleteLocationButton extends React.Component {
 	static defaultProps = {};
 
 	static propTypes = {
-		game: PropTypes.object.isRequired,
+		location: PropTypes.object.isRequired,
 		onDelete: PropTypes.func.isRequired
 	};
 
@@ -29,10 +30,10 @@ export default class DeleteGameButton extends React.Component {
 		return (
 			<Modal className="lend-to-modal" isOpen={this.state.open} toggle={toggle}>
 				<ModalHeader toggle={toggle}>
-					<Translate i18nKey="delete.game.header" name={this.props.game.name}>Delete $name$</Translate>
+					<Translate i18nKey="delete.location.header" name={this.props.location.name}>Delete $name$?</Translate>
 				</ModalHeader>
 				<ModalBody>
-					<Interpolate i18nKey="delete.game.label" name={this.props.game.name}>
+					<Interpolate i18nKey="delete.location.label" name={this.props.location.name}>
 						Are you sure you want to delete <strong>%name%</strong>?
 					</Interpolate>
 				</ModalBody>
@@ -41,7 +42,7 @@ export default class DeleteGameButton extends React.Component {
 						toggle();
 						this.props.onDelete();
 					}}>
-						<Translate i18nKey="delete.game.button">Delete</Translate>
+						<Translate i18nKey="delete.location.button">Delete</Translate>
 					</Button>{" "}
 					<Button color="secondary" onClick={toggle}><Translate i18nKey="cancel">Cancel</Translate></Button>
 				</ModalFooter>
@@ -51,12 +52,16 @@ export default class DeleteGameButton extends React.Component {
 
 	render() {
 		return (
-			<div className="deleteGameButton">
+			<>
 				{this.renderModal()}
-				<Button color="danger" onClick={this.toggleModal.bind(this)}>
-					<Translate i18nKey="deleteg.game">Delete</Translate>
-				</Button>
-			</div>
+				<div className="deleteLocationButton">
+					<FontAwesomeIcon
+						className="delete-icon"
+						icon="trash"
+						onClick={this.toggleModal.bind(this)}
+					/>
+				</div>
+			</>
 		);
 	}
 }
