@@ -1,5 +1,5 @@
 import "./app.scss";
-import User, { anonymousUser } from "models/user";
+import CurrentUser, { anonymousUser } from "models/currentUser";
 import { BrowserRouter } from "react-router-dom";
 import Cookies from "js-cookie";
 import { i18nPromise } from "./i18n/i18n";
@@ -19,11 +19,11 @@ class App extends React.Component {
 		let cookie = Cookies.getJSON(cookieName);
 
 		if (cookie) {
-			user = new User(cookie.user);
+			user = new CurrentUser(cookie.user);
 		}
 
 		if (process.env.NODE_ENV === "development") { // eslint-disable-line no-process-env
-			user = new User({
+			user = new CurrentUser({
 				id: "benjamin.vanryseghem@cyberzen.com",
 				role: roles.admin
 			});

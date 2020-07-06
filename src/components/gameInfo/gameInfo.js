@@ -38,10 +38,10 @@ export default class GameInfo extends React.Component {
 	}
 
 	renderTitle(game) {
-		let icon = game.borrowed ? <FontAwesomeIcon className="title-icon" icon="door-open"/> : null;
+		let icon = game.isBorrowed() ? <FontAwesomeIcon className="title-icon" icon="door-open"/> : null;
 
 		return (
-			<h1 className="title">{icon}{game.name}</h1>
+			<h1 className="title">{icon}{game.name()}</h1>
 		);
 	}
 
@@ -50,7 +50,7 @@ export default class GameInfo extends React.Component {
 			return () => (
 				<Translate
 					i18nKey="gameBorrowedBy"
-					name={`${borrowed.firstName} ${borrowed.lastName}`}
+					name={borrowed.fullName()}
 				>
 					Borrowed by %name%
 				</Translate>
@@ -59,48 +59,50 @@ export default class GameInfo extends React.Component {
 		return () => (
 			<Interpolate
 				i18nKey="gameBorrowedByWithLink"
-				name={`${borrowed.firstName} ${borrowed.lastName}`}
+				name={borrowed.fullName()}
 			>
-				Borrowed by <a href={`/user/${borrowed.id}`}>%name%</a>
+				Borrowed by <a href={`/user/${borrowed.id()}`}>%name%</a>
 			</Interpolate>
 		);
 	}
 
 	render() {
 		let { game } = this.props;
-		let time = `${game.minPlaytime}'-${game.maxPlaytime}'`;
-
-		if (game.minPlaytime === game.maxPlaytime) {
-			time = `${game.minPlaytime}'`;
-		}
+		let time = game.playtimeRange();
 
 		let categories = game.categories && (
 			<>
-				{game.categories.sort().map((category) => <div key={category.id} className="tag category">
-					<Link to={`/games?categories=${category.id}`}>
-						{category.value}
-					</Link>
-				</div>)}
+				{game.categories()
+					.sort()
+					.map((category) => <div key={category.id()} className="tag category">
+						<Link to={`/games?categories=${category.id()}`}>
+							{category.name()}
+						</Link>
+					</div>)}
 			</>
 		);
 
-		let mechanics = game.mechanics && (
+		let mechanics = game.mechanics() && (
 			<>
-				{game.mechanics.sort().map((mechanic) => <div key={mechanic.id} className="tag category">
-					<Link to={`/games?mechanics=${mechanic.id}`}>
-						{mechanic.value}
-					</Link>
-				</div>)}
+				{game.mechanics()
+					.sort()
+					.map((mechanic) => <div key={mechanic.id()} className="tag category">
+						<Link to={`/games?mechanics=${mechanic.id()}`}>
+							{mechanic.name()}
+						</Link>
+					</div>)}
 			</>
 		);
 
-		let publishers = game.publishers && (
+		let publishers = game.publishers() && (
 			<>
-				{game.publishers.sort().map((publisher) => <div key={publisher.id} className="tag publisher">
-					<Link to={`/games?publishers=${publisher.id}`}>
-						{publisher.value}
-					</Link>
-				</div>)}
+				{game.publishers()
+					.sort()
+					.map((publisher) => <div key={publisher.id()} className="tag publisher">
+						<Link to={`/games?publishers=${publisher.id()}`}>
+							{publisher.name()}
+						</Link>
+					</div>)}
 			</>
 		);
 
@@ -109,23 +111,23 @@ export default class GameInfo extends React.Component {
 				{this.renderTitle(game)}
 				<div className="summary-container">
 					<div className="image">
-						<img alt={`${game.name} preview`} src={game.picture}/>
+						<img alt={`${game.name()} preview`} src={game.picture()}/>
 					</div>
 					<div className="summary">
 						<div className="line-container">
-							{!!game.borrowed && <div className="line">
-								{this.renderInfo("door-open", this.renderBorrower(game.borrowed), {
+							{!!game.isBorrowed() && <div className="line">
+								{this.renderInfo("door-open", this.renderBorrower(game.borrowed()), {
 									className: "borrowed"
 								})}
 							</div>}
 							<div className="line multi">
-								{this.renderInfo("chess-pawn", `${game.minPlayers}-${game.maxPlayers}`)}
+								{this.renderInfo("chess-pawn", game.playersRange())}
 								{this.renderInfo("stopwatch", time)}
-								{this.renderInfo("birthday-cake", () => `${game.minAge}+`, { shouldRender: !!game.minAge })}
+								{this.renderInfo("birthday-cake", () => `${game.minAge()}+`, { shouldRender: !!game.minAge() })}
 							</div>
-							{game.location && <div className="line">
+							{game.location() && <div className="line">
 								{this.renderInfo("map-marker-alt", () => <div className="tag">
-									<Link to={`/location/${game.location.id}`}>{game.location.name}</Link>
+									<Link to={`/location/${game.location().id()}`}>{game.location().name()}</Link>
 								</div>, { className: "location tags" })}
 							</div>}
 							<div className="line">
@@ -140,12 +142,12 @@ export default class GameInfo extends React.Component {
 							<div className="line">
 								{this.renderInfo(
 									<FontAwesomeIcon icon={["far", "calendar"]}/>,
-									game.yearPublished,
-									{ shouldRender: !!game.yearPublished }
+									game.yearPublished(),
+									{ shouldRender: !!game.yearPublished() }
 								)}
 							</div>
 						</div>
-						<div className="description">{he.decode(he.decode(game.description))}</div>
+						<div className="description">{he.decode(he.decode(game.description()))}</div>
 					</div>
 				</div>
 			</div>

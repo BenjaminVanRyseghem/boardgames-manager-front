@@ -2,6 +2,7 @@ import "./game.scss";
 import BorrowersContainer from "components/borrowersContainer/borrowersContainer";
 import DeleteGameButton from "components/deleteGameButton/deleteGameButton";
 import GameInfo from "components/gameInfo/gameInfo";
+import GameModel from "models/game";
 import info from "helpers/info";
 import LendToButton from "components/lendToButton/lendToButton";
 import Loading from "components/loading/loading";
@@ -60,7 +61,7 @@ export class GameContainer extends React.Component {
 
 	renderLocations() {
 		return React.cloneElement(this.props.Locations, {
-			gameLocation: this.props.data.location.id,
+			gameLocation: this.props.data.location().id(),
 			moveTo: this.moveTo.bind(this)
 		});
 	}
@@ -74,40 +75,40 @@ export class GameContainer extends React.Component {
 	}
 
 	render() {
-		let { data, error } = this.props;
+		let { data: game, error } = this.props;
 
 		if (error) {
 			return null;
 		}
-		if (data === null) {
+		if (game === null) {
 			return <div><Translate i18nKey="noGameFound">No game found!</Translate></div>;
 		}
 
-		if (!data) {
+		if (!game) {
 			return <div><Loading/></div>;
 		}
 
 		return (
 			<div className="game-container">
-				<GameInfo game={data} user={this.props.user}/>
+				<GameInfo game={game} user={this.props.user}/>
 				<div className="actions">
-					{this.props.canLendGame(data) && <div className="action lend">
+					{this.props.canLendGame(game) && <div className="action lend">
 						<LendToButton
 							fetch={fetch}
 							lendTo={this.lendTo.bind(this)}
-							lent={!!data.borrowed}
+							lent={game.isBorrowed()}
 							Users={this.renderUsers()}
 						/>
 					</div>}
-					{this.props.canMoveGame(data) && <div className="action move">
+					{this.props.canMoveGame(game) && <div className="action move">
 						<MoveToButton
 							fetch={fetch}
 							Locations={this.renderLocations()}
 						/>
 					</div>}
-					{this.props.canDeleteGame(data) && <div className="action delete">
+					{this.props.canDeleteGame(game) && <div className="action delete">
 						<DeleteGameButton
-							game={data}
+							game={game}
 							onDelete={this.deleteGame.bind(this)}
 						/>
 					</div>}
@@ -140,7 +141,7 @@ export default class Game extends Page {
 			return Promise.reject(new Error());
 		}
 
-		return this.fetch(`/api/v1/game/${game.id}`, {
+		return this.fetch(`/api/v1/game/${game.id()}`, {
 			method: "PUT",
 			body: {
 				borrowed
@@ -177,7 +178,7 @@ export default class Game extends Page {
 			return;
 		}
 
-		this.fetch(`/api/v1/game/${game.id}`, {
+		this.fetch(`/api/v1/game/${game.id()}`, {
 			method: "DELETE"
 		})
 			.then(() => {
@@ -202,7 +203,7 @@ export default class Game extends Page {
 			return Promise.reject(new Error());
 		}
 
-		return this.fetch(`/api/v1/game/${game.id}`, {
+		return this.fetch(`/api/v1/game/${game.id()}`, {
 			method: "PUT",
 			body: {
 				location
@@ -233,7 +234,7 @@ export default class Game extends Page {
 
 		return (
 			<div className="game">
-				<this.swr url={`/api/v1/game/${this.props.id}`}>
+				<this.swr model={GameModel} url={`/api/v1/game/${this.props.id}`}>
 					<GameContainer
 						canDeleteGame={canDeleteGame}
 						canLendGame={canLendGame}

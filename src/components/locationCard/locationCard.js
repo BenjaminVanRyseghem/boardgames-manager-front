@@ -18,10 +18,10 @@ export default class LocationCard extends React.Component {
 			<div className="locationCard">
 				<div className="content">
 					<div className="avatar"><FontAwesomeIcon className="icon" icon="map-marker-alt"/></div>
-					<Link className="content" to={`/location/${location.id}`}>
-						<div className="name">{location.name}</div>
+					<Link className="content" to={`/location/${location.id()}`}>
+						<div className="name">{location.name()}</div>
 						<div className="number-of-games">
-							<Translate count={location.numberOfGames} i18nKey="numberOfGames">
+							<Translate count={location.numberOfGames()} i18nKey="numberOfGames">
 								(%count% games)
 							</Translate>
 						</div>

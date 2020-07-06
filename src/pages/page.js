@@ -22,13 +22,19 @@ export default class Page extends React.Component {
 		this.swr = this.swr.bind(this);
 	}
 
-	swr({ children, url, ...others }) {
+	swr({ children, model: Model, url, ...others }) {
 		let { data, error } = useSWR(url, this.fetch.bind(this));
+
+		let convertedData = data && Model // eslint-disable-line no-nested-ternary
+			? data.constructor === Array
+				? data.map((datum) => new Model(datum))
+				: new Model(data)
+			: data;
 
 		return React.cloneElement(children, {
 			mutateSWR: mutate,
 			...others,
-			data,
+			data: convertedData,
 			error
 		});
 	}

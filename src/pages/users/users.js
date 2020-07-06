@@ -52,8 +52,8 @@ export class UsersContainer extends React.Component {
 		return (
 			<Container className="content">
 				<Row className="users">
-					{data.map((datum) => <Col key={datum.id} className="card-holder" sm={4}>
-						<UserCard user={new User(datum)}/>
+					{data.map((datum) => <Col key={datum.id()} className="card-holder" sm={4}>
+						<UserCard user={datum}/>
 					</Col>)}
 				</Row>
 			</Container>
@@ -73,7 +73,7 @@ export default class Users extends Page {
 	renderContent() {
 		return (
 			<div className="usersContainer">
-				<this.swr url="/api/v1/user">
+				<this.swr model={User} url="/api/v1/user">
 					<UsersContainer/>
 				</this.swr>
 			</div>

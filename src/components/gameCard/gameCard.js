@@ -33,13 +33,13 @@ export default class GameCard extends React.Component {
 	}
 
 	renderBorrowed(game) {
-		if (!game.borrowed) {
+		if (!game.isBorrowed()) {
 			return null;
 		}
 
 		return (
 			<div className="borrowed">
-				<Translate i18nKey="gameBorrowedBy" name={`${game.borrowed.firstName} ${game.borrowed.lastName}`}>
+				<Translate i18nKey="gameBorrowedBy" name={game.borrowed().fullName()}>
 					Borrowed by %name%
 				</Translate></div>
 		);
@@ -47,26 +47,22 @@ export default class GameCard extends React.Component {
 
 	render() {
 		let { game } = this.props;
-		let time = `${game.minPlaytime}'-${game.maxPlaytime}'`;
-
-		if (game.minPlaytime === game.maxPlaytime) {
-			time = `${game.minPlaytime}'`;
-		}
+		let time = game.playtimeRange();
 
 		return (
 			<Link
-				className={`gameCard${game.borrowed ? " borrowed" : ""}`}
-				to={`/game/${game.id}`}
+				className={`gameCard${game.isBorrowed() ? " borrowed" : ""}`}
+				to={`/game/${game.id()}`}
 			>
 				<div className="image">
-					<img alt={`${game.name} preview`} src={game.picture}/>
+					<img alt={`${game.name()} preview`} src={game.picture()}/>
 				</div>
 				<div className="summary-container">
-					<h3 className="name">{game.name}</h3>
+					<h3 className="name">{game.name()}</h3>
 					<div className="summary">
-						{this.renderInfo("chess-pawn", `${game.minPlayers}-${game.maxPlayers}`)}
+						{this.renderInfo("chess-pawn", game.playersRange())}
 						{this.renderInfo("stopwatch", time)}
-						{this.renderInfo("birthday-cake", () => `${game.minAge}+`, { shouldRender: !!game.minAge })}
+						{this.renderInfo("birthday-cake", () => `${game.minAge()}+`, { shouldRender: !!game.minAge })}
 					</div>
 					{this.renderBorrowed(game)}
 				</div>

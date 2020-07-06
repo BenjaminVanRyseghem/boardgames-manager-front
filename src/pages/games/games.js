@@ -5,6 +5,7 @@ import GameCard from "components/gameCard/gameCard";
 import info from "helpers/info";
 import Loading from "components/loading/loading";
 import Menu from "components/menu/menu";
+import Game from "models/game";
 import Page from "../page";
 import parseQuery from "helpers/parseQuery";
 import PropTypes from "prop-types";
@@ -70,7 +71,7 @@ export class GamesContainer extends React.Component {
 			<Container className="content">
 				<Row className="games">
 					{this.renderAddGame()}
-					{data.map((game) => <Col key={game.id} className="card-holder" sm={4}>
+					{data.map((game) => <Col key={game.id()} className="card-holder" sm={4}>
 						<GameCard game={game}/>
 					</Col>)}
 				</Row>
@@ -203,7 +204,7 @@ export default class Games extends Page {
 					publishersContainer={<this.swr url="/api/v1/publisher"><PublishersContainer/></this.swr>}
 					setGameFilters={this.setGameFilters.bind(this)}
 				/>
-				<this.swr url={`/api/v1/game?${querystring.stringify(this.state.filters)}`}>
+				<this.swr model={Game} url={`/api/v1/game?${querystring.stringify(this.state.filters)}`}>
 					<GamesContainer user={this.props.user}/>
 				</this.swr>
 			</>

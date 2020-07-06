@@ -4,6 +4,7 @@ import DeleteLocationButton from "components/deleteLocationButton/deleteLocation
 import GameCard from "components/gameCard/gameCard";
 import info from "helpers/info";
 import Loading from "components/loading/loading";
+import LocationModel from "models/location";
 import Page from "../page";
 import PropTypes from "prop-types";
 import React from "react";
@@ -57,7 +58,7 @@ export class LocationInfo extends React.Component {
 	}
 
 	renderDeleteButton(data) {
-		let canDelete = this.props.user.canDeleteGame(data) && data.games.length === 0;
+		let canDelete = this.props.user.canDeleteGame(data) && data.hasGames();
 
 		if (!canDelete) {
 			return null;
@@ -70,20 +71,20 @@ export class LocationInfo extends React.Component {
 	}
 
 	render() {
-		let { data, error } = this.props;
+		let { data: location, error } = this.props;
 		if (error) {
 			return null;
 		}
 
-		if (!data) {
+		if (!location) {
 			return <div className="loading"><Loading/></div>;
 		}
 
 		return (
 			<div className="location-info">
-				<div className="page-title"><h1>{data.name} {this.renderDeleteButton(data)}</h1></div>
+				<div className="page-title"><h1>{location.name()} {this.renderDeleteButton(location)}</h1></div>
 				<Container className="content">
-					{this.renderGames(data.games)}
+					{this.renderGames(location.games())}
 				</Container>
 			</div>
 		);
@@ -102,8 +103,8 @@ export default class Location extends Page {
 		redirect: false
 	};
 
-	deleteLocation(data) {
-		this.fetch(`/api/v1/location/${data.id}`, {
+	deleteLocation(location) {
+		this.fetch(`/api/v1/location/${location.id()}`, {
 			method: "DELETE"
 		})
 			.then(() => {
@@ -126,7 +127,7 @@ export default class Location extends Page {
 
 		return (
 			<div className="location">
-				<this.swr url={url}>
+				<this.swr model={LocationModel} url={url}>
 					<LocationInfo
 						user={this.props.user}
 						onDeleteLocation={this.deleteLocation.bind(this)}

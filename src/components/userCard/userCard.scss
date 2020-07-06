@@ -1,2 +1,11 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/utilities/embed";
+@import "../../variables";
+@import "../../mixins";
+
 .userCard {
+  @extend .embed-responsive;
+  @extend .embed-responsive-1by1;
+  box-shadow: 0 0 50px $card-border;
 }
