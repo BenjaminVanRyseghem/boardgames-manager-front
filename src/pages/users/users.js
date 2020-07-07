@@ -1,6 +1,8 @@
 import "./users.scss";
 import { Col, Container, Row } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import info from "helpers/info";
+import { Link } from "react-router-dom";
 import Loading from "components/loading/loading";
 import Page from "../page";
 import PropTypes from "prop-types";
@@ -28,6 +30,29 @@ export class UsersContainer extends React.Component {
 		}
 	}
 
+	renderAddUser() {
+		return (
+			<Col key="add-user" className="card-holder" sm={4}>
+				<div className="userCard">
+					<Link className="add-user" to="/add-user">
+						<div className="content-wrapper">
+							<div className="content-inner-wrapper">
+								<div className="content">
+									<div className="icon-wrapper">
+										<FontAwesomeIcon className="icon" icon="plus"/>
+									</div>
+									<div className="name">
+										<Translate i18nKey="addAUser">Add a user</Translate>
+									</div>
+								</div>
+							</div>
+						</div>
+					</Link>
+				</div>
+			</Col>
+		);
+	}
+
 	render() {
 		let { data, error } = this.props;
 
@@ -52,9 +77,12 @@ export class UsersContainer extends React.Component {
 		return (
 			<Container className="content">
 				<Row className="users">
-					{data.map((datum) => <Col key={datum.id()} className="card-holder" sm={4}>
-						<UserCard user={datum}/>
-					</Col>)}
+					{this.renderAddUser()}
+					{data
+						.sort(User.sortAlphabetically)
+						.map((datum) => <Col key={datum.id()} className="card-holder" sm={4}>
+							<UserCard user={datum}/>
+						</Col>)}
 				</Row>
 			</Container>
 		);

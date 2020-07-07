@@ -7,7 +7,7 @@ import {
 	faIndustry, faMapMarkerAlt, faPlus, faPuzzlePiece,
 	faStopwatch,
 	faTags,
-	faTrash
+	faTrash, faUser
 } from "@fortawesome/free-solid-svg-icons";
 import { faCalendar, faCopyright } from "@fortawesome/free-regular-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -30,5 +30,6 @@ library.add(
 	faIndustry,
 	faStopwatch,
 	faTags,
-	faTrash
+	faTrash,
+	faUser
 );

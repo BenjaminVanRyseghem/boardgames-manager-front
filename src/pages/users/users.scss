@@ -1,2 +1,10 @@
-.locations {
+@import "../../variables";
+
+.users {
+  .add-user {
+    color: black;
+    &:hover {
+      color: $green;
+    }
+  }
 }

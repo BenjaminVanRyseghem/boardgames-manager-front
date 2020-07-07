@@ -8,4 +8,56 @@
   @extend .embed-responsive;
   @extend .embed-responsive-1by1;
   box-shadow: 0 0 50px $card-border;
+  position: relative;
+
+  a {
+    color: $color;
+    &:hover {
+      color: lighten($color, 20%);
+    }
+  }
+
+  .content-wrapper {
+    @include center;
+    height: 100%;
+    width: 100%;
+
+    .content-inner-wrapper {
+      position: relative;
+      height: 100%;
+      width: 100%;
+
+      .content {
+        @include center;
+        text-align: center;
+        position: relative;
+
+        .icon-wrapper {
+          left: 50%;
+          transform: translateX(-50%);
+          position: relative;
+          width: 1.5em;
+          height: 1.5em;
+          font-size: 4em;
+          border-radius: 50%;
+          border: 1px solid;
+          margin-bottom: .2em;
+
+          .counter {
+            position: absolute;
+            font-size: .35em;
+            background: red;
+            width: 1.4em;
+            height: 1.4em;
+            right: -.3em;
+            bottom: -.3em;
+            border-radius: .3em;
+            color: white;
+            font-weight: bold;
+            font-family: monospace;
+          }
+        }
+      }
+    }
+  }
 }
