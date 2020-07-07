@@ -5,6 +5,7 @@ import Loading from "components/loading/loading";
 import PropTypes from "prop-types";
 import React from "react";
 import Translate from "components/i18n/translate";
+import User from "models/user";
 
 export default class BorrowersContainer extends React.Component {
 	static defaultProps = {
@@ -63,8 +64,10 @@ export default class BorrowersContainer extends React.Component {
 							</Label>
 							<Input type="select" onChange={(event) => this.setCandidate(event.target.value)}>
 								{
-									data.map((user) => <option key={user.id} value={user.id}>
-										{`${user.firstName} ${user.lastName}`}
+									data
+										.sort(User.sortAlphabetically)
+										.map((user) => <option key={user.id()} value={user.id()}>
+										{user.fullName()}
 									</option>)
 								}
 							</Input>

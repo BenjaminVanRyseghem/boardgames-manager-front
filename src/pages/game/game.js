@@ -6,6 +6,7 @@ import GameModel from "models/game";
 import info from "helpers/info";
 import LendToButton from "components/lendToButton/lendToButton";
 import Loading from "components/loading/loading";
+import Location from "models/location";
 import LocationsContainer from "components/locationsContainer/locationsContainer";
 import MoveToButton from "components/moveToButton/moveToButton";
 import { mutate } from "swr";
@@ -14,6 +15,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import { Redirect } from "react-router";
 import Translate from "components/i18n/translate";
+import User from "models/user";
 
 export class GameContainer extends React.Component {
 	static defaultProps = {
@@ -241,12 +243,12 @@ export default class Game extends Page {
 						canMoveGame={canMoveGame}
 						deleteGame={this.deleteGame.bind(this)}
 						lendTo={this.lendTo.bind(this)}
-						Locations={<this.swr url="/api/v1/location"><LocationsContainer/></this.swr>}
+						Locations={<this.swr model={Location} url="/api/v1/location"><LocationsContainer/></this.swr>}
 						moveTo={this.moveTo.bind(this)}
 						mutateSWR={mutate}
 						url={`/api/v1/game/${this.props.id}`}
 						user={this.props.user}
-						Users={<this.swr url="/api/v1/user"><BorrowersContainer/></this.swr>}
+						Users={<this.swr model={User} url="/api/v1/user"><BorrowersContainer/></this.swr>}
 					/>
 				</this.swr>
 			</div>

@@ -68,7 +68,9 @@ export class LocationsContainer extends React.Component {
 			<Container className="content">
 				<Row className="locations">
 					{this.renderAddLocation()}
-					{data.map((location) => <Col key={location.id()} className="card-holder" sm={4}>
+					{data
+						.sort(Location.sortAlphabetically)
+						.map((location) => <Col key={location.id()} className="card-holder" sm={4}>
 						<LocationCard location={location}/>
 					</Col>)}
 				</Row>

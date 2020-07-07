@@ -67,13 +67,15 @@ export default class LocationsContainer extends React.Component {
 							</Label>
 							<Input type="select" onChange={(event) => this.setCandidate(event.target.value)}>
 								{
-									data.map((location) => (
+									data
+										.sort(Location.sortAlphabetically)
+										.map((location) => (
 										<option
-											key={location.id}
-											disabled={location.id === gameLocation}
-											value={location.id}
+											key={location.id()}
+											disabled={location.id() === gameLocation}
+											value={location.id()}
 										>
-											{location.name}
+											{location.name()}
 										</option>
 									))
 								}

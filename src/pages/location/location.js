@@ -136,4 +136,8 @@ export default class Location extends Page {
 			</div>
 		);
 	}
+
+	static sortAlphabetically(one, another) {
+		return one.name() < another.name() ? -1 : 1;
+	}
 }
