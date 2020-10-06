@@ -1,0 +1,20 @@
+@import "../../mixins";
+@import "../../variables";
+
+.loginForm {
+  label {
+    text-transform: uppercase;
+  }
+
+  .icon {
+    margin-right: 1em;
+  }
+
+  .actions {
+    text-align: right;
+
+    button {
+      @include button(white, $blue);
+    }
+  }
+}

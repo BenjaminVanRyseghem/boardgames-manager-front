@@ -1,7 +1,6 @@
 import "./menu.scss";
 import { FormGroup, Input, Label } from "reactstrap";
 import InputRange from "react-input-range";
-import { Link } from "react-router-dom";
 import Loading from "components/loading/loading";
 import PropTypes from "prop-types";
 import React from "react";
@@ -52,7 +51,7 @@ export default class Menu extends React.Component {
 		filters: PropTypes.object,
 		mechanicsContainer: PropTypes.node.isRequired,
 		publishersContainer: PropTypes.node.isRequired,
-		setGameFilters: PropTypes.func.isRequired,
+		setGameFilters: PropTypes.func.isRequired
 	};
 
 	timeout = null;
@@ -183,19 +182,19 @@ export default class Menu extends React.Component {
 			}
 
 			return data.map((category) => (
-				<FormGroup key={category.id} check>
-					<Label check>
-						<Input
-							checked={state.includes(category.id)}
-							type="checkbox"
-							onChange={({ target: { checked } }) => {
-								toggleFn(category.id, checked);
-							}}
-						/>{" "}
-						{category.value}
-					</Label>
-				</FormGroup>
-			));
+					<FormGroup key={category.id()} check>
+						<Label check>
+							<Input
+								checked={state.includes(category.id())}
+								type="checkbox"
+								onChange={({ target: { checked } }) => {
+									toggleFn(category.id(), checked);
+								}}
+							/>{" "}
+							{category.name()}
+						</Label>
+					</FormGroup>
+				));
 		};
 
 		return React.cloneElement(container, { transform });

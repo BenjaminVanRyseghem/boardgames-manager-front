@@ -1,6 +1,10 @@
 @import "~react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min";
 @import "./fonts/fonts";
 
+html.swal2-height-auto > body.swal2-height-auto {
+  height: 100% !important
+}
+
 body {
   margin: 0;
   padding: 0;

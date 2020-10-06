@@ -1,6 +1,7 @@
 import "./location.scss";
 import { Col, Container, Row } from "reactstrap";
 import DeleteLocationButton from "components/deleteLocationButton/deleteLocationButton";
+import EditLocationButton from "components/editLocationButton/editLocationButton";
 import GameCard from "components/gameCard/gameCard";
 import info from "helpers/info";
 import Loading from "components/loading/loading";
@@ -20,7 +21,9 @@ export class LocationInfo extends React.Component {
 	static propTypes = {
 		data: PropTypes.object,
 		error: PropTypes.object,
+		mutateSWR: PropTypes.func,
 		onDeleteLocation: PropTypes.func.isRequired,
+		onUpdateLocation: PropTypes.func.isRequired,
 		user: PropTypes.object
 	};
 
@@ -50,7 +53,7 @@ export class LocationInfo extends React.Component {
 
 		return (
 			<Row className="games">
-				{games.map((game) => <Col key={game.id} className="card-holder" sm={4}>
+				{games.map((game) => <Col key={game.id()} className="card-holder" sm={4}>
 					<GameCard game={game}/>
 				</Col>)}
 			</Row>
@@ -70,6 +73,20 @@ export class LocationInfo extends React.Component {
 		/>;
 	}
 
+	renderEditButton(data) {
+		let canDelete = this.props.user.canEditGame(data) && data.hasGames();
+
+		if (!canDelete) {
+			return null;
+		}
+
+		return <EditLocationButton
+			location={data}
+			onDelete={() => this.props.onDeleteLocation(data)}
+			onUpdate={(newData) => this.props.onUpdateLocation(newData, data, this.props.mutateSWR)}
+		/>;
+	}
+
 	render() {
 		let { data: location, error } = this.props;
 		if (error) {
@@ -82,7 +99,15 @@ export class LocationInfo extends React.Component {
 
 		return (
 			<div className="location-info">
-				<div className="page-title"><h1>{location.name()} {this.renderDeleteButton(location)}</h1></div>
+				<div className="page-title">
+					<h1>
+						{location.name()}
+						<div className="actions">
+							{this.renderEditButton(location)}
+							{this.renderDeleteButton(location)}
+						</div>
+					</h1>
+				</div>
 				<Container className="content">
 					{this.renderGames(location.games())}
 				</Container>
@@ -118,6 +143,22 @@ export default class Location extends Page {
 			});
 	}
 
+	onUpdateLocation(body, location, mutateSWR) {
+		this.fetch(`/api/v1/location/${location.id()}`, {
+			method: "PUT",
+			body
+		})
+			.then((newLocation) => {
+				mutateSWR(newLocation, false);
+				info.success({
+					title: <Translate i18nKey="info.success">Success</Translate>,
+					html: <Translate i18nKey="locationUpdatedSuccessfully">
+						{"Location successfully updated"}
+					</Translate>
+				});
+			});
+	}
+
 	renderContent() {
 		let url = `/api/v1/location/${this.props.id}`;
 
@@ -131,6 +172,7 @@ export default class Location extends Page {
 					<LocationInfo
 						user={this.props.user}
 						onDeleteLocation={this.deleteLocation.bind(this)}
+						onUpdateLocation={this.onUpdateLocation.bind(this)}
 					/>
 				</this.swr>
 			</div>

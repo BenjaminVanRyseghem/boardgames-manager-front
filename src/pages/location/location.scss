@@ -9,15 +9,18 @@
   .page-title h1 {
     position: relative;
 
-    .deleteLocationButton {
+    .actions {
       cursor: pointer;
       @include center-y;
       right: 10px;
-      font-size: .7em;
-      color: $red;
+      font-size: .5em;
 
-      &:hover {
-        color: lighten($red, 10%);
+      > * {
+        display: inline-block;
+
+        &:not(:last-of-type) {
+          margin-right: 1ch;
+        }
       }
     }
   }

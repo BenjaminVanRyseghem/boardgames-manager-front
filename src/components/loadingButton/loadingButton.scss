@@ -1,0 +1,21 @@
+@import "../../mixins";
+
+.loadingButton {
+  position: relative;
+
+  .loading-wrapper {
+    display: none;
+
+    @include center;
+  }
+
+  &.loading {
+    .content-wrapper {
+      visibility: hidden;
+    }
+
+    .loading-wrapper {
+      display: block;
+    }
+  }
+}

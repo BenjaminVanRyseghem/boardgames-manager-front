@@ -1,5 +1,39 @@
 @import "./variables";
 
+@mixin button($color, $backgroundColor) {
+  color: $color;
+  background: $backgroundColor;
+  border-color: $backgroundColor;
+
+  &:active {
+    background-color: darken($backgroundColor, 10%) !important;
+    border-color: darken($backgroundColor, 10%) !important;
+  }
+
+  &:hover {
+    color: $color;
+  }
+
+  &:focus, &:active:focus {
+    box-shadow: 0 0 4px .2rem $backgroundColor;
+  }
+
+  &.disabled {
+    &:active {
+      background-color: $backgroundColor !important;
+      border-color: $backgroundColor !important;
+    }
+
+    &:hover {
+      color: $color;
+    }
+
+    &:focus, &:active:focus {
+      box-shadow: 0 0 4px .2rem $backgroundColor;
+    }
+  }
+}
+
 @mixin center {
   position: absolute;
   left: 50%;

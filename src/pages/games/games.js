@@ -1,14 +1,17 @@
 import "./games.scss";
 import { Col, Container, Row } from "reactstrap";
 import AddGameCard from "components/addGameCard/addGameCard";
+import Category from "models/category";
+import Game from "models/game";
 import GameCard from "components/gameCard/gameCard";
 import info from "helpers/info";
 import Loading from "components/loading/loading";
+import Mechanic from "models/mechanic";
 import Menu from "components/menu/menu";
-import Game from "models/game";
 import Page from "../page";
 import parseQuery from "helpers/parseQuery";
 import PropTypes from "prop-types";
+import Publisher from "models/publisher";
 import querystring from "querystring";
 import React from "react";
 import Translate from "components/i18n/translate";
@@ -198,10 +201,10 @@ export default class Games extends Page {
 		return (
 			<>
 				<Menu
-					categoriesContainer={<this.swr url="/api/v1/category"><CategoriesContainer/></this.swr>}
+					categoriesContainer={<this.swr model={Category} url="/api/v1/category"><CategoriesContainer/></this.swr>}
 					filters={this.state.filters}
-					mechanicsContainer={<this.swr url="/api/v1/mechanic"><MechanicsContainer/></this.swr>}
-					publishersContainer={<this.swr url="/api/v1/publisher"><PublishersContainer/></this.swr>}
+					mechanicsContainer={<this.swr model={Mechanic} url="/api/v1/mechanic"><MechanicsContainer/></this.swr>}
+					publishersContainer={<this.swr model={Publisher} url="/api/v1/publisher"><PublishersContainer/></this.swr>}
 					setGameFilters={this.setGameFilters.bind(this)}
 				/>
 				<this.swr model={Game} url={`/api/v1/game?${querystring.stringify(this.state.filters)}`}>

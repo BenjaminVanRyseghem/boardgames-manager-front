@@ -1,9 +1,9 @@
 import "./userKindSwitcher.scss";
 import { Form, FormGroup, Input, Label } from "reactstrap";
+import CurrentUser from "models/currentUser";
 import PropTypes from "prop-types";
 import React from "react";
 import { roles } from "models/accessControl";
-import User from "models/user";
 
 export default class UserKindSwitcher extends React.Component {
 	static defaultProps = {};
@@ -16,7 +16,7 @@ export default class UserKindSwitcher extends React.Component {
 	state = {};
 
 	setRole({ target: { value: role } }) {
-		let user = User.from(this.props.user, { role });
+		let user = CurrentUser.from(this.props.user, { role });
 		this.props.setUser(user);
 	}
 

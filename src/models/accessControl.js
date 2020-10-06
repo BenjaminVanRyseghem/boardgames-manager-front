@@ -14,25 +14,26 @@ export const roles = {
 	anonymous
 };
 
-accessControl.grant(anonymous);
+accessControl.grant(anonymous)
+	.readAny("game");
 accessControl.grant(borrower).extend(anonymous);
 
 accessControl.grant(user).extend(borrower)
 	.readAny("user")
 	.readAny("game")
-	.readOwn("account")
-	.deleteOwn("account")
-	.updateOwn("account", ["password, name"]);
+	.readOwn("user")
+	.deleteOwn("user")
+	.updateOwn("user", ["password, name"]);
 
 accessControl.grant(admin).extend(user)
 	.createAny("game")
 	.readAny("game")
 	.updateAny("game")
 	.deleteAny("game")
-	.createAny("account")
-	.readAny("account")
-	.updateAny("account")
-	.deleteAny("account")
+	.createAny("user")
+	.readAny("user")
+	.updateAny("user")
+	.deleteAny("user")
 	.createAny("location")
 	.readAny("location")
 	.updateAny("location")

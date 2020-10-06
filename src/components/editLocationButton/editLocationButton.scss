@@ -1,0 +1,15 @@
+@import "../../variables";
+
+.edit-location-modal {
+  .form-inline label {
+    margin-right: 1ch;
+  }
+}
+
+.editLocationButton {
+  color: $blue;
+
+  &:hover {
+    color: lighten($blue, 10%);
+  }
+}

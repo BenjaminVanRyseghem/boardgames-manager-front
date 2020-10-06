@@ -35,7 +35,6 @@ export class GameContainer extends React.Component {
 		lendTo: PropTypes.func.isRequired,
 		moveTo: PropTypes.func.isRequired,
 		mutateSWR: PropTypes.func.isRequired,
-		url: PropTypes.string.isRequired,
 		user: PropTypes.object.isRequired
 	};
 
@@ -47,12 +46,12 @@ export class GameContainer extends React.Component {
 
 	moveTo(location) {
 		this.props.moveTo(location, this.props.data)
-			.then((datum) => this.props.mutateSWR(this.props.url, datum, false));
+			.then((datum) => this.props.mutateSWR(datum, false));
 	}
 
 	lendTo(borrowed) {
 		this.props.lendTo(borrowed, this.props.data)
-			.then((datum) => this.props.mutateSWR(this.props.url, datum, false));
+			.then((datum) => this.props.mutateSWR(datum, false));
 	}
 
 	renderUsers() {
@@ -246,7 +245,6 @@ export default class Game extends Page {
 						Locations={<this.swr model={Location} url="/api/v1/location"><LocationsContainer/></this.swr>}
 						moveTo={this.moveTo.bind(this)}
 						mutateSWR={mutate}
-						url={`/api/v1/game/${this.props.id}`}
 						user={this.props.user}
 						Users={<this.swr model={User} url="/api/v1/user"><BorrowersContainer/></this.swr>}
 					/>

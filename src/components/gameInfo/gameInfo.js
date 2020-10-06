@@ -75,7 +75,7 @@ export default class GameInfo extends React.Component {
 				{game.categories()
 					.sort()
 					.map((category) => <div key={category.id()} className="tag category">
-						<Link to={`/games?categories=${category.id()}`}>
+						<Link to={`/?categories=${category.id()}`}>
 							{category.name()}
 						</Link>
 					</div>)}
@@ -87,7 +87,7 @@ export default class GameInfo extends React.Component {
 				{game.mechanics()
 					.sort()
 					.map((mechanic) => <div key={mechanic.id()} className="tag category">
-						<Link to={`/games?mechanics=${mechanic.id()}`}>
+						<Link to={`/?mechanics=${mechanic.id()}`}>
 							{mechanic.name()}
 						</Link>
 					</div>)}
@@ -99,7 +99,7 @@ export default class GameInfo extends React.Component {
 				{game.publishers()
 					.sort()
 					.map((publisher) => <div key={publisher.id()} className="tag publisher">
-						<Link to={`/games?publishers=${publisher.id()}`}>
+						<Link to={`/?publishers=${publisher.id()}`}>
 							{publisher.name()}
 						</Link>
 					</div>)}
@@ -125,7 +125,7 @@ export default class GameInfo extends React.Component {
 								{this.renderInfo("stopwatch", time)}
 								{this.renderInfo("birthday-cake", () => `${game.minAge()}+`, { shouldRender: !!game.minAge() })}
 							</div>
-							{game.location() && <div className="line">
+							{game.location() && this.props.user.canNavigateToLocations() && <div className="line">
 								{this.renderInfo("map-marker-alt", () => <div className="tag">
 									<Link to={`/location/${game.location().id()}`}>{game.location().name()}</Link>
 								</div>, { className: "location tags" })}

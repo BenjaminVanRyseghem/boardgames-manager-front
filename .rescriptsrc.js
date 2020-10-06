@@ -26,7 +26,7 @@ module.exports = [
 				new CopyPlugin([
 					{
 						from: "src/i18n/locales/**/*.json",
-						to:"./public",
+						to:"./",
 						transformPath: (path) => path.replace("src/i18n/", "")
 					}
 				])

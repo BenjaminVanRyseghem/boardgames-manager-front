@@ -32,7 +32,7 @@ export default class Page extends React.Component {
 			: data;
 
 		return React.cloneElement(children, {
-			mutateSWR: mutate,
+			mutateSWR: (...args) => mutate(url, ...args),
 			...others,
 			data: convertedData,
 			error
@@ -63,7 +63,7 @@ export default class Page extends React.Component {
 
 		let currentUser = this.props.user;
 
-		if (currentUser) {
+		if (currentUser && !currentUser.isAnonymous()) {
 			init.headers.Authorization = `Bearer ${currentUser.token()}`;
 		}
 

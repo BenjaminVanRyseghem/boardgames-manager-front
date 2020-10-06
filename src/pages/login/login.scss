@@ -1,0 +1,15 @@
+@import "../../mixins";
+@import "../../variables";
+
+.login {
+  > .container {
+    @include center;
+
+    .row > div {
+      border: 1px solid #ccc;
+      padding: 10px;
+      border-radius: 4px;
+      background: white;
+    }
+  }
+}

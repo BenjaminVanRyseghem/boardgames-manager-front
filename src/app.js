@@ -22,7 +22,7 @@ class App extends React.Component {
 			user = new CurrentUser(cookie.user);
 		}
 
-		if (process.env.NODE_ENV === "development") { // eslint-disable-line no-process-env
+		if (process.env.NODE_ENV === "development1") { // eslint-disable-line no-process-env
 			user = new CurrentUser({
 				id: "benjamin.vanryseghem@cyberzen.com",
 				role: roles.admin
@@ -56,7 +56,7 @@ class App extends React.Component {
 			return null;
 		}
 
-		let canSwitchRole = process.env.NODE_ENV === "development"; // eslint-disable-line no-process-env
+		let canSwitchRole = process.env.NODE_ENV === "development1"; // eslint-disable-line no-process-env
 
 		return (
 			<BrowserRouter>
@@ -64,7 +64,10 @@ class App extends React.Component {
 					setUser={(user) => this.setState({ user })}
 					user={this.state.user}
 				/>}
-				<Pages user={this.state.user}/>
+				<Pages
+					setUser={this.setUser.bind(this)}
+					user={this.state.user}
+				/>
 			</BrowserRouter>
 		);
 	}

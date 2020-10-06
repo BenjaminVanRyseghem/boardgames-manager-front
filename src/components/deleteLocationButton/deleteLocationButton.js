@@ -28,12 +28,12 @@ export default class DeleteLocationButton extends React.Component {
 		let toggle = this.toggleModal.bind(this);
 
 		return (
-			<Modal className="lend-to-modal" isOpen={this.state.open} toggle={toggle}>
+			<Modal className="delete-location-modal" isOpen={this.state.open} toggle={toggle}>
 				<ModalHeader toggle={toggle}>
-					<Translate i18nKey="delete.location.header" name={this.props.location.name}>Delete $name$?</Translate>
+					<Translate i18nKey="delete.location.header" name={this.props.location.name()}>Delete %name%?</Translate>
 				</ModalHeader>
 				<ModalBody>
-					<Interpolate i18nKey="delete.location.label" name={this.props.location.name}>
+					<Interpolate i18nKey="delete.location.label" name={this.props.location.name()}>
 						Are you sure you want to delete <strong>%name%</strong>?
 					</Interpolate>
 				</ModalBody>

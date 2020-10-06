@@ -14,13 +14,13 @@ export default class NavigationMenu extends React.Component {
 	state = {};
 
 	render() {
+		let canNavigateToLocations = this.props.user.canNavigateToLocations();
 		let canNavigateToUsers = this.props.user.canNavigateToUsers();
 
 		return (
 			<div className="navigationMenu">
-				<NavLink exact className="link" to="/"><Translate i18nKey="home">Home</Translate></NavLink>
-				<NavLink className="link" to="/games"><Translate i18nKey="games">Games</Translate></NavLink>
-				<NavLink className="link" to="/locations"><Translate i18nKey="locations">Locations</Translate></NavLink>
+				<NavLink exact className="link" to="/"><Translate i18nKey="games">Games</Translate></NavLink>
+				{canNavigateToLocations && <NavLink className="link" to="/locations"><Translate i18nKey="locations">Locations</Translate></NavLink>}
 				{canNavigateToUsers && <NavLink className="link" to="/users"><Translate i18nKey="users">Users</Translate></NavLink>}
 			</div>
 		);

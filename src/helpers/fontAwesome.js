@@ -4,7 +4,7 @@ import {
 	faDiceD20,
 	faDoorOpen, faGamepad,
 	faHeart,
-	faIndustry, faMapMarkerAlt, faPlus, faPuzzlePiece,
+	faIndustry, faMapMarkerAlt, faPen, faPlus, faPuzzlePiece,
 	faStopwatch,
 	faTags,
 	faTrash, faUser
@@ -25,6 +25,7 @@ library.add(
 	faDoorOpen,
 	faGamepad,
 	faHeart,
+	faPen,
 	faPlus,
 	faPuzzlePiece,
 	faIndustry,

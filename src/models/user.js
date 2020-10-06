@@ -1,6 +1,7 @@
 import Game from "./game";
+import { roles } from "./accessControl";
 
-const email = Symbol("email");
+const id = Symbol("id");
 const firstName = Symbol("firstName");
 const lastName = Symbol("lastName");
 const role = Symbol("role");
@@ -9,23 +10,23 @@ const borrowedGames = Symbol("borrowedGames");
 
 export default class User {
 	constructor({
-		id,
+		id: userId,
 		firstName: userFirstName = "",
 		lastName: userLastName = "",
 		role: userRole,
 		numberOfBorrowedGames: numberOfBorrowedGamesData,
 		borrowedGames: borrowedGamesData
 	}) {
-		this[email] = id;
+		this[id] = userId;
 		this[firstName] = userFirstName;
 		this[lastName] = userLastName;
-		this[role] = userRole;
+		this[role] = roles[userRole] || roles.anonymous;
 		this[numberOfBorrowedGames] = numberOfBorrowedGamesData;
 		this[borrowedGames] = borrowedGamesData ? borrowedGamesData.map((datum) => new Game(datum)) : null;
 	}
 
 	id() {
-		return this[email];
+		return this[id];
 	}
 
 	role() {
@@ -46,7 +47,7 @@ export default class User {
 
 	toJSON() {
 		return {
-			id: this[email],
+			id: this[id],
 			firstName: this[firstName],
 			lastName: this[lastName],
 			role: this[role]

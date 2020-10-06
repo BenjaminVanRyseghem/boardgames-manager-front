@@ -42,12 +42,28 @@ export default class CurrentUser extends User {
 		return accessControl.can(this.role()).update("game").granted;
 	}
 
+	canEditGame() {
+		return accessControl.can(this.role()).update("game").granted;
+	}
+
 	canDeleteGame() {
 		return accessControl.can(this.role()).delete("game").granted;
 	}
 
+	canNavigateToLocations() {
+		return accessControl.can(this.role()).readAny("location").granted;
+	}
+
 	canNavigateToUsers() {
 		return accessControl.can(this.role()).readAny("user").granted;
+	}
+
+	canDeleteUser() {
+		return accessControl.can(this.role()).deleteAny("user").granted;
+	}
+
+	isAnonymous() {
+		return false;
 	}
 
 	toJSON() {
@@ -60,6 +76,10 @@ export default class CurrentUser extends User {
 class AnonymousUser extends User {
 	id() {
 		return "anonymous";
+	}
+
+	isAnonymous() {
+		return true;
 	}
 
 	role() {
