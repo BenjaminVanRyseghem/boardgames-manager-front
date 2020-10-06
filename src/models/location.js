@@ -10,7 +10,6 @@ export default class Location {
 		this[id] = idData;
 		this[name] = nameData;
 		this[numberOfGames] = numberOfGamesData;
-		console.log("gamesData", gamesData);
 		this[games] = gamesData ? gamesData.map((datum) => new Game(datum)) : gamesData;
 	}
 

@@ -6,6 +6,7 @@ import { i18nPromise } from "./i18n/i18n";
 import jwt from "jsonwebtoken";
 import Pages from "./pages/pages";
 import React from "react";
+import { Redirect } from "react-router";
 import { roles } from "models/accessControl";
 import UserKindSwitcher from "./components/userKindSwitcher/userKindSwitcher";
 
@@ -40,8 +41,11 @@ class App extends React.Component {
 			});
 	}
 
-	setUser(user) {
-		this.setState({ user }, () => {
+	setUser(user, redirect) {
+		this.setState({
+			user,
+			redirect
+		}, () => {
 			let payload = jwt.decode(user.token());
 
 			// Set a cookie expiring at the same time as the token
@@ -64,6 +68,7 @@ class App extends React.Component {
 					setUser={(user) => this.setState({ user })}
 					user={this.state.user}
 				/>}
+				{this.state.redirect && <Redirect to={this.state.redirect}/>}
 				<Pages
 					setUser={this.setUser.bind(this)}
 					user={this.state.user}

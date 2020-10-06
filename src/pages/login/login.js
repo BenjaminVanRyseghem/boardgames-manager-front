@@ -20,6 +20,8 @@ export default class Login extends Page {
 	}
 
 	login({ username, password }) {
+		let { setUser } = this.props;
+		let { from } = this.props.location.state;
 		this.setState({
 			loading: true,
 			error: null
@@ -33,12 +35,7 @@ export default class Login extends Page {
 			})
 				.then((userData) => {
 					let user = new CurrentUser(userData);
-					this.props.setUser(user);
-
-					this.setState({
-						loading: false,
-						logged: true
-					});
+					setUser(user, from);
 				})
 				.catch((error) => {
 					this.setState({
@@ -95,6 +92,7 @@ export default class Login extends Page {
 
 	render() {
 		if (this.state.logged) {
+			debugger;
 			return (
 				<Redirect to={(this.props.location.state && this.props.location.state.from) || "/"}/>
 			);

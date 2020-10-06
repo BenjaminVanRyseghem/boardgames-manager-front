@@ -52,7 +52,7 @@ export default class Pages extends React.Component {
 		return (
 			<>
 				<Switch>
-					<Route exact component={() => <Login setUser={this.props.setUser} user={this.props.user}/>} path="/login"/>
+					<Route exact component={(props) => <Login setUser={this.props.setUser} user={this.props.user} {...props}/>} path="/login"/>
 					<Route exact component={() => "TO DO"} path="/register"/>
 					<PrivateRoute exact component={Games} conditionFn={(user) => user.canViewGames()} path="/" user={this.props.user}/>
 					<PrivateRoute exact component={Locations} conditionFn={(user) => user.canNavigateToLocations()} path="/locations" user={this.props.user}/>
