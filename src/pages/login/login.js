@@ -21,7 +21,7 @@ export default class Login extends Page {
 
 	login({ username, password }) {
 		let { setUser } = this.props;
-		let { from } = this.props.location.state;
+		let from = this.props.location && this.props.location.state && this.props.location.state.from;
 		this.setState({
 			loading: true,
 			error: null

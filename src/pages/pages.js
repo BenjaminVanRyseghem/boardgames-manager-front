@@ -71,6 +71,7 @@ export default class Pages extends React.Component {
 						id={id}
 						user={user}
 					/>} conditionFn={(user) => user.canNavigateToUsers()} path="/user/:id" user={this.props.user}/>
+					<Redirect from="/games" to="/"/>
 					<Route render={() => <Page404 user={this.props.user}/>}/>
 				</Switch>
 			</>
