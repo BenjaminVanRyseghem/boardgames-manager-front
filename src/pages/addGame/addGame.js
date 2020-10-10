@@ -56,9 +56,14 @@ export class GameAdditionCandidates extends React.Component {
 					found</Translate></div>
 				<ul className="previews">
 					{data.map((game) => {
-						let { id, type } = game;
+						let { id, nameType, type, search } = game;
 						return <li key={`${type}-${id}`} className="game-preview">
-							<Button onClick={() => addGame(id, game.name)}><FontAwesomeIcon icon="plus"/></Button>
+							<Button onClick={() => addGame({
+								id,
+								nameType,
+								name: game.name,
+								search
+							})}><FontAwesomeIcon icon="plus"/></Button>
 							<div className="content">
 								<GamePreview data={game} query={query}/>
 							</div>
@@ -113,16 +118,16 @@ export default class AddGame extends Page {
 		return !!this.state.types[type];
 	}
 
-	addGame(id, name) {
-		this.fetch(`/api/v1/game/${id}`, {
+	addGame({ id, nameType, name, search }) {
+		this.fetch(`/api/v1/game/${id}?nameType=${nameType}&search=${search}`, {
 			method: "POST"
 		})
 			.then(() => {
 				info.success({
 					title: <Translate i18nKey="success">Success</Translate>,
 					html: <Translate i18nKey="gameAddedSuccessfully" name={name}>
-							{"\"%name%\" successfully added"}
-						</Translate>,
+						{"\"%name%\" successfully added"}
+					</Translate>,
 					onAfterClose: () => this.setState({ backToGames: true })
 				});
 			})
