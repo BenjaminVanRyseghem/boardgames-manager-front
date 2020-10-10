@@ -29,10 +29,10 @@ export default class DeleteGameButton extends React.Component {
 		return (
 			<Modal className="lend-to-modal" isOpen={this.state.open} toggle={toggle}>
 				<ModalHeader toggle={toggle}>
-					<Translate i18nKey="delete.game.header" name={this.props.game.name}>Delete $name$</Translate>
+					<Translate i18nKey="delete.game.header" name={this.props.game.name()}>Delete $name$</Translate>
 				</ModalHeader>
 				<ModalBody>
-					<Interpolate i18nKey="delete.game.label" name={this.props.game.name}>
+					<Interpolate i18nKey="delete.game.label" name={this.props.game.name()}>
 						Are you sure you want to delete <strong>%name%</strong>?
 					</Interpolate>
 				</ModalBody>
