@@ -86,7 +86,8 @@ export default class AddGame extends Page {
 			boardgame: true,
 			boardgameexpansion: true
 		},
-		exact: false
+		exact: false,
+		addMultiple: false
 	}
 
 	onSearch({ target: { value: query } }) {
@@ -114,6 +115,10 @@ export default class AddGame extends Page {
 		this.setState({ exact });
 	}
 
+	onAddMultiple({ target: { checked: addMultiple } }) {
+		this.setState({ addMultiple });
+	}
+
 	isChecked(type) {
 		return !!this.state.types[type];
 	}
@@ -128,7 +133,7 @@ export default class AddGame extends Page {
 					html: <Translate i18nKey="gameAddedSuccessfully" name={name}>
 						{"\"%name%\" successfully added"}
 					</Translate>,
-					onAfterClose: () => this.setState({ backToGames: true })
+					onAfterClose: () => !this.state.addMultiple && this.setState({ backToGames: true })
 				});
 			})
 			.catch(() => {
@@ -144,14 +149,14 @@ export default class AddGame extends Page {
 		return (
 			<Form onSubmit={(event) => event.preventDefault()}>
 				<FormGroup row>
-					<Label for="name" sm={2}><Translate i18nKey="name">Name</Translate></Label>
-					<Col sm={10}>
+					<Label for="name" sm={3}><Translate i18nKey="name">Name</Translate></Label>
+					<Col sm={9}>
 						<Input autoFocus id="name" type="text" onChange={this.onSearch.bind(this)}/>
 					</Col>
 				</FormGroup>
 				<FormGroup row>
-					<Label for="type" sm={2}>Type</Label>
-					<Col sm={10}>
+					<Label for="type" sm={3}>Type</Label>
+					<Col sm={9}>
 						<FormGroup check>
 							<Label check>
 								<Input checked={this.isChecked("boardgame")} id="type-boardgame" name="boardgame" type="checkbox" onChange={this.onType.bind(this, "boardgame")}/>{" "}
@@ -185,10 +190,19 @@ export default class AddGame extends Page {
 					</Col>
 				</FormGroup>
 				<FormGroup row>
-					<Label for="exact" sm={2}><Translate i18nKey="exactMatch">Exact match?</Translate></Label>
-					<Col sm={10}>
+					<Label for="exact" sm={3}><Translate i18nKey="exactMatch">Exact match?</Translate></Label>
+					<Col sm={9}>
 						<FormGroup check>
 							<Input checked={this.state.exact} id="exact" name="exact" type="checkbox" onChange={this.onExact.bind(this)}/>{" "}
+						</FormGroup>
+					</Col>
+				</FormGroup>
+				<FormGroup row>
+					<Label for="add-multiple" sm={3}><Translate i18nKey="addMultiple">Add multiple
+						games?</Translate></Label>
+					<Col sm={9}>
+						<FormGroup check>
+							<Input checked={this.state.addMultiple} id="add-multiple" name="add-multiple" type="checkbox" onChange={this.onAddMultiple.bind(this)}/>{" "}
 						</FormGroup>
 					</Col>
 				</FormGroup>
