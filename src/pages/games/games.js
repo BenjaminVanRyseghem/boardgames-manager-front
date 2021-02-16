@@ -149,7 +149,9 @@ export default class Games extends Page {
 	// eslint-disable-next-line max-statements
 	initializeStateFromQueries(search) {
 		if (!search) {
-			return {};
+			return {
+				showExpansions: 0
+			};
 		}
 
 		let state = {};
@@ -173,6 +175,8 @@ export default class Games extends Page {
 			state.showBorrowed = state.showBorrowedFilter ? 1 : 0;
 		}
 
+		state.showExpansions = +search.showExpansions ? 1 : 0;
+
 		if (search.categories) {
 			state.categories = [...search.categories.split(",")];
 		}
@@ -191,7 +195,13 @@ export default class Games extends Page {
 	setGameFilters(filters) {
 		let url = new URL(window.location.href.replace(window.location.search, ""));
 		Object.keys(filters).forEach((key) => {
-			url.searchParams.set(key.toString(), filters[key].toString());
+			if (key.toString() === "showExpansions") {
+				if (filters[key] === 1) {
+					url.searchParams.set("showExpansions", "1");
+				}
+			} else {
+				url.searchParams.set(key.toString(), filters[key].toString());
+			}
 		});
 		window.history.replaceState({}, "", url.toString());
 		this.setState({ filters });
@@ -201,10 +211,13 @@ export default class Games extends Page {
 		return (
 			<>
 				<Menu
-					categoriesContainer={<this.swr model={Category} url="/api/v1/category"><CategoriesContainer/></this.swr>}
+					categoriesContainer={<this.swr model={Category} url="/api/v1/category"><CategoriesContainer/>
+					</this.swr>}
 					filters={this.state.filters}
-					mechanicsContainer={<this.swr model={Mechanic} url="/api/v1/mechanic"><MechanicsContainer/></this.swr>}
-					publishersContainer={<this.swr model={Publisher} url="/api/v1/publisher"><PublishersContainer/></this.swr>}
+					mechanicsContainer={<this.swr model={Mechanic} url="/api/v1/mechanic"><MechanicsContainer/>
+					</this.swr>}
+					publishersContainer={<this.swr model={Publisher} url="/api/v1/publisher"><PublishersContainer/>
+					</this.swr>}
 					setGameFilters={this.setGameFilters.bind(this)}
 				/>
 				<this.swr model={Game} url={`/api/v1/game?${querystring.stringify(this.state.filters)}`}>

@@ -212,7 +212,7 @@ export default class AddGame extends Page {
 
 	renderContent() {
 		if (this.state.backToGames) {
-			return <Redirect to="/games"/>;
+			return <Redirect push to="/games"/>;
 		}
 
 		let selectedTypes = Object.keys(this.state.types).filter((key) => this.state.types[key]);

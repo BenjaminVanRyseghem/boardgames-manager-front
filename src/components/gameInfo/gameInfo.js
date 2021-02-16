@@ -66,6 +66,31 @@ export default class GameInfo extends React.Component {
 		);
 	}
 
+	renderExpansion(expansion) {
+		return (
+			<div key={expansion.id()} className="expansion">
+				<Link to={`/game/${expansion.id()}`}>
+					<img alt={expansion.name()} src={expansion.picture()}/>
+				</Link>
+			</div>
+		);
+	}
+
+	renderExpansions() {
+		let { game } = this.props;
+		let expansions = game.expansions();
+
+		if (!expansions || !expansions.length) {
+			return null;
+		}
+
+		return (
+			<div className="expansions">
+				{expansions.map((expansion) => this.renderExpansion(expansion))}
+			</div>
+		);
+	}
+
 	render() {
 		let { game } = this.props;
 		let time = game.playtimeRange();
@@ -148,6 +173,7 @@ export default class GameInfo extends React.Component {
 							</div>
 						</div>
 						<div className="description">{he.decode(he.decode(game.description()))}</div>
+						{this.renderExpansions()}
 					</div>
 				</div>
 			</div>

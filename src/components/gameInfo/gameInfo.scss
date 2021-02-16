@@ -40,6 +40,7 @@ $border-color: #CCC;
       flex: 1 1 auto;
       padding-left: $image-padding;
       background: inline-image('qbkls.png');
+      overflow: hidden;
 
       .line-container {
         display: flex;
@@ -74,6 +75,7 @@ $border-color: #CCC;
               .tag {
                 flex: 0 0 auto;
                 font-size: 12px;
+                padding: 6px 0;
 
                 cursor: pointer;
 
@@ -108,44 +110,64 @@ $border-color: #CCC;
         .group {
           display: inline-block;
 
-        &.main {
-          position: absolute;
-          right: 200px;
-          left: 0;
-          top: 0;
-          bottom: 0;
+          &.main {
+            position: absolute;
+            right: 200px;
+            left: 0;
+            top: 0;
+            bottom: 0;
 
 
+          }
+
+          &.float-right {
+            float: right;
+          }
+
+          &.stack .info {
+            display: block;
+          }
         }
 
-        &.float-right {
-          float: right;
+        &.no-tags .info {
+          padding: 10px;
         }
 
-        &.stack .info {
-          display: block;
+        .info {
+          display: inline-block;
+          color: #495057;
+          line-height: 16px;
+          padding: 1px 10px;
+
+          svg {
+            margin-right: 4px;
+          }
+
         }
-      }
-
-      &.no-tags .info {
-        padding: 10px;
-      }
-
-      .info {
-        display: inline-block;
-        color: #495057;
-        line-height: 16px;
-        padding: 1px 10px;
-
-        svg {
-          margin-right: 4px;
-        }
-
-      }
       }
 
       .description {
         padding: 10px 0;
+      }
+    }
+
+    .expansions {
+      border-top: 1px solid $border-color;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      display: flex;
+      overflow-x: auto;
+
+      .expansion {
+        margin-right: 20px;
+        width: 100px;
+        height: 100px;
+        box-shadow: 0 0 50px $card-border;
+
+        img {
+          width: 100px;
+          height: 100px;
+        }
       }
     }
   }

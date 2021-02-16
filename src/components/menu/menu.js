@@ -16,12 +16,14 @@ const updatableKeys = [
 	"name",
 	"numberOfPlayers",
 	"publishers",
-	"showBorrowed"
+	"showBorrowed",
+	"showExpansions"
 ];
 
 const defaults = {
 	name: "",
-	numberOfPlayers: 2
+	numberOfPlayers: 2,
+	showExpansions: 0
 };
 
 const defaultState = {
@@ -38,7 +40,9 @@ const defaultState = {
 	publishers: [],
 	publishersFilter: true,
 	showBorrowed: 1,
-	showBorrowedFilter: false
+	showBorrowedFilter: false,
+	showExpansions: 0,
+	showExpansionsFilter: true
 };
 
 export default class Menu extends React.Component {
@@ -109,6 +113,10 @@ export default class Menu extends React.Component {
 
 	showBorrowedFilter({ target: { checked: showBorrowedFilter } }) {
 		this.setState({ showBorrowedFilter });
+	}
+
+	showExpansionsFilter({ target: { checked: showExpansions } }) {
+		this.setState({ showExpansions: showExpansions ? 1 : 0 });
 	}
 
 	ageFilter({ target: { checked: ageFilter } }) {
@@ -182,19 +190,19 @@ export default class Menu extends React.Component {
 			}
 
 			return data.map((category) => (
-					<FormGroup key={category.id()} check>
-						<Label check>
-							<Input
-								checked={state.includes(category.id())}
-								type="checkbox"
-								onChange={({ target: { checked } }) => {
-									toggleFn(category.id(), checked);
-								}}
-							/>{" "}
-							{category.name()}
-						</Label>
-					</FormGroup>
-				));
+				<FormGroup key={category.id()} check>
+					<Label check>
+						<Input
+							checked={state.includes(category.id())}
+							type="checkbox"
+							onChange={({ target: { checked } }) => {
+								toggleFn(category.id(), checked);
+							}}
+						/>{" "}
+						{category.name()}
+					</Label>
+				</FormGroup>
+			));
 		};
 
 		return React.cloneElement(container, { transform });
@@ -269,6 +277,13 @@ export default class Menu extends React.Component {
 							text={<Translate i18nKey="showBorrowed">Show Borrowed</Translate>}
 							value={this.state.showBorrowedFilter}
 							onChange={this.showBorrowedFilter.bind(this)}
+						/>
+					</FormGroup>
+					<FormGroup>
+						<Switch
+							text={<Translate i18nKey="showExpansions">Show Expansions</Translate>}
+							value={!!this.state.showExpansions}
+							onChange={this.showExpansionsFilter.bind(this)}
 						/>
 					</FormGroup>
 					<FormGroup tag="fieldset">

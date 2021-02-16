@@ -19,6 +19,9 @@ const location = Symbol("location");
 const categories = Symbol("categories");
 const mechanics = Symbol("mechanics");
 const publishers = Symbol("publishers");
+const type = Symbol("type");
+const expansions = Symbol("expansions");
+const expand = Symbol("expand");
 
 /**
  * TODO: Write jsdoc
@@ -40,7 +43,10 @@ export default class Game {
 		description: descriptionData,
 		categories: categoriesData,
 		mechanics: mechanicsData,
-		publishers: publishersData
+		publishers: publishersData,
+		type: typeData,
+		expansions: expansionsData = [],
+		expand: expandData,
 	}) {
 		this[id] = idData;
 		this[name] = nameData;
@@ -57,6 +63,9 @@ export default class Game {
 		this[categories] = categoriesData ? categoriesData.map((datum) => new Category(datum)) : null;
 		this[mechanics] = mechanicsData ? mechanicsData.map((datum) => new Mechanic(datum)) : null;
 		this[publishers] = publishersData ? publishersData.map((datum) => new Publisher(datum)) : null;
+		this[type] = typeData;
+		this[expansions] = expansionsData.map((each) => new Game(each));
+		this[expand] = expandData ? new Game(expandData) : null;
 	}
 
 	id() {
@@ -77,6 +86,18 @@ export default class Game {
 
 	isBorrowed() {
 		return !!this[borrowed];
+	}
+
+	type() {
+		return this[type];
+	}
+
+	expansions() {
+		return this[expansions];
+	}
+
+	expand() {
+		return this[expand];
 	}
 
 	playtimeRange() {
