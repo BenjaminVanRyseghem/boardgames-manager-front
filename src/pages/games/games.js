@@ -1,5 +1,5 @@
 import "./games.scss";
-import { Col, Container, Row } from "reactstrap";
+import { Container, Row } from "reactstrap";
 import AddGameCard from "components/addGameCard/addGameCard";
 import Category from "models/category";
 import Game from "models/game";
@@ -44,9 +44,9 @@ export class GamesContainer extends React.Component {
 		}
 
 		return (
-			<Col key="new-game" className="card-holder" sm={4}>
+			<div key="new-game" className="card-holder">
 				<AddGameCard/>
-			</Col>
+			</div>
 		);
 	}
 
@@ -71,14 +71,14 @@ export class GamesContainer extends React.Component {
 		}
 
 		return (
-			<Container className="content">
-				<Row className="games">
+			<div className="content">
+				<div className="games">
 					{this.renderAddGame()}
-					{data.map((game) => <Col key={game.id()} className="card-holder" sm={4}>
+					{data.map((game) => <div key={game.id()} className="card-holder">
 						<GameCard game={game}/>
-					</Col>)}
-				</Row>
-			</Container>
+					</div>)}
+				</div>
+			</div>
 		);
 	}
 }

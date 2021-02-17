@@ -30,8 +30,14 @@
     overflow: auto;
     margin: 0;
 
-    .card-holder {
-      padding: $menu-padding;
+    .games {
+      display: flex;
+      flex-wrap: wrap;
+
+      .card-holder {
+        flex: 0 0 340px;
+        padding: $menu-padding;
+      }
     }
   }
 }

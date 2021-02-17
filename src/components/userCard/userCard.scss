@@ -9,6 +9,7 @@
   @extend .embed-responsive-1by1;
   box-shadow: 0 0 50px $card-border;
   position: relative;
+  margin: 15px 0;
 
   a {
     color: $color;
