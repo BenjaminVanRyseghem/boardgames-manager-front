@@ -54,7 +54,7 @@ export default class DeleteGameButton extends React.Component {
 			<div className="deleteGameButton">
 				{this.renderModal()}
 				<Button color="danger" onClick={this.toggleModal.bind(this)}>
-					<Translate i18nKey="deleteg.game">Delete</Translate>
+					<Translate i18nKey="delete.game.button">Delete</Translate>
 				</Button>
 			</div>
 		);

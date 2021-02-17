@@ -91,6 +91,23 @@ export default class GameInfo extends React.Component {
 		);
 	}
 
+	renderExpand() {
+		let { game } = this.props;
+		let expand = game.expand();
+
+		if (!expand) {
+			return null;
+		}
+
+		return (
+			<div className="expand">
+				<Link to={`/game/${expand.id()}`}>
+					<img alt={expand.name()} src={expand.picture()}/>
+				</Link>
+			</div>
+		);
+	}
+
 	render() {
 		let { game } = this.props;
 		let time = game.playtimeRange();
@@ -136,7 +153,9 @@ export default class GameInfo extends React.Component {
 				{this.renderTitle(game)}
 				<div className="summary-container">
 					<div className="image">
-						<img alt={`${game.name()} preview`} src={game.picture()}/>
+						<a href={game.link()} rel="noopener noreferrer" target="_blank">
+							<img alt={`${game.name()} preview`} src={game.picture()}/>
+						</a>
 					</div>
 					<div className="summary">
 						<div className="line-container">
@@ -174,6 +193,7 @@ export default class GameInfo extends React.Component {
 						</div>
 						<div className="description">{he.decode(he.decode(game.description()))}</div>
 						{this.renderExpansions()}
+						{this.renderExpand()}
 					</div>
 				</div>
 			</div>

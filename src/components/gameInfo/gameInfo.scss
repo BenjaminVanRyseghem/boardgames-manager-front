@@ -153,8 +153,7 @@ $border-color: #CCC;
 
     .expansions {
       border-top: 1px solid $border-color;
-      padding-top: 20px;
-      padding-bottom: 20px;
+      padding: 20px;
       display: flex;
       overflow-x: auto;
 
@@ -162,7 +161,23 @@ $border-color: #CCC;
         margin-right: 20px;
         width: 100px;
         height: 100px;
-        box-shadow: 0 0 50px $card-border;
+        box-shadow: 0 0 20px $card-border;
+
+        img {
+          width: 100px;
+          height: 100px;
+        }
+      }
+    }
+
+    .expand {
+      border-top: 1px solid $border-color;
+      padding: 20px;
+      display: flex;
+      overflow-x: auto;
+
+      a {
+        box-shadow: 0 0 20px $card-border;
 
         img {
           width: 100px;

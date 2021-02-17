@@ -4,31 +4,32 @@ import Mechanic from "./mechanic";
 import Publisher from "./publisher";
 import User from "./user";
 
+const borrowed = Symbol("borrowed");
+const categories = Symbol("categories");
+const description = Symbol("description");
+const expand = Symbol("expand");
+const expansions = Symbol("expansions");
 const id = Symbol("id");
+const link = Symbol("link");
+const location = Symbol("location");
+const maxPlayers = Symbol("maxPlayers");
+const maxPlaytime = Symbol("maxPlaytime");
+const mechanics = Symbol("mechanics");
+const minAge = Symbol("minAge");
+const minPlayers = Symbol("minPlayers");
+const minPlaytime = Symbol("minPlaytime");
 const name = Symbol("name");
 const picture = Symbol("picture");
-const borrowed = Symbol("borrowed");
-const minPlaytime = Symbol("minPlaytime");
-const maxPlaytime = Symbol("maxPlaytime");
-const minPlayers = Symbol("minPlayers");
-const maxPlayers = Symbol("maxPlayers");
-const minAge = Symbol("minAge");
-const yearPublished = Symbol("yearPublished");
-const description = Symbol("description");
-const location = Symbol("location");
-const categories = Symbol("categories");
-const mechanics = Symbol("mechanics");
 const publishers = Symbol("publishers");
 const type = Symbol("type");
-const expansions = Symbol("expansions");
-const expand = Symbol("expand");
+const yearPublished = Symbol("yearPublished");
 
 /**
  * TODO: Write jsdoc
  * @class
  */
 export default class Game {
-	constructor({
+	constructor({ // eslint-disable-line max-statements
 		id: idData,
 		name: nameData,
 		picture: pictureData,
@@ -47,25 +48,27 @@ export default class Game {
 		type: typeData,
 		expansions: expansionsData = [],
 		expand: expandData,
+		link: linkData
 	}) {
+		this[borrowed] = borrowedData ? new User(borrowedData) : null;
+		this[categories] = categoriesData ? categoriesData.map((datum) => new Category(datum)) : null;
+		this[description] = descriptionData;
+		this[expand] = expandData ? new Game(expandData) : null;
+		this[expansions] = expansionsData.map((each) => new Game(each));
 		this[id] = idData;
+		this[link] = linkData;
+		this[location] = locationData ? new Location(locationData) : null;
+		this[maxPlayers] = maxPlayersData;
+		this[maxPlaytime] = maxPlaytimeData;
+		this[mechanics] = mechanicsData ? mechanicsData.map((datum) => new Mechanic(datum)) : null;
+		this[minAge] = minAgeData;
+		this[minPlayers] = minPlayersData;
+		this[minPlaytime] = minPlaytimeData;
 		this[name] = nameData;
 		this[picture] = pictureData;
-		this[minPlaytime] = minPlaytimeData;
-		this[maxPlaytime] = maxPlaytimeData;
-		this[minPlayers] = minPlayersData;
-		this[maxPlayers] = maxPlayersData;
-		this[minAge] = minAgeData;
-		this[yearPublished] = yearPublishedData;
-		this[description] = descriptionData;
-		this[borrowed] = borrowedData ? new User(borrowedData) : null;
-		this[location] = locationData ? new Location(locationData) : null;
-		this[categories] = categoriesData ? categoriesData.map((datum) => new Category(datum)) : null;
-		this[mechanics] = mechanicsData ? mechanicsData.map((datum) => new Mechanic(datum)) : null;
 		this[publishers] = publishersData ? publishersData.map((datum) => new Publisher(datum)) : null;
 		this[type] = typeData;
-		this[expansions] = expansionsData.map((each) => new Game(each));
-		this[expand] = expandData ? new Game(expandData) : null;
+		this[yearPublished] = yearPublishedData;
 	}
 
 	id() {
@@ -108,6 +111,10 @@ export default class Game {
 		}
 
 		return time;
+	}
+
+	link() {
+		return this[link];
 	}
 
 	playersRange() {

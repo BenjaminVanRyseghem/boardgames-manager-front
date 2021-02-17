@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import LoadingButton from "components/loadingButton/loadingButton";
 import PropTypes from "prop-types";
 import React from "react";
+import Translate from "../i18n/translate";
 
 export default class LoginForm extends React.Component {
 	static defaultProps = {
@@ -55,7 +56,7 @@ export default class LoginForm extends React.Component {
 				onSubmit={this.onSubmit.bind(this)}
 			>
 				<FormGroup>
-					<Label for="email">Email</Label>
+					<Label for="email"><Translate i18nKey="login.email">Email</Translate></Label>
 					<Input
 						autoFocus
 						id="email"
@@ -65,7 +66,7 @@ export default class LoginForm extends React.Component {
 					/>
 				</FormGroup>
 				<FormGroup>
-					<Label for="password">Password</Label>
+					<Label for="password"><Translate i18nKey="login.password">Password</Translate></Label>
 					<Input
 						id="password"
 						invalid={this.props.invalid}

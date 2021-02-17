@@ -52,7 +52,7 @@
     "storybook": "npx start-storybook -p 9009 -s public",
     "build-storybook": "npx build-storybook -c .storybook -s public -o storybook-static",
     "build-doc": "esdoc",
-    "deploy": "yarn build && rsync -aP -e \"ssh\" build/ chani:/Users/benjamin/projects/boardgame-manager/public  --exclude=.git --exclude=.idea"
+    "deploy": "yarn build && rsync -aP -e \"ssh\" build/ chani:/Users/benjamin/boardgames-manager/public  --exclude=.git --exclude=.idea"
   },
   "browserslist": [
     ">0.2%",

@@ -41,7 +41,7 @@ class App extends React.Component {
 			});
 	}
 
-	setUser(user, redirect) {
+	setUser(user, redirect = "/") {
 		this.setState({
 			user,
 			redirect

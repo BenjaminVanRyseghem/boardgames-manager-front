@@ -9,6 +9,10 @@
   "cancel": "Annuler",
   "categories": "Categories",
   "chooseAUser": "Choisissez un utilisateur :",
+  "login": {
+    "email": "Courriel",
+    "password": "Mot de passe"
+  },
   "delete": {
     "game": {
       "header": "Effacer %name% ?",
