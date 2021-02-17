@@ -1,5 +1,4 @@
 import "./locations.scss";
-import { Col, Container, Row } from "reactstrap";
 import AddLocationCard from "components/addLocationCard/addLocationCard";
 import info from "helpers/info";
 import Loading from "components/loading/loading";
@@ -36,9 +35,9 @@ export class LocationsContainer extends React.Component {
 		}
 
 		return (
-			<Col key="new-game" className="card-holder" sm={4}>
+			<div key="new-game" className="card-holder">
 				<AddLocationCard/>
-			</Col>
+			</div>
 		);
 	}
 
@@ -54,27 +53,27 @@ export class LocationsContainer extends React.Component {
 
 		if (!data.length) {
 			return (
-				<Container className="content">
-					<Row className="locations">
+				<div className="content">
+					<div className="locations">
 						<div className="no-location">
 							<Translate i18nKey="noLocationFound">No location found!</Translate>
 						</div>
-					</Row>
-				</Container>
+					</div>
+				</div>
 			);
 		}
 
 		return (
-			<Container className="content">
-				<Row className="locations">
+			<div className="content">
+				<div className="locations">
 					{this.renderAddLocation()}
 					{data
 						.sort(Location.sortAlphabetically)
-						.map((location) => <Col key={location.id()} className="card-holder" sm={4}>
+						.map((location) => <div key={location.id()} className="card-holder">
 						<LocationCard location={location}/>
-					</Col>)}
-				</Row>
-			</Container>
+					</div>)}
+				</div>
+			</div>
 		);
 	}
 }

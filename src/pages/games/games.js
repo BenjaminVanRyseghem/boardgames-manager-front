@@ -1,7 +1,7 @@
 import "./games.scss";
-import { Container, Row } from "reactstrap";
 import AddGameCard from "components/addGameCard/addGameCard";
 import Category from "models/category";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Game from "models/game";
 import GameCard from "components/gameCard/gameCard";
 import info from "helpers/info";
@@ -62,11 +62,11 @@ export class GamesContainer extends React.Component {
 
 		if (!data.length) {
 			return (
-				<Container className="content">
-					<Row className="games">
+				<div className="content">
+					<div className="games">
 						<div className="no-game"><Translate i18nKey="noGameFound">No game found!</Translate></div>
-					</Row>
-				</Container>
+					</div>
+				</div>
 			);
 		}
 
@@ -138,11 +138,18 @@ function MechanicsContainer({ transform, data, error }) { // eslint-disable-line
 export default class Games extends Page {
 	static key = "games";
 
+	toggleMenuVisibility() {
+		this.setState((state) => ({
+			menuOpen: !state.menuOpen
+		}));
+	}
+
 	constructor(...args) {
 		super(...args);
 
 		this.state = {
-			filters: this.initializeStateFromQueries(parseQuery(this.props.location.search))
+			filters: this.initializeStateFromQueries(parseQuery(this.props.location.search)),
+			menuOpen: true
 		};
 	}
 
@@ -209,7 +216,15 @@ export default class Games extends Page {
 
 	renderContent() {
 		return (
-			<>
+			<div className={`wrapper ${this.state.menuOpen ? "menu-opened" : "menu-closed"}`}>
+				<div className="hider" onClick={this.toggleMenuVisibility.bind(this)}>
+					<div className="wrapper">
+						{this.state.menuOpen
+							? <FontAwesomeIcon className="icon" icon="angle-left"/>
+							: <FontAwesomeIcon className="icon" icon="angle-right"/>
+						}
+					</div>
+				</div>
 				<Menu
 					categoriesContainer={<this.swr model={Category} url="/api/v1/category"><CategoriesContainer/>
 					</this.swr>}
@@ -221,9 +236,10 @@ export default class Games extends Page {
 					setGameFilters={this.setGameFilters.bind(this)}
 				/>
 				<this.swr model={Game} url={`/api/v1/game?${querystring.stringify(this.state.filters)}`}>
-					<GamesContainer user={this.props.user}/>
+					<GamesContainer
+						user={this.props.user}/>
 				</this.swr>
-			</>
+			</div>
 		);
 	}
 }

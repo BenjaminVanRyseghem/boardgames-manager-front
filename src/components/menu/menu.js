@@ -1,3 +1,4 @@
+// eslint-disable-next-line max-lines
 import "./menu.scss";
 import { FormGroup, Input, Label } from "reactstrap";
 import InputRange from "react-input-range";

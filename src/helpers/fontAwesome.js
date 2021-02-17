@@ -1,4 +1,5 @@
 import {
+	faAngleLeft, faAngleRight,
 	faBirthdayCake, faChess, faChessKnight,
 	faChessPawn, faCogs,
 	faDiceD20,
@@ -13,6 +14,8 @@ import { faCalendar, faCopyright } from "@fortawesome/free-regular-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 
 library.add(
+	faAngleLeft,
+	faAngleRight,
 	faBirthdayCake,
 	faMapMarkerAlt,
 	faCalendar,

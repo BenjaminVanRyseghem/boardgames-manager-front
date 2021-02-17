@@ -1,5 +1,4 @@
 import "./location.scss";
-import { Col, Container, Row } from "reactstrap";
 import DeleteLocationButton from "components/deleteLocationButton/deleteLocationButton";
 import EditLocationButton from "components/editLocationButton/editLocationButton";
 import GameCard from "components/gameCard/gameCard";
@@ -38,25 +37,20 @@ export class LocationInfo extends React.Component {
 	renderGames(games) {
 		if (!games.length) {
 			return (
-				<Row className="games no-game">
-					<Col sm={{
-						size: 6,
-						offset: 3
-					}}>
-						<Translate i18nKey="noGameInLocation">
-							No game in this location...
-						</Translate>
-					</Col>
-				</Row>
+				<div className="games no-game">
+					<Translate i18nKey="noGameInLocation">
+						No game in this location...
+					</Translate>
+				</div>
 			);
 		}
 
 		return (
-			<Row className="games">
-				{games.map((game) => <Col key={game.id()} className="card-holder" sm={4}>
+			<div className="games">
+				{games.map((game) => <div key={game.id()} className="card-holder">
 					<GameCard game={game}/>
-				</Col>)}
-			</Row>
+				</div>)}
+			</div>
 		);
 	}
 
@@ -108,9 +102,9 @@ export class LocationInfo extends React.Component {
 						</div>
 					</h1>
 				</div>
-				<Container className="content">
+				<div className="content">
 					{this.renderGames(location.games())}
-				</Container>
+				</div>
 			</div>
 		);
 	}

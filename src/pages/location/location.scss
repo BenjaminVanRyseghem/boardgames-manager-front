@@ -24,4 +24,20 @@
       }
     }
   }
+
+  .games {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -40px;
+
+    .card-holder {
+      flex: 0 0 340px;
+      height: 340px;
+      padding: 0 0 0 40px;
+    }
+
+    &.no-game {
+      text-align: center;
+    }
+  }
 }

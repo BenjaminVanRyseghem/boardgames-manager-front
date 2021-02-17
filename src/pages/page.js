@@ -101,9 +101,11 @@ export default class Page extends React.Component {
 				<div className="navigation">
 					<NavigationMenu user={this.props.user}/>
 				</div>
-				{this.renderTitle()}
-				<div className="page-content">
-					{this.renderContent()}
+				<div className="page-scroll">
+					{this.renderTitle()}
+					<div className="page-content">
+						{this.renderContent()}
+					</div>
 				</div>
 			</div>
 		);

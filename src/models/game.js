@@ -80,7 +80,7 @@ export default class Game {
 	}
 
 	picture() {
-		return this[picture];
+		return this[picture] || `${process.env.PUBLIC_URL}/missing.png`; // eslint-disable-line no-process-env
 	}
 
 	borrowed() {

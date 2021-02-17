@@ -8,9 +8,43 @@
 
   .menu, .content {
     position: absolute;
+    transition: left 1s ease-in-out;
+  }
+
+  .hider {
+    z-index: 200;
+    position: absolute;
+    left: $menu-width;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: left 1s ease-in-out;
+    overflow: hidden;
+    width: 50px;
+    border-radius: 0 50% 50% 0;
+
+    .wrapper {
+      cursor: pointer;
+      padding: 20px;
+      background: white;
+      border-radius: 100%;
+      transform: translateX(-50%);
+      height: 100px;
+      width: 100px;
+      border: 1px solid #ccc;
+      position: relative;
+
+      .icon {
+        position: absolute;
+        left: 70px;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 32px;
+      }
+    }
   }
 
   .menu {
+    z-index: 300;
     top: 0;
     bottom: 0;
     left: 0;
@@ -19,6 +53,16 @@
     border-right: 1px solid #CCC;
     overflow: hidden;
     overflow-y: auto;
+  }
+
+  .wrapper.menu-closed {
+    .menu {
+      left: -$menu-width;
+    }
+
+    .content, .hider {
+      left: 0;
+    }
   }
 
   .content {
@@ -33,10 +77,12 @@
     .games {
       display: flex;
       flex-wrap: wrap;
+      margin-left: -40px;
 
       .card-holder {
         flex: 0 0 340px;
-        padding: $menu-padding;
+        height: 340px;
+        padding: 0 0 0 40px;
       }
     }
   }
