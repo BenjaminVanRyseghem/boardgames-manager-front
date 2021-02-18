@@ -1,4 +1,19 @@
 {
+  "account": {
+    "changePassword": "Modifier le mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "confirmPasswordError": "Non concordance des mots de passe",
+    "currentPassword": "Mot de passe actuel",
+    "currentPasswordError": "Mot de passe vide",
+    "failedToChangePassword": "Erreur lors du changement de mot de passe",
+    "invalidPasswordError": "Mot de passe incorrect",
+    "logout": "Déconnexion",
+    "newPassword": "Nouveau mot de passe",
+    "newPasswordError": "Mot de passe vide",
+    "passwordChangedSuccessfully": "Mot de passe changé avec succès",
+    "role": "Rôle",
+    "submit": "Changer"
+  },
   "addAUser": "Ajouter un utilisateur",
   "addAGame": "Ajouter un jeu",
   "addALocation": "Ajouter un emplacement",
@@ -11,7 +26,8 @@
   "chooseAUser": "Choisissez un utilisateur :",
   "login": {
     "email": "Courriel",
-    "password": "Mot de passe"
+    "password": "Mot de passe",
+    "submit": "Se connecter"
   },
   "delete": {
     "game": {
@@ -20,6 +36,11 @@
       "label": "Êtes-vous sur de vouloir effacer <1>%name%</1> ?"
     },
     "location": {
+      "header": "Supprimer %name% ?",
+      "button": "Supprimer",
+      "label": "Êtes-vous sur de vouloir supprimer <1>%name%</1> ?"
+    },
+    "user": {
       "header": "Supprimer %name% ?",
       "button": "Supprimer",
       "label": "Êtes-vous sur de vouloir supprimer <1>%name%</1> ?"
@@ -32,6 +53,7 @@
   "games": "Jeux",
   "gamesFound": "%count% jeu trouvé",
   "gamesFound_plural": "%count% jeux trouvés",
+  "gameBorrowedBy": "Jeu emprunté par %name%",
   "getBack": "Récupérer",
   "home": "Accueil",
   "lend": "Prêter",

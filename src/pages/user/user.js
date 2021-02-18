@@ -1,5 +1,5 @@
 import "./user.scss";
-import { Col, Container, Row } from "reactstrap";
+import DeleteUserButton from "components/deleteUserButton/deleteUserButton";
 import GameCard from "components/gameCard/gameCard";
 import info from "helpers/info";
 import Loading from "components/loading/loading";
@@ -13,6 +13,7 @@ export class UserContainer extends React.Component {
 	static propTypes = {
 		data: PropTypes.object,
 		error: PropTypes.object,
+		onDeleteUser: PropTypes.func.isRequired,
 		user: PropTypes.object.isRequired
 	};
 
@@ -24,42 +25,40 @@ export class UserContainer extends React.Component {
 		}
 	}
 
-	renderDeleteButton(data) {
-		let canDelete = this.props.user.canDeleteUser() && !!data.borrowedGames();
+	renderDeleteButton(user) {
+		let canDelete = this.props.user.canDeleteUser() &&
+			!!user.borrowedGames() &&
+			user.id() !== this.props.user.id();
 
 		if (!canDelete) {
 			return null;
 		}
 
-		return "TODO";
-		// return <DeleteLocationButton
-		// 	location={data}
-		// 	onDelete={() => this.props.onDeleteLocation(data)}
-		// />;
+		return <DeleteUserButton
+			user={user}
+			onDelete={() => this.props.onDeleteUser(user)}
+		/>;
 	}
 
 	renderGames(games) {
 		if (!games.length) {
 			return (
-				<Row className="games no-game">
-					<Col sm={{
-						size: 6,
-						offset: 3
-					}}>
+				<div className="games no-game">
+					<div>
 						<Translate i18nKey="noGameBorrowedByUser">
 							No game borrowed by this user...
 						</Translate>
-					</Col>
-				</Row>
+					</div>
+				</div>
 			);
 		}
 
 		return (
-			<Row className="games">
-				{games.map((game) => <Col key={game.id()} className="card-holder" sm={4}>
+			<div className="games">
+				{games.map((game) => <div key={game.id()} className="card-holder">
 					<GameCard game={game}/>
-				</Col>)}
-			</Row>
+				</div>)}
+			</div>
 		);
 	}
 
@@ -85,9 +84,9 @@ export class UserContainer extends React.Component {
 						Role: %role%
 					</Translate>
 				</div>
-				<Container className="content">
+				<div className="content">
 					{this.renderGames(user.borrowedGames())}
-				</Container>
+				</div>
 			</div>
 		);
 	}
@@ -99,15 +98,22 @@ export default class User extends Page {
 		user: PropTypes.object.isRequired
 	};
 
+	static key = "user";
+
 	state = {};
+
+	onDeleteUser() {
+		debugger;
+	}
 
 	renderContent() {
 		return (
-			<div className="user">
-				<this.swr model={UserModel} url={`/api/v1/user/${this.props.id}`}>
-					<UserContainer user={this.props.user}/>
-				</this.swr>
-			</div>
+			<this.swr model={UserModel} url={`/api/v1/user/${this.props.id}`}>
+				<UserContainer
+					user={this.props.user}
+					onDeleteUser={this.onDeleteUser.bind(this)}
+				/>
+			</this.swr>
 		);
 	}
 }

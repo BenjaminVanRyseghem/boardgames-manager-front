@@ -77,7 +77,9 @@ export default class LoginForm extends React.Component {
 				</FormGroup>
 				{this.renderError(this.props.invalid)}
 				<div className="actions">
-					<LoadingButton color="primary" loading={this.props.loading}>Submit</LoadingButton>
+					<LoadingButton color="primary" loading={this.props.loading}>
+						<Translate i18nKey="login.submit">Submit</Translate>
+					</LoadingButton>
 				</div>
 			</Form>
 		);

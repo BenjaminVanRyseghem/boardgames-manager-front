@@ -1,5 +1,6 @@
 import "./pages.scss";
 import { Redirect, Switch } from "react-router";
+import Account from "./account/account";
 import AddGame from "./addGame/addGame";
 import AddLocation from "./addLocation/addLocation";
 import Game from "./game/game";
@@ -42,6 +43,7 @@ export default class Pages extends React.Component {
 	};
 
 	static propTypes = {
+		logout: PropTypes.func.isRequired,
 		setUser: PropTypes.func.isRequired,
 		user: PropTypes.object.isRequired
 	};
@@ -67,6 +69,7 @@ export default class Pages extends React.Component {
 					<PrivateRoute exact component={AddGame} conditionFn={(user) => user.canAddGames()} path="/add-game" user={this.props.user}/>
 					<PrivateRoute exact component={AddLocation} conditionFn={(user) => user.canAddLocations()} path="/add-location" user={this.props.user}/>
 					<PrivateRoute exact component={Users} conditionFn={(user) => user.canNavigateToUsers()} path="/users" user={this.props.user}/>
+					<PrivateRoute exact component={(props) => <Account logout={this.props.logout} {...props}/>} path="/account" user={this.props.user}/>
 					<PrivateRoute exact component={({ user, match: { params: { id } } }) => <User
 						id={id}
 						user={user}

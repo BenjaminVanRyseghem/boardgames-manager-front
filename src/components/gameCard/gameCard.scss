@@ -97,6 +97,10 @@ $borrowed-line-height: 24px;
   &.borrowed {
     color: #aaa;
 
+    h3.name {
+      margin-bottom: 0.5em;
+    }
+
     img {
       filter: grayscale(100%);
     }

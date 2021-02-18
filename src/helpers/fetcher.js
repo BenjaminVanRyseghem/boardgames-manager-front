@@ -46,6 +46,7 @@ function performFetch(input, init) {
 			if (!ok) {
 				return response.json()
 					.then((error) => {
+						error.status = status;
 						throw new ServerError(response, error);
 					});
 			}

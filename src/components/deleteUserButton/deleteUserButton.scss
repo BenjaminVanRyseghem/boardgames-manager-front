@@ -1,0 +1,9 @@
+@import "../../variables";
+
+.deleteUserButton {
+  color: $red;
+
+  &:hover {
+    color: lighten($red, 10%);
+  }
+}

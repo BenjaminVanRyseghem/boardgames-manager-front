@@ -1,2 +1,9 @@
 .user {
+  .games {
+    display: flex;
+
+    .card-holder {
+      flex: 0 0 300px;
+    }
+  }
 }
