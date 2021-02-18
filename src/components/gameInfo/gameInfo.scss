@@ -38,6 +38,7 @@ $border-color: #CCC;
 
     .summary {
       flex: 1 1 auto;
+      width: 100%;
       padding-left: $image-padding;
       background: inline-image('qbkls.png');
       overflow: hidden;

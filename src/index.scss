@@ -25,6 +25,7 @@ html, body, #root {
   height: 100%;
   width: 100%;
   overflow: hidden;
+  background: transparent;
 }
 
 body {
@@ -33,4 +34,8 @@ body {
 
 html.swal2-height-auto, body.swal2-height-auto {
   height: 100% !important
+}
+
+.footer-container {
+  overflow: hidden;
 }

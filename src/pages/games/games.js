@@ -14,6 +14,7 @@ import PropTypes from "prop-types";
 import Publisher from "models/publisher";
 import querystring from "querystring";
 import React from "react";
+import smallScreen from "../../helpers/smallScreen";
 import Translate from "components/i18n/translate";
 
 export class GamesContainer extends React.Component {
@@ -149,7 +150,7 @@ export default class Games extends Page {
 
 		this.state = {
 			filters: this.initializeStateFromQueries(parseQuery(this.props.location.search)),
-			menuOpen: true
+			menuOpen: !smallScreen()
 		};
 	}
 

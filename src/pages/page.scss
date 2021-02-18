@@ -8,6 +8,7 @@
   height: 100%;
   position: relative;
   background: url("./so-white.png");
+  overflow: hidden;
 
   display: flex;
   flex-direction: column;
@@ -35,7 +36,7 @@
 
   .page-scroll {
     flex: 1 1 auto;
-    overflow: auto;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
   }
