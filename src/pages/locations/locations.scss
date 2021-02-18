@@ -2,9 +2,12 @@
   display: flex;
   flex-wrap: wrap;
   padding: 40px;
-  justify-content: center;
 
   .card-holder {
     flex: 0 0 255px;
   }
+}
+
+.small-screen .locations {
+  justify-content: center;
 }

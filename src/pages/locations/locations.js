@@ -70,8 +70,8 @@ export class LocationsContainer extends React.Component {
 					{data
 						.sort(Location.sortAlphabetically)
 						.map((location) => <div key={location.id()} className="card-holder">
-						<LocationCard location={location}/>
-					</div>)}
+							<LocationCard location={location}/>
+						</div>)}
 				</div>
 			</div>
 		);

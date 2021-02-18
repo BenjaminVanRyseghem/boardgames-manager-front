@@ -76,7 +76,6 @@
 
     .games {
       display: flex;
-      justify-content: center;
       flex-wrap: wrap;
       margin-left: -40px;
 
@@ -87,4 +86,8 @@
       }
     }
   }
+}
+
+.small-screen.games .content .games {
+  justify-content: center;
 }

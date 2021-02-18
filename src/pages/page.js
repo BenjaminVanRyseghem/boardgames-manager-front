@@ -4,6 +4,7 @@ import fetcher from "helpers/fetcher";
 import NavigationMenu from "components/navigationMenu/navigationMenu";
 import PropTypes from "prop-types";
 import React from "react";
+import smallScreen from "../helpers/smallScreen";
 
 const requests = Symbol("requests");
 
@@ -95,6 +96,7 @@ export default class Page extends React.Component {
 	render() {
 		return (
 			<div className={`page 
+				${smallScreen() ? "small-screen" : ""}
 				${this.className ? this.className : this.constructor.key || ""}
 				${this.title ? "" : "no-title"}
 			`}>

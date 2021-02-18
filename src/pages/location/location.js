@@ -111,6 +111,8 @@ export class LocationInfo extends React.Component {
 }
 
 export default class Location extends Page {
+	static key = "location";
+
 	static defaultProps = {};
 
 	static propTypes = {
