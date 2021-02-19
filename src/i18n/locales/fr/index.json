@@ -62,6 +62,7 @@
   "mechanics": "Mécaniques",
   "moveTo": "Déplacer ...",
   "name": "Nom",
+  "noGameBorrowedByUser": "Aucun jeu emprunté par cette personne ...",
   "noGameFound": "Aucun jeu trouvé !",
   "noGameInLocation": "Aucun jeu dans cet emplacement ...",
   "numberOfGames": "(%count% jeu)",
@@ -72,6 +73,20 @@
   "showBorrowed": "Afficher les jeux empruntés",
   "showExpansions": "Afficher les extensions",
   "users": "Utilisateurs",
+  "user": {
+    "cancel": "Annuler",
+    "confirmPassword": "Confirmer le mot de passe",
+    "confirmPasswordError": "Non concordance des mots de passe",
+    "conversionDoneSuccessfully": "Conversion effectuée avec succès",
+    "convert": "Convertir",
+    "convertToRegularUser": "Convertir",
+    "email": "Courriel",
+    "emailError": "Courriel vide",
+    "password": "Mot de passe",
+    "passwordError": "Mot de passe vide",
+    "failedToConvertUser": "Erreur lors de la conversion",
+    "failedToLoadUser": "Erreur lors du chargement de l'utilisateur"
+  },
   "videoGame": "Jeu vidéo",
   "info": {
     "success": "Succès"

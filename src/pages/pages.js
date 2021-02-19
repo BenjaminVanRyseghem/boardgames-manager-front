@@ -71,6 +71,7 @@ export default class Pages extends React.Component {
 					<PrivateRoute exact component={Users} conditionFn={(user) => user.canNavigateToUsers()} path="/users" user={this.props.user}/>
 					<PrivateRoute exact component={(props) => <Account logout={this.props.logout} {...props}/>} path="/account" user={this.props.user}/>
 					<PrivateRoute exact component={({ user, match: { params: { id } } }) => <User
+						key={id}
 						id={id}
 						user={user}
 					/>} conditionFn={(user) => user.canNavigateToUsers()} path="/user/:id" user={this.props.user}/>

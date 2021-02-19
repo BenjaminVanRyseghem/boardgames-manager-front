@@ -103,35 +103,35 @@ class MenuContainer extends React.Component {
 	}
 }
 
-function PublishersContainer({ transform, data, error }) { // eslint-disable-line react/prop-types
+function PublishersContainer({ transformFn, data, error }) { // eslint-disable-line react/prop-types
 	return (
 		<MenuContainer
 			data={data}
 			error={error}
 			html={<Translate i18nKey="failedToLoadPublishers">Failed to load publishers!</Translate>}
-			transform={transform}
+			transform={transformFn}
 		/>
 	);
 }
 
-function CategoriesContainer({ transform, data, error }) { // eslint-disable-line react/prop-types
+function CategoriesContainer({ transformFn, data, error }) { // eslint-disable-line react/prop-types
 	return (
 		<MenuContainer
 			data={data}
 			error={error}
 			html={<Translate i18nKey="failedToLoadCategories">Failed to load categories!</Translate>}
-			transform={transform}
+			transform={transformFn}
 		/>
 	);
 }
 
-function MechanicsContainer({ transform, data, error }) { // eslint-disable-line react/prop-types
+function MechanicsContainer({ transformFn, data, error }) { // eslint-disable-line react/prop-types
 	return (
 		<MenuContainer
 			data={data}
 			error={error}
 			html={<Translate i18nKey="failedToLoadMechanics">Failed to load mechanics!</Translate>}
-			transform={transform}
+			transform={transformFn}
 		/>
 	);
 }

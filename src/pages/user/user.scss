@@ -1,9 +1,13 @@
 .user {
-  .games {
-    display: flex;
+  .content {
+    margin-top: 2em;
 
-    .card-holder {
-      flex: 0 0 300px;
+    .games {
+      display: flex;
+
+      .card-holder {
+        flex: 0 0 300px;
+      }
     }
   }
 }

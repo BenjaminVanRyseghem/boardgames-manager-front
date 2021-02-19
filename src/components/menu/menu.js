@@ -185,7 +185,7 @@ export default class Menu extends React.Component {
 	}
 
 	renderMetaInfo({ container, state, toggleFn }) {
-		let transform = (data) => {
+		let transformFn = (data) => {
 			if (!data || !data.length) {
 				return <Loading/>;
 			}
@@ -206,7 +206,7 @@ export default class Menu extends React.Component {
 			));
 		};
 
-		return React.cloneElement(container, { transform });
+		return React.cloneElement(container, { transformFn });
 	}
 
 	renderCategories() {
