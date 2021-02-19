@@ -22,6 +22,7 @@ accessControl.grant(user).extend(borrower)
 	.readAny("user")
 	.readAny("game")
 	.readOwn("user")
+	.readAny("location")
 	.deleteOwn("user")
 	.updateOwn("user", ["password, name"]);
 
