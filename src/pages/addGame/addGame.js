@@ -8,6 +8,7 @@ import Page from "../page";
 import PropTypes from "prop-types";
 import React from "react";
 import { Redirect } from "react-router";
+import Select from "react-select";
 import Translate from "components/i18n/translate";
 
 const DELAY = 500;
@@ -75,10 +76,45 @@ export class GameAdditionCandidates extends React.Component {
 	}
 }
 
+class LocationContainer extends React.Component {
+	static propTypes = {
+		location: PropTypes.string,
+		locations: PropTypes.array,
+		onLocationChange: PropTypes.func.isRequired
+	}
+
+	componentDidUpdate(prevProps) {
+		if (!this.props.location && prevProps.locations !== this.props.locations) {
+			this.props.onLocationChange(this.props.locations[0]);
+		}
+	}
+
+	render() {
+		if (!this.props.locations) {
+			return <Select disable loading/>;
+		}
+
+		return (
+			<Select
+				className="locations-select"
+				formatOptionLabel={(option) => <div className="name">
+					{option.name}<span><Translate count={option.numberOfGames} i18nKey="numberOfGames">(%count% games)</Translate></span>
+				</div>}
+				getOptionLabel={(option) => option.name}
+				getOptionValue={(option) => option.id}
+				options={this.props.locations}
+				value={this.props.location}
+				onChange={this.props.onLocationChange}
+			/>
+		);
+	}
+}
+
 export default class AddGame extends Page {
 	title = <Translate i18nKey="addAGame">Add a game</Translate>;
 
 	state = {
+		location: null,
 		backToGames: false,
 		candidates: [],
 		query: "",
@@ -123,9 +159,18 @@ export default class AddGame extends Page {
 		return !!this.state.types[type];
 	}
 
+	onLocationChange(location) {
+		this.setState({ location });
+	}
+
 	addGame({ id, nameType, name, search }) {
-		this.fetch(`/api/v1/game/${id}?nameType=${nameType}&search=${search}`, {
-			method: "POST"
+		this.fetch(`/api/v1/game/${id}`, {
+			method: "POST",
+			body: {
+				location: this.state.location.id,
+				nameType,
+				search
+			}
 		})
 			.then(() => {
 				info.success({
@@ -198,11 +243,27 @@ export default class AddGame extends Page {
 					</Col>
 				</FormGroup>
 				<FormGroup row>
-					<Label for="add-multiple" sm={3}><Translate i18nKey="addMultiple">Add multiple
-						games?</Translate></Label>
+					<Label for="add-multiple" sm={3}>
+						<Translate i18nKey="addMultiple">Add multiple games?</Translate>
+					</Label>
 					<Col sm={9}>
 						<FormGroup check>
 							<Input checked={this.state.addMultiple} id="add-multiple" name="add-multiple" type="checkbox" onChange={this.onAddMultiple.bind(this)}/>{" "}
+						</FormGroup>
+					</Col>
+				</FormGroup>
+				<FormGroup row>
+					<Label for="add-location" sm={3}>
+						<Translate i18nKey="location">Location</Translate>
+					</Label>
+					<Col sm={9}>
+						<FormGroup check>
+							<this.swr as="locations" url="/api/v1/location">
+								<LocationContainer
+									location={this.state.location}
+									onLocationChange={this.onLocationChange.bind(this)}
+								/>
+							</this.swr>
 						</FormGroup>
 					</Col>
 				</FormGroup>

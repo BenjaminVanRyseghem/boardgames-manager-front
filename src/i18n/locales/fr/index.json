@@ -14,9 +14,13 @@
     "role": "Rôle",
     "submit": "Changer"
   },
+  "add": {
+    "numberOfGames": "%numberOfGames% jeux"
+  },
   "addAUser": "Ajouter un utilisateur",
   "addAGame": "Ajouter un jeu",
   "addALocation": "Ajouter un emplacement",
+  "addMultiple": "Ajouter plusieurs jeux ?",
   "age": "Âge",
   "boardgame": "Jeu de plateau",
   "boardgameAccessory": "Accessoire de jeu de plateau",
@@ -58,6 +62,7 @@
   "home": "Accueil",
   "lend": "Prêter",
   "lendTo": "Prêter à ...",
+  "location": "Emplacement",
   "locations": "Emplacements",
   "mechanics": "Mécaniques",
   "moveTo": "Déplacer ...",
