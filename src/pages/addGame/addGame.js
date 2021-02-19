@@ -57,13 +57,12 @@ export class GameAdditionCandidates extends React.Component {
 					found</Translate></div>
 				<ul className="previews">
 					{data.map((game) => {
-						let { id, nameType, type, search } = game;
+						let { id, nameType, type } = game;
 						return <li key={`${type}-${id}`} className="game-preview">
 							<Button onClick={() => addGame({
 								id,
 								nameType,
-								name: game.name,
-								search
+								name: game.name
 							})}><FontAwesomeIcon icon="plus"/></Button>
 							<div className="content">
 								<GamePreview data={game} query={query}/>
@@ -163,13 +162,13 @@ export default class AddGame extends Page {
 		this.setState({ location });
 	}
 
-	addGame({ id, nameType, name, search }) {
+	addGame({ id, nameType, name }) {
 		this.fetch(`/api/v1/game/${id}`, {
 			method: "POST",
 			body: {
 				location: this.state.location.id,
 				nameType,
-				search
+				name
 			}
 		})
 			.then(() => {
