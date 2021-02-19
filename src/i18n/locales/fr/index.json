@@ -28,11 +28,7 @@
   "cancel": "Annuler",
   "categories": "Categories",
   "chooseAUser": "Choisissez un utilisateur :",
-  "login": {
-    "email": "Courriel",
-    "password": "Mot de passe",
-    "submit": "Se connecter"
-  },
+  "chooseALocation": "Choisissez un emplacement :",
   "delete": {
     "game": {
       "header": "Effacer %name% ?",
@@ -50,26 +46,59 @@
       "label": "Êtes-vous sur de vouloir supprimer <1>%name%</1> ?"
     }
   },
-  "locationRemovedSuccessfully": "Emplacement supprimé avec succès",
   "exactMatch": "Correspondance exacte ?",
-  "failedToLoadGames": "Echec lors du chargement des jeux",
-  "failedToLoadUsers": "Echec lors du chargement des utilisateurs",
+  "failedToCreateLocation": "Échec lors de la création de l'emplacement",
+  "failedToLoadCategories": "Échec lors du chargement des catégories",
+  "failedToLoadGame": "Échec lors du chargement du jeu",
+  "failedToLoadGames": "Échec lors du chargement des jeux",
+  "failedToLoadLocation": "Échec lors du chargement de l'emplacement",
+  "failedToLoadLocations": "Échec lors du chargement des emplacements",
+  "failedToLoadMechanics": "Échec lors du chargement des mécaniques",
+  "failedToLoadPublishers": "Échec lors du chargement des éditeurs",
+  "failedToLoadUsers": "Échec lors du chargement des utilisateurs",
+  "form": {
+    "name": "Nom :"
+  },
+  "game": {
+    "addedSuccessfully": "%name% ajouté avec succès",
+    "addedUnsuccessfully": "Erreur lors de l'ajout de %name%",
+    "borrowedBy": "Jeu emprunté par %name%",
+    "borrowedByWithLink": "Jeu emprunté par <1>%name%</1>",
+    "lentSuccessfully": "Jeu prêté avec succès",
+    "movedSuccessfully": "Jeu déplacé avec succès",
+    "removedSuccessfully": "Jeu supprimé avec succès",
+    "retrievedSuccessfully": "Jeu récupéré avec succès"
+  },
   "games": "Jeux",
   "gamesFound": "%count% jeu trouvé",
   "gamesFound_plural": "%count% jeux trouvés",
   "gameBorrowedBy": "Jeu emprunté par %name%",
   "getBack": "Récupérer",
   "home": "Accueil",
+  "info": {
+    "error": "Erreur",
+    "success": "Succès"
+  },
   "lend": "Prêter",
   "lendTo": "Prêter à ...",
   "location": "Emplacement",
   "locations": "Emplacements",
+  "locationUpdatedSuccessfully": "Emplacement mis à jour avec succès",
+  "locationRemovedSuccessfully": "Emplacement supprimé avec succès",
+  "login": {
+    "email": "Courriel",
+    "password": "Mot de passe",
+    "submit": "Se connecter"
+  },
   "mechanics": "Mécaniques",
+  "move": "Déplacer",
   "moveTo": "Déplacer ...",
   "name": "Nom",
   "noGameBorrowedByUser": "Aucun jeu emprunté par cette personne ...",
   "noGameFound": "Aucun jeu trouvé !",
   "noGameInLocation": "Aucun jeu dans cet emplacement ...",
+  "noLocationFound": "Aucun emplacement trouvé !",
+  "noUserFound": "Aucun utilisateur trouvé !",
   "numberOfGames": "(%count% jeu)",
   "numberOfGames_plural": "(%count% jeux)",
   "numberOfPlayers": "Nombre de Joueurs",
@@ -77,6 +106,13 @@
   "rpg": "Jeu de rôle",
   "showBorrowed": "Afficher les jeux empruntés",
   "showExpansions": "Afficher les extensions",
+  "update": {
+    "location": {
+      "header": "Éditer %name%",
+      "button": "Mettre à jour"
+    }
+  },
+  "unauthorizedAction": "Action non autorisée",
   "users": "Utilisateurs",
   "user": {
     "cancel": "Annuler",
@@ -87,21 +123,11 @@
     "convertToRegularUser": "Convertir",
     "email": "Courriel",
     "emailError": "Courriel vide",
+    "failedToConvertUser": "Erreur lors de la conversion",
+    "failedToLoadUser": "Erreur lors du chargement de l'utilisateur",
     "password": "Mot de passe",
     "passwordError": "Mot de passe vide",
-    "failedToConvertUser": "Erreur lors de la conversion",
-    "failedToLoadUser": "Erreur lors du chargement de l'utilisateur"
+    "role": "Rôle"
   },
-  "videoGame": "Jeu vidéo",
-  "info": {
-    "success": "Succès"
-  },
-  "game": {
-    "addedSuccessfully": "%name% ajouté avec succès",
-    "addedUnsuccessfully": "Erreur lors de l'ajout de %name%",
-    "borrowedBy": "Jeu emprunté par %name%",
-    "borrowedByWithLink": "Jeu emprunté par <1>%name%</1>",
-    "lentSuccessfully": "Jeu prêté avec succès",
-    "retrievedSuccessfully": "Jeu récupéré avec succès"
-  }
+  "videoGame": "Jeu vidéo"
 }

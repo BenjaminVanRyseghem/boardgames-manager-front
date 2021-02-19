@@ -2,7 +2,7 @@ import DeleteLocationButton from "./deleteLocationButton";
 import React from "react";
 
 export default {
-	component: DeleteGameButton,
+	component: DeleteLocationButton,
 	title: "Components/DeleteLocationButton"
 };
 

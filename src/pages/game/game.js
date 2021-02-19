@@ -133,7 +133,7 @@ export default class Game extends Page {
 	lendTo(borrowed, game) {
 		if (!this.props.user.canLendGame(game)) {
 			info.Error({
-				title: <Translate i18nKey="error">Error</Translate>,
+				title: <Translate i18nKey="info.error">Error</Translate>,
 				html: <Translate i18nKey="unauthorizedAction">
 					{"Unauthorized action"}
 				</Translate>
@@ -170,7 +170,7 @@ export default class Game extends Page {
 	deleteGame(game) {
 		if (!this.props.user.canDeleteGame(game)) {
 			info.Error({
-				title: <Translate i18nKey="error">Error</Translate>,
+				title: <Translate i18nKey="info.error">Error</Translate>,
 				html: <Translate i18nKey="unauthorizedAction">
 					{"Unauthorized action"}
 				</Translate>
@@ -195,7 +195,7 @@ export default class Game extends Page {
 	moveTo(location, game) {
 		if (!this.props.user.canMoveGame(game)) {
 			info.Error({
-				title: <Translate i18nKey="error">Error</Translate>,
+				title: <Translate i18nKey="info.error">Error</Translate>,
 				html: <Translate i18nKey="unauthorizedAction">
 					{"Unauthorized action"}
 				</Translate>

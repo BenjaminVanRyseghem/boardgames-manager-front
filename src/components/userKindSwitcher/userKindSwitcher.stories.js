@@ -1,5 +1,5 @@
-import UserKindSwitcher from "./userKindSwitcher";
 import React from "react";
+import UserKindSwitcher from "./userKindSwitcher";
 
 export default {
 	component: UserKindSwitcher,

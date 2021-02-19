@@ -19,8 +19,8 @@ export class LocationInfo extends React.Component {
 
 	static propTypes = {
 		data: PropTypes.object,
-		error: PropTypes.object,
 		dataMutate: PropTypes.func,
+		error: PropTypes.object,
 		onDeleteLocation: PropTypes.func.isRequired,
 		onUpdateLocation: PropTypes.func.isRequired,
 		user: PropTypes.object

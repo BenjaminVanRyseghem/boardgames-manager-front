@@ -165,7 +165,7 @@ export default class User extends Page {
 	};
 
 	onDeleteUser() {
-		debugger;
+		// TO DO
 	}
 
 	convertToRegularUser(dataMutate) {

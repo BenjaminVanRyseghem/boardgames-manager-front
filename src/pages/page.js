@@ -24,7 +24,7 @@ export default class Page extends React.Component {
 	}
 
 	swr({ children, transform, model: Model, url, as = "data", ...others }) {
-		let { data, error } = useSWR(url, this.fetch.bind(this));
+		let { data, error } = useSWR(url, this.fetch.bind(this)); // eslint-disable-line react-hooks/rules-of-hooks
 		let convertedData = data && Model // eslint-disable-line no-nested-ternary
 			? data.constructor === Array
 				? data.map((datum) => new Model(datum))

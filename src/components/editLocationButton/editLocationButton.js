@@ -11,10 +11,14 @@ export default class EditLocationButton extends React.Component {
 		onUpdate: PropTypes.func.isRequired
 	};
 
-	state = {
-		open: false,
-		name: this.props.location.name()
-	};
+	constructor() {
+		super(...arguments); // eslint-disable-line prefer-rest-params
+
+		this.state = {
+			open: false,
+			name: this.props.location.name()
+		};
+	}
 
 	toggleModal() {
 		this.setState((state) => ({

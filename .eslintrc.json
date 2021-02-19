@@ -3,6 +3,9 @@
     "eslint-config-benjamin-van-ryseghem",
     "plugin:react-hooks/recommended"
   ],
+  "plugins": [
+    "i18n-translated"
+  ],
   "settings": {
     "react": {
       "version": "none"
@@ -10,6 +13,12 @@
     "import/resolver": "webpack"
   },
   "rules": {
+    "i18n-translated/no-untranslated-translate": [
+      "error",
+      [
+        "./src/i18n/locales/fr/index.json"
+      ]
+    ],
     "id-length": [
       "error",
       {

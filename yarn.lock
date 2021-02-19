@@ -7520,6 +7520,14 @@ eslint-plugin-ftgp@^1.4.1:
     lodash "^4.5.1"
     requireindex "~1.1.0"
 
+eslint-plugin-i18n-translated@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-i18n-translated/-/eslint-plugin-i18n-translated-1.0.0.tgz#a909c1a14288d7ffde0ff5bdc372112cf0fff124"
+  integrity sha512-pgB3VMYZRvngMnhEA1mGV/2+ESn2i99TQUWSfKtk7Lpv2BCU9Fg1PBlt0jj6iE3V9HqYeS0X+foE8S7Cz0z8Dw==
+  dependencies:
+    object-path "^0.11.5"
+    requireindex "~1.1.0"
+
 eslint-plugin-import@2.20.1:
   version "2.20.1"
   resolved "https://registry.yarnpkg.com/eslint-plugin-import/-/eslint-plugin-import-2.20.1.tgz#802423196dcb11d9ce8435a5fc02a6d3b46939b3"
@@ -12859,6 +12867,11 @@ object-path@0.11.4:
   version "0.11.4"
   resolved "https://registry.yarnpkg.com/object-path/-/object-path-0.11.4.tgz#370ae752fbf37de3ea70a861c23bba8915691949"
   integrity sha1-NwrnUvvzfePqcKhhwju6iRVpGUk=
+
+object-path@^0.11.5:
+  version "0.11.5"
+  resolved "https://registry.yarnpkg.com/object-path/-/object-path-0.11.5.tgz#d4e3cf19601a5140a55a16ad712019a9c50b577a"
+  integrity sha512-jgSbThcoR/s+XumvGMTMf81QVBmah+/Q7K7YduKeKVWL7N111unR2d6pZZarSk6kY/caeNxUDyxOvMWyzoU2eg==
 
 object-visit@^1.0.0:
   version "1.0.1"

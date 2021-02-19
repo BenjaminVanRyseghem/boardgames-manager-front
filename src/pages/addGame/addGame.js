@@ -1,3 +1,4 @@
+// eslint-disable-line max-lines
 import "./addGame.scss";
 import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -173,8 +174,8 @@ export default class AddGame extends Page {
 		})
 			.then(() => {
 				info.success({
-					title: <Translate i18nKey="success">Success</Translate>,
-					html: <Translate i18nKey="gameAddedSuccessfully" name={name}>
+					title: <Translate i18nKey="info.success">Success</Translate>,
+					html: <Translate i18nKey="game.addedSuccessfully" name={name}>
 						{"\"%name%\" successfully added"}
 					</Translate>,
 					onAfterClose: () => !this.state.addMultiple && this.setState({ backToGames: true })
@@ -182,7 +183,7 @@ export default class AddGame extends Page {
 			})
 			.catch(() => {
 				info.error({
-					html: <Translate i18nKey="gameAddedUnsuccessfully" name={name}>
+					html: <Translate i18nKey="game.addedUnsuccessfully" name={name}>
 						{"Error while adding \"%name%\""}
 					</Translate>
 				});

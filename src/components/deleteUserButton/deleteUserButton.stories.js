@@ -1,9 +1,9 @@
-import DeleteUserButton from "./deleteLocationButton";
+import DeleteUserButton from "./deleteUserButton";
 import React from "react";
 
 export default {
-	component: DeleteGameButton,
-	title: "Components/DeleteLocationButton"
+	component: DeleteUserButton,
+	title: "Components/DeleteUserButton"
 };
 
 export const shows = () => <DeleteUserButton/>;

@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import React from "react";
-import Translate from "components/i18n/translate";
 
 export default class UserCard extends React.Component {
 	static defaultProps = {};

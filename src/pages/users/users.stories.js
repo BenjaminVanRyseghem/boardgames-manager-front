@@ -1,5 +1,5 @@
-import Users from "./locations";
 import React from "react";
+import Users from "./users";
 
 export default {
 	component: Users,
