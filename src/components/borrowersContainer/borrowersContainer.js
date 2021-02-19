@@ -30,7 +30,7 @@ export default class BorrowersContainer extends React.Component {
 
 	componentDidUpdate(prevProps) {
 		if (this.props.data && this.state.candidate === undefined) {
-			this.setCandidate(this.props.data[0].id);
+			this.setCandidate(this.props.data[0].id());
 		}
 
 		if (prevProps.error !== this.props.error) {

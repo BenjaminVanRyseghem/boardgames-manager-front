@@ -9,7 +9,6 @@ import Loading from "components/loading/loading";
 import Location from "models/location";
 import LocationsContainer from "components/locationsContainer/locationsContainer";
 import MoveToButton from "components/moveToButton/moveToButton";
-import { mutate } from "swr";
 import Page from "../page";
 import PropTypes from "prop-types";
 import React from "react";
@@ -30,11 +29,11 @@ export class GameContainer extends React.Component {
 		canLendGame: PropTypes.func.isRequired,
 		canMoveGame: PropTypes.func.isRequired,
 		data: PropTypes.object,
+		dataMutate: PropTypes.func.isRequired,
 		deleteGame: PropTypes.func.isRequired,
 		error: PropTypes.object,
 		lendTo: PropTypes.func.isRequired,
 		moveTo: PropTypes.func.isRequired,
-		mutateSWR: PropTypes.func.isRequired,
 		user: PropTypes.object.isRequired
 	};
 
@@ -46,12 +45,12 @@ export class GameContainer extends React.Component {
 
 	moveTo(location) {
 		this.props.moveTo(location, this.props.data)
-			.then((datum) => this.props.mutateSWR(datum, false));
+			.then((datum) => this.props.dataMutate(datum, false));
 	}
 
 	lendTo(borrowed) {
 		this.props.lendTo(borrowed, this.props.data)
-			.then((datum) => this.props.mutateSWR(datum, false));
+			.then((datum) => this.props.dataMutate(datum, false));
 	}
 
 	renderUsers() {
@@ -244,7 +243,6 @@ export default class Game extends Page {
 						lendTo={this.lendTo.bind(this)}
 						Locations={<this.swr model={Location} url="/api/v1/location"><LocationsContainer/></this.swr>}
 						moveTo={this.moveTo.bind(this)}
-						mutateSWR={mutate}
 						user={this.props.user}
 						Users={<this.swr model={User} url="/api/v1/user"><BorrowersContainer/></this.swr>}
 					/>

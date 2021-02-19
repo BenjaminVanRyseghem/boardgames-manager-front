@@ -30,8 +30,8 @@ export default class LocationsContainer extends React.Component {
 
 	componentDidUpdate(prevProps) {
 		if (this.props.data && this.state.candidate === undefined) {
-			let firstLocation = this.props.data.find((each) => each.id !== this.props.gameLocation);
-			this.setCandidate(firstLocation.id);
+			let firstLocation = this.props.data.find((each) => each.id() !== this.props.gameLocation);
+			this.setCandidate(firstLocation.id());
 		}
 
 		if (prevProps.error !== this.props.error) {

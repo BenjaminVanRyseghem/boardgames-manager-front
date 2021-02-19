@@ -20,7 +20,7 @@ export class LocationInfo extends React.Component {
 	static propTypes = {
 		data: PropTypes.object,
 		error: PropTypes.object,
-		mutateSWR: PropTypes.func,
+		dataMutate: PropTypes.func,
 		onDeleteLocation: PropTypes.func.isRequired,
 		onUpdateLocation: PropTypes.func.isRequired,
 		user: PropTypes.object
@@ -77,7 +77,7 @@ export class LocationInfo extends React.Component {
 		return <EditLocationButton
 			location={data}
 			onDelete={() => this.props.onDeleteLocation(data)}
-			onUpdate={(newData) => this.props.onUpdateLocation(newData, data, this.props.mutateSWR)}
+			onUpdate={(newData) => this.props.onUpdateLocation(newData, data, this.props.dataMutate)}
 		/>;
 	}
 
@@ -139,13 +139,13 @@ export default class Location extends Page {
 			});
 	}
 
-	onUpdateLocation(body, location, mutateSWR) {
+	onUpdateLocation(body, location, dataMutate) {
 		this.fetch(`/api/v1/location/${location.id()}`, {
 			method: "PUT",
 			body
 		})
 			.then((newLocation) => {
-				mutateSWR(newLocation, false);
+				dataMutate(newLocation, false);
 				info.success({
 					title: <Translate i18nKey="info.success">Success</Translate>,
 					html: <Translate i18nKey="locationUpdatedSuccessfully">
