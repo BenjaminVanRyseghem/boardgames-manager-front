@@ -49,7 +49,7 @@
 
   .input-range__label {
     color: #444;
-    font-family: "Helvetica Neue", san-serif;
+    font-family: "Helvetica Neue", sans-serif;
     font-size: 0.8rem;
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
@@ -101,10 +101,11 @@
     position: absolute;
     right: 0;
     top: 50%;
+    background: $blue;
   }
 
   .input-range__track--active {
-    background: $blue;
+    background: #ccc;
   }
 
   .input-range {
@@ -120,7 +121,6 @@
     }
   }
 
-
   .input-range--disabled {
     .input-range__label {
       color: #aaaaaa;
@@ -128,6 +128,13 @@
 
     .input-range__track {
       background: #eeeeee;
+    }
+  }
+
+
+  .number-of-players {
+    .input-range__track--background {
+      background: #ccc;
     }
   }
 }

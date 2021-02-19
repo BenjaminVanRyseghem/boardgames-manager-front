@@ -1,4 +1,4 @@
-// eslint-disable-next-line max-lines
+// eslint-disable-line max-lines
 import "./menu.scss";
 import { FormGroup, Input, Label } from "reactstrap";
 import InputRange from "react-input-range";
@@ -28,7 +28,7 @@ const defaults = {
 };
 
 const defaultState = {
-	age: 18,
+	age: 14,
 	ageFilter: false,
 	categories: [],
 	categoriesFilter: true,
@@ -71,7 +71,7 @@ export default class Menu extends React.Component {
 		let result = {};
 		updatableKeys.forEach((name) => {
 			let state = this.getStateFor(name);
-			if (state === null || state === "" || (state.constructor === Array && !state.length)) {
+			if (state === undefined || state === null || state === "" || (state.constructor === Array && !state.length)) {
 				return;
 			}
 
@@ -86,7 +86,7 @@ export default class Menu extends React.Component {
 			return null;
 		}
 
-		return state[key] || defaults[key];
+		return state[key] ?? defaults[key];
 	}
 
 	componentDidUpdate(prevProps, prevState) {
@@ -245,7 +245,7 @@ export default class Menu extends React.Component {
 							onChange={this.changeName.bind(this)}
 						/>
 					</FormGroup>
-					<FormGroup>
+					<FormGroup className="number-of-players">
 						<Switch
 							text={<Translate i18nKey="numberOfPlayers">Number of Players</Translate>}
 							value={this.state.numberOfPlayersFilter}

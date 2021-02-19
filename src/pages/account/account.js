@@ -84,7 +84,7 @@ export default class Account extends Page {
 				});
 			})
 			.catch((data) => {
-				if (data.error && data.error.status === 401) {
+				if (data?.error?.status === 401) {
 					this.setState({ invalidPassword: true });
 				} else {
 					info.error({

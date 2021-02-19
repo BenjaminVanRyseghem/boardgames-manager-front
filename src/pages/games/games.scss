@@ -11,6 +11,13 @@
     transition: left 1s ease-in-out;
   }
 
+  .no-game {
+    margin-left: 40px;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+  }
+
   .hider {
     z-index: 200;
     position: absolute;
