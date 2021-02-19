@@ -2,6 +2,7 @@ import "./locationsContainer.scss";
 import { Button, Form, FormGroup, Input, Label, ModalBody, ModalFooter } from "reactstrap";
 import info from "helpers/info";
 import Loading from "components/loading/loading";
+import Location from "models/location";
 import PropTypes from "prop-types";
 import React from "react";
 import Translate from "components/i18n/translate";
