@@ -62,7 +62,8 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@babel/core": "^7.9.0",
+    "@babel/core": "^7.12.17",
+    "@babel/plugin-proposal-class-properties": "^7.12.13",
     "@rescripts/cli": "^0.0.14",
     "@rescripts/rescript-use-babel-config": "^0.0.10",
     "@storybook/addon-actions": "^5.3.18",

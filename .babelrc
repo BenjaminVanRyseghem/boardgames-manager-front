@@ -1,8 +1,15 @@
 {
   "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "targets": "defaults"
+      }
+    ],
     "react-app"
   ],
   "plugins": [
+    "@babel/plugin-proposal-class-properties",
     [
       "babel-plugin-named-asset-import",
       {
