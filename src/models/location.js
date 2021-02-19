@@ -32,4 +32,8 @@ export default class Location {
 	hasGames() {
 		return !!this.games();
 	}
+
+	static sortAlphabetically(one, another) {
+		return one.name() < another.name() ? -1 : 1;
+	}
 }
