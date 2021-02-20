@@ -47,14 +47,15 @@ $borrowed-line-height: 24px;
 
     .name {
       text-align: center;
-      font-family: "Ubuntu", sans-serif;
+      font-family: "Cinzel", serif;
+      font-variant: small-caps;
       font-weight: bold;
       margin-top: .5em;
       margin-bottom: 1em;
       max-width: 100%;
       padding: 0 10px;
       white-space: nowrap;
-      overflow-x: hidden;
+      overflow: hidden;
       text-overflow: ellipsis;
     }
 
