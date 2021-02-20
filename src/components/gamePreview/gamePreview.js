@@ -46,7 +46,7 @@ export default class GamePreview extends React.Component {
 
 		return (
 			<div className="type">
-				<a href={this.props.data.page}>
+				<a href={this.props.data.page} rel="noopener noreferrer" target="_blank">
 					<FontAwesomeIcon icon={icon}/>
 				</a>
 			</div>
