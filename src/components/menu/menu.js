@@ -190,7 +190,9 @@ export default class Menu extends React.Component {
 				return <Loading/>;
 			}
 
-			return data.map((category) => (
+			return data
+				.sort((one, another) => (one.name() < another.name() ? -1 : 1))
+				.map((category) => (
 				<FormGroup key={category.id()} check>
 					<Label check>
 						<Input
@@ -275,16 +277,16 @@ export default class Menu extends React.Component {
 					</FormGroup>
 					<FormGroup>
 						<Switch
-							text={<Translate i18nKey="showBorrowed">Show Borrowed</Translate>}
-							value={this.state.showBorrowedFilter}
-							onChange={this.showBorrowedFilter.bind(this)}
+							text={<Translate i18nKey="showExpansions">Show Expansions</Translate>}
+							value={!!this.state.showExpansions}
+							onChange={this.showExpansionsFilter.bind(this)}
 						/>
 					</FormGroup>
 					<FormGroup>
 						<Switch
-							text={<Translate i18nKey="showExpansions">Show Expansions</Translate>}
-							value={!!this.state.showExpansions}
-							onChange={this.showExpansionsFilter.bind(this)}
+							text={<Translate i18nKey="showBorrowed">Show Borrowed</Translate>}
+							value={this.state.showBorrowedFilter}
+							onChange={this.showBorrowedFilter.bind(this)}
 						/>
 					</FormGroup>
 					<FormGroup tag="fieldset">
