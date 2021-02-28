@@ -85,7 +85,7 @@ class LocationContainer extends React.Component {
 
 	componentDidUpdate(prevProps) {
 		if (!this.props.location && prevProps.locations !== this.props.locations) {
-			this.props.onLocationChange(this.props.locations[0]);
+			this.props.onLocationChange(this.props.locations.find((each) => each.id === "1"));
 		}
 	}
 
@@ -190,6 +190,10 @@ export default class AddGame extends Page {
 			});
 	}
 
+	sortLocations(locations) {
+		return locations.sort((one, another) => one.name.localeCompare(another.name));
+	}
+
 	renderForm() {
 		return (
 			<Form onSubmit={(event) => event.preventDefault()}>
@@ -258,7 +262,7 @@ export default class AddGame extends Page {
 					</Label>
 					<Col sm={9}>
 						<FormGroup check>
-							<this.swr as="locations" url="/api/v1/location">
+							<this.swr as="locations" transform={this.sortLocations.bind(this)} url="/api/v1/location">
 								<LocationContainer
 									location={this.state.location}
 									onLocationChange={this.onLocationChange.bind(this)}

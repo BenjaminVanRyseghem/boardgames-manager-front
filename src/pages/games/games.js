@@ -66,6 +66,7 @@ export class GamesContainer extends React.Component {
 				<div className="content">
 					<div className="games">
 						<div className="no-game"><Translate i18nKey="noGameFound">No game found!</Translate></div>
+						{this.renderAddGame()}
 					</div>
 				</div>
 			);
