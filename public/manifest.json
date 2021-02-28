@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Boardgames Manager",
+  "name": "Boardgames Manager",
   "icons": [
     {
       "src": "favicon.png",
@@ -18,8 +18,8 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "https://ben.isasecret.com",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#5991dd",
+  "background_color": "#5991dd"
 }

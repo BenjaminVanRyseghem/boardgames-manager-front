@@ -15,6 +15,7 @@
     width: 100%;
     text-align: justify;
     overflow: auto;
+    -webkit-overflow-scrolling: touch;
 
     color: $color;
     background: url(so-white.png);

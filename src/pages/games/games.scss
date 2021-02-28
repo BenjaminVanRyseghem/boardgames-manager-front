@@ -79,6 +79,7 @@
     bottom: 0;
     padding: $menu-padding;
     overflow: auto;
+    -webkit-overflow-scrolling: touch;
     margin: 0;
 
     .games {
