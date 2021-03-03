@@ -14,14 +14,15 @@ import {
 	ModalHeader
 } from "reactstrap";
 import DeleteUserButton from "components/deleteUserButton/deleteUserButton";
+import EditNamesForm from "components/editNamesForm/editNamesForm";
 import GameCard from "components/gameCard/gameCard";
 import info from "helpers/info";
 import Loading from "components/loading/loading";
-import LoadingButton from "../../components/loadingButton/loadingButton";
+import LoadingButton from "components/loadingButton/loadingButton";
 import Page from "../page";
 import PropTypes from "prop-types";
 import React from "react";
-import { Redirect } from "react-router"; // eslint-disable-line max-lines
+import { Redirect } from "react-router";
 import Translate from "components/i18n/translate";
 import UserModel from "models/user";
 
@@ -32,8 +33,17 @@ export class UserContainer extends React.Component {
 		dataMutate: PropTypes.func,
 		error: PropTypes.object,
 		onDeleteUser: PropTypes.func.isRequired,
+		updateUser: PropTypes.func.isRequired,
 		user: PropTypes.object.isRequired
 	};
+
+	state = {
+		firstName: "",
+		firstNameError: false,
+		lastName: "",
+		lastNameError: false,
+		loading: false
+	}
 
 	componentDidUpdate(prevProps) {
 		if (prevProps.error !== this.props.error) {
@@ -49,6 +59,12 @@ export class UserContainer extends React.Component {
 		}
 
 		return this.props.data.role() === "borrower";
+	}
+
+	updateUser(data) {
+		this.setState({ loading: true });
+		this.props.updateUser(data, this.props.dataMutate)
+			.finally(() => this.setState({ loading: false }));
 	}
 
 	renderDeleteButton(user) {
@@ -68,15 +84,7 @@ export class UserContainer extends React.Component {
 
 	renderGames(games) {
 		if (!games.length) {
-			return (
-				<div className="games no-game">
-					<div>
-						<Translate i18nKey="noGameBorrowedByUser">
-							No game borrowed by this user...
-						</Translate>
-					</div>
-				</div>
-			);
+			return null;
 		}
 
 		return (
@@ -85,6 +93,44 @@ export class UserContainer extends React.Component {
 					<GameCard game={game}/>
 				</div>)}
 			</div>
+		);
+	}
+
+	renderRole() {
+		let { data: user } = this.props;
+
+		return (
+			<Form>
+				<FormGroup row>
+					<Label for="role" md={2} sm={4}>
+						<Translate i18nKey="user.role">Role</Translate>
+					</Label>
+					<Col md={10} sm={8}>
+						<Input disabled id="role" name="role" value={user.role()}/>
+					</Col>
+				</FormGroup>
+				{user.role() && user.role() !== "borrower" && <FormGroup row>
+					<Label for="email" md={2} sm={4}>
+						<Translate i18nKey="user.email">Email</Translate>
+					</Label>
+					<Col md={10} sm={8}>
+						<Input disabled id="email" name="email" value={user.id()}/>
+					</Col>
+				</FormGroup>}
+				<FormGroup row>
+					{this.canBeConverted() && <Col md={2} sm={4}>
+						<Button
+							color="primary"
+							onClick={(event) => {
+								event.preventDefault();
+								this.props.convertToRegularUser();
+							}}
+						>
+							<Translate i18nKey="user.convertToRegularUser">Convert to user</Translate>
+						</Button>
+					</Col>}
+				</FormGroup>
+			</Form>
 		);
 	}
 
@@ -105,36 +151,14 @@ export class UserContainer extends React.Component {
 		return (
 			<Container className="user-container">
 				<div className="page-title"><h1>{user.fullName()} {this.renderDeleteButton(user)}</h1></div>
+				{this.renderRole()}
 				<Form>
-					<FormGroup row>
-						<Label for="role" md={2} sm={4}>
-							<Translate i18nKey="user.role">Role</Translate>
-						</Label>
-						<Col md={10} sm={8}>
-							<Input disabled id="role" name="role" value={user.role()}/>
-						</Col>
-					</FormGroup>
-					{user.role() && user.role() !== "borrower" && <FormGroup row>
-						<Label for="email" md={2} sm={4}>
-							<Translate i18nKey="user.email">Email</Translate>
-						</Label>
-						<Col md={10} sm={8}>
-							<Input disabled id="email" name="email" value={user.id()}/>
-						</Col>
-					</FormGroup>}
-					{this.canBeConverted() && <FormGroup row>
-						<Col md={2} sm={4}>
-							<Button
-								color="primary"
-								onClick={(event) => {
-									event.preventDefault();
-									this.props.convertToRegularUser(this.props.dataMutate);
-								}}
-							>
-								<Translate i18nKey="user.convertToRegularUser">Convert to user</Translate>
-							</Button>
-						</Col>
-					</FormGroup>}
+					<EditNamesForm
+						currentUser={this.props.user}
+						loading={this.state.loading}
+						updateUser={this.updateUser.bind(this)}
+						user={this.props.data}
+					/>
 				</Form>
 				<div className="content">
 					{this.renderGames(user.borrowedGames())}
@@ -153,14 +177,14 @@ export default class User extends Page {
 	static key = "user";
 
 	state = {
-		open: false,
-		email: "",
-		password: "",
-		confirmPassword: "",
-		emailError: false,
-		passwordError: false,
 		confirmError: false,
+		confirmPassword: "",
+		email: "",
+		emailError: false,
 		loading: false,
+		open: false,
+		password: "",
+		passwordError: false,
 		redirect: false
 	};
 
@@ -168,11 +192,34 @@ export default class User extends Page {
 		// TO DO
 	}
 
-	convertToRegularUser(dataMutate) {
-		this.setState({
-			open: true,
-			dataMutate
-		});
+	convertToRegularUser() {
+		this.setState({ open: true });
+	}
+
+	updateUser(data, dataMutate) {
+		return this.fetch(`/api/v1/user/${this.props.id}`, {
+			method: "PUT",
+			body: data
+		})
+			.then((user) => {
+				dataMutate(user);
+				info.success({
+					title: <Translate i18nKey="info.success">Success</Translate>,
+					html: <Translate i18nKey="user.updateDoneSuccessfully">
+						{"Update successfully done"}
+					</Translate>
+				});
+			})
+			.catch(() => {
+				info.error({
+					html: <Translate i18nKey="user.failedToUpdateUser">Failed to update user!</Translate>
+				});
+			})
+			.finally(() => {
+				this.setState({
+					loading: false
+				});
+			});
 	}
 
 	toggle() {
@@ -353,16 +400,17 @@ export default class User extends Page {
 		}
 
 		return (
-			<>
+			<div key={this.props.id}>
 				{this.renderModal()}
 				<this.swr model={UserModel} url={`/api/v1/user/${this.props.id}`}>
 					<UserContainer
 						convertToRegularUser={this.convertToRegularUser.bind(this)}
+						updateUser={this.updateUser.bind(this)}
 						user={this.props.user}
 						onDeleteUser={this.onDeleteUser.bind(this)}
 					/>
 				</this.swr>
-			</>
+			</div>
 		);
 	}
 }

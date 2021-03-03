@@ -58,6 +58,10 @@ export default class CurrentUser extends User {
 		return accessControl.can(this.role()).readAny("user").granted;
 	}
 
+	canEditUser() {
+		return accessControl.can(this.role()).updateAny("user").granted;
+	}
+
 	canDeleteUser() {
 		return accessControl.can(this.role()).deleteAny("user").granted;
 	}

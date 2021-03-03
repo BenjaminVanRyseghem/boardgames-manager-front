@@ -18,6 +18,7 @@ export class UsersContainer extends React.Component {
 	}
 
 	static propTypes = {
+		currentUser: PropTypes.object.isRequired,
 		data: PropTypes.array,
 		error: PropTypes.object
 	};
@@ -81,7 +82,7 @@ export class UsersContainer extends React.Component {
 					{data
 						.sort(User.sortAlphabetically)
 						.map((datum) => <Col key={datum.id()} className="card-holder" sm={4}>
-							<UserCard user={datum}/>
+							<UserCard currentUser={this.props.currentUser} user={datum}/>
 						</Col>)}
 				</Row>
 			</Container>
@@ -92,7 +93,9 @@ export class UsersContainer extends React.Component {
 export default class Users extends Page {
 	static defaultProps = {};
 
-	static propTypes = {};
+	static propTypes = {
+		user: PropTypes.object.isRequired
+	};
 
 	state = {};
 
@@ -102,7 +105,7 @@ export default class Users extends Page {
 		return (
 			<div className="usersContainer">
 				<this.swr model={User} url="/api/v1/user">
-					<UsersContainer/>
+					<UsersContainer currentUser={this.props.user}/>
 				</this.swr>
 			</div>
 		);

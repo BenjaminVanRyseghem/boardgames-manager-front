@@ -8,6 +8,7 @@ export default class UserCard extends React.Component {
 	static defaultProps = {};
 
 	static propTypes = {
+		currentUser: PropTypes.object.isRequired,
 		user: PropTypes.object.isRequired
 	};
 
@@ -25,9 +26,13 @@ export default class UserCard extends React.Component {
 	}
 
 	render() {
+		let url = this.props.user.id() === this.props.currentUser.id()
+			? "/account"
+			: `/user/${this.props.user.id()}`;
+
 		return (
 			<div className="userCard">
-				<Link to={`/user/${this.props.user.id()}`}>
+				<Link to={url}>
 					<div className="content-wrapper">
 						<div className="content-inner-wrapper">
 							<div className="content">

@@ -125,8 +125,15 @@
     "emailError": "Courriel vide",
     "failedToConvertUser": "Erreur lors de la conversion",
     "failedToLoadUser": "Erreur lors du chargement de l'utilisateur",
+    "failedToUpdateUser": "Erreur lors de la mise à jour de l'utilisateur",
+    "firstName": "Prénom",
+    "firstNameError": "Prénom vide",
+    "lastName": "Nom de famille",
+    "lastNameError": "Nom de famille vide",
     "password": "Mot de passe",
     "passwordError": "Mot de passe vide",
+    "update": "Mettre à jour",
+    "updateDoneSuccessfully": "Mise à jour effectuée avec succès",
     "role": "Rôle"
   },
   "videoGame": "Jeu vidéo"

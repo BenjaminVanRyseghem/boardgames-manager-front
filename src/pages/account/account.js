@@ -2,6 +2,8 @@ import "./account.scss";
 import { Button, Col, Container, Form, FormFeedback, FormGroup, Input, Label } from "reactstrap";
 import info from "helpers/info";
 import LoadingButton from "components/loadingButton/loadingButton";
+import EditNamesForm from "../../components/editNamesForm/editNamesForm";
+import CurrentUser from "../../models/currentUser";
 import Page from "../page";
 import PropTypes from "prop-types";
 import React from "react";
@@ -12,6 +14,7 @@ export default class Account extends Page {
 
 	static propTypes = {
 		logout: PropTypes.func.isRequired,
+		setUser: PropTypes.func.isRequired,
 		user: PropTypes.object.isRequired
 	};
 
@@ -57,6 +60,37 @@ export default class Account extends Page {
 		return isValid;
 	}
 
+	updateUser(data) {
+		return this.fetch(`/api/v1/user/${this.props.user.id()}/name`, {
+			method: "PUT",
+			body: data
+		})
+			.then((user) => {
+				let userData = {
+					...this.props.user.toJSON(),
+					...user
+				};
+				this.props.setUser(new CurrentUser(userData), null);
+
+				info.success({
+					title: <Translate i18nKey="info.success">Success</Translate>,
+					html: <Translate i18nKey="user.updateDoneSuccessfully">
+						{"Update successfully done"}
+					</Translate>
+				});
+			})
+			.catch(() => {
+				info.error({
+					html: <Translate i18nKey="user.failedToUpdateUser">Failed to update user!</Translate>
+				});
+			})
+			.finally(() => {
+				this.setState({
+					loading: false
+				});
+			});
+	}
+
 	onSubmit() {
 		if (!this.isValid()) {
 			return;
@@ -67,7 +101,7 @@ export default class Account extends Page {
 			loading: true
 		});
 
-		this.fetch(`/api/v1/user/${this.props.user.id()}`, {
+		this.fetch(`/api/v1/user/${this.props.user.id()}/password`, {
 			method: "PUT",
 			body: {
 				currentPassword: this.state.currentPassword,
@@ -121,6 +155,14 @@ export default class Account extends Page {
 								</Button>
 							</Col>
 						</FormGroup>
+						<Label className="section">
+							<Translate i18nKey="account.changeName">Change name</Translate>
+						</Label>
+						<EditNamesForm
+							currentUser={this.props.user}
+							user={this.props.user}
+							updateUser={this.updateUser.bind(this)}
+						/>
 						<Label className="section">
 							<Translate i18nKey="account.changePassword">Change password</Translate>
 						</Label>

@@ -101,11 +101,11 @@
     position: absolute;
     right: 0;
     top: 50%;
-    background: $blue;
+    background: #ccc;
   }
 
   .input-range__track--active {
-    background: #ccc;
+    background: $blue;
   }
 
   .input-range {

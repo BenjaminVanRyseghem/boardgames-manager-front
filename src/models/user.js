@@ -37,6 +37,14 @@ export default class User {
 		return `${this[firstName]} ${this[lastName]}`;
 	}
 
+	firstName() {
+		return this[firstName];
+	}
+
+	lastName() {
+		return this[lastName];
+	}
+
 	numberOfBorrowedGames() {
 		return this[numberOfBorrowedGames];
 	}

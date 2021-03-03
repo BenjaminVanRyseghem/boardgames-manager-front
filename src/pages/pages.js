@@ -69,7 +69,7 @@ export default class Pages extends React.Component {
 					<PrivateRoute exact component={AddGame} conditionFn={(user) => user.canAddGames()} path="/add-game" user={this.props.user}/>
 					<PrivateRoute exact component={AddLocation} conditionFn={(user) => user.canAddLocations()} path="/add-location" user={this.props.user}/>
 					<PrivateRoute exact component={Users} conditionFn={(user) => user.canNavigateToUsers()} path="/users" user={this.props.user}/>
-					<PrivateRoute exact component={(props) => <Account logout={this.props.logout} {...props}/>} path="/account" user={this.props.user}/>
+					<PrivateRoute exact component={(props) => <Account logout={this.props.logout} setUser={this.props.setUser} {...props}/>} path="/account" user={this.props.user}/>
 					<PrivateRoute exact component={({ user, match: { params: { id } } }) => <User
 						key={id}
 						id={id}
