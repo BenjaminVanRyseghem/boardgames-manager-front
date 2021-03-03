@@ -103,6 +103,7 @@
   "numberOfGames": "(%count% jeu)",
   "numberOfGames_plural": "(%count% jeux)",
   "numberOfPlayers": "Nombre de Joueurs",
+  "placeholder": "Sélectionner ...",
   "publishers": "Éditeurs",
   "rpg": "Jeu de rôle",
   "showBorrowed": "Afficher les emprunts",

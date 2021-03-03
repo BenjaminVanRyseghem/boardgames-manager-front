@@ -55,7 +55,7 @@ export class LocationInfo extends React.Component {
 	}
 
 	renderDeleteButton(data) {
-		let canDelete = this.props.user.canDeleteGame(data) && data.hasGames();
+		let canDelete = this.props.user.canDeleteGame(data) && data.id() !== "1";
 
 		if (!canDelete) {
 			return null;
@@ -68,9 +68,9 @@ export class LocationInfo extends React.Component {
 	}
 
 	renderEditButton(data) {
-		let canDelete = this.props.user.canEditGame(data) && data.hasGames();
+		let canEdit = this.props.user.canEditGame(data);
 
-		if (!canDelete) {
+		if (!canEdit) {
 			return null;
 		}
 

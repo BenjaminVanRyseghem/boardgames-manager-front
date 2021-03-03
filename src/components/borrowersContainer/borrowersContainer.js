@@ -1,9 +1,11 @@
 import "./borrowersContainer.scss";
-import { Button, Form, FormGroup, Input, Label, ModalBody, ModalFooter } from "reactstrap";
+import { Button, Form, FormGroup, Label, ModalBody, ModalFooter } from "reactstrap";
+import i18n from "i18n/i18n";
 import info from "helpers/info";
 import Loading from "components/loading/loading";
 import PropTypes from "prop-types";
 import React from "react";
+import Select from "react-select";
 import Translate from "components/i18n/translate";
 import User from "models/user";
 
@@ -62,15 +64,15 @@ export default class BorrowersContainer extends React.Component {
 							<Label>
 								<Translate i18nKey="chooseAUser">Choose a user:</Translate>
 							</Label>
-							<Input type="select" onChange={(event) => this.setCandidate(event.target.value)}>
-								{
-									data
-										.sort(User.sortAlphabetically)
-										.map((user) => <option key={user.id()} value={user.id()}>
-										{user.fullName()}
-									</option>)
-								}
-							</Input>
+							<Select
+								formatOptionLabel={(option) => option.fullName()}
+								getOptionLabel={(option) => option.fullName()}
+								getOptionValue={(option) => option.id()}
+								options={data.sort(User.sortAlphabetically)}
+								placeholder={i18n.t("placeholder", "Select...")}
+								value={this.state.candidate}
+								onChange={(candidate) => this.setCandidate(candidate)}
+							/>
 						</FormGroup>
 					</Form>
 				</ModalBody>

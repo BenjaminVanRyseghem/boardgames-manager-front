@@ -1,10 +1,12 @@
 import "./locationsContainer.scss";
-import { Button, Form, FormGroup, Input, Label, ModalBody, ModalFooter } from "reactstrap";
+import { Button, Form, FormGroup, Label, ModalBody, ModalFooter } from "reactstrap";
+import i18n from "i18n/i18n";
 import info from "helpers/info";
 import Loading from "components/loading/loading";
 import Location from "models/location";
 import PropTypes from "prop-types";
 import React from "react";
+import Select from "react-select";
 import Translate from "components/i18n/translate";
 
 export default class LocationsContainer extends React.Component {
@@ -16,7 +18,7 @@ export default class LocationsContainer extends React.Component {
 	static propTypes = {
 		data: PropTypes.array,
 		error: PropTypes.object,
-		gameLocation: PropTypes.object,
+		gameLocation: PropTypes.string,
 		moveTo: PropTypes.func,
 		toggle: PropTypes.func
 	};
@@ -66,21 +68,16 @@ export default class LocationsContainer extends React.Component {
 							<Label>
 								<Translate i18nKey="chooseALocation">Choose a location:</Translate>
 							</Label>
-							<Input type="select" onChange={(event) => this.setCandidate(event.target.value)}>
-								{
-									data
-										.sort(Location.sortAlphabetically)
-										.map((location) => (
-										<option
-											key={location.id()}
-											disabled={location.id() === gameLocation}
-											value={location.id()}
-										>
-											{location.name()}
-										</option>
-									))
-								}
-							</Input>
+							<Select
+								formatOptionLabel={(location) => location.name()}
+								getOptionLabel={(location) => location.name()}
+								getOptionValue={(location) => location.id()}
+								isOptionDisabled={(location) => location.id() === gameLocation}
+								options={data.sort(Location.sortAlphabetically)}
+								placeholder={i18n.t("placeholder", "Select...")}
+								value={this.state.candidate}
+								onChange={(candidate) => this.setCandidate(candidate)}
+							/>
 						</FormGroup>
 					</Form>
 				</ModalBody>

@@ -22,6 +22,10 @@ export default class CurrentUser extends User {
 		return accessControl.can(this.role()).create("game").granted;
 	}
 
+	canAddUsers() {
+		return accessControl.can(this.role()).create("user").granted;
+	}
+
 	canAddLocations() {
 		return accessControl.can(this.role()).create("location").granted;
 	}

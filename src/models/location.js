@@ -30,7 +30,7 @@ export default class Location {
 	}
 
 	hasGames() {
-		return !!this.games();
+		return this.games() && this.games().length;
 	}
 
 	static sortAlphabetically(one, another) {

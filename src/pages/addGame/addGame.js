@@ -3,6 +3,7 @@ import "./addGame.scss";
 import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import GamePreview from "components/gamePreview/gamePreview";
+import i18n from "i18n/i18n";
 import info from "helpers/info";
 import Loading from "components/loading/loading";
 import Page from "../page";
@@ -103,6 +104,7 @@ class LocationContainer extends React.Component {
 				getOptionLabel={(option) => option.name}
 				getOptionValue={(option) => option.id}
 				options={this.props.locations}
+				placeholder={i18n.t("placeholder", "Select...")}
 				value={this.props.location}
 				onChange={this.props.onLocationChange}
 			/>

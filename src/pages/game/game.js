@@ -29,7 +29,7 @@ export class GameContainer extends React.Component {
 		canLendGame: PropTypes.func.isRequired,
 		canMoveGame: PropTypes.func.isRequired,
 		data: PropTypes.object,
-		dataMutate: PropTypes.func.isRequired,
+		dataMutate: PropTypes.func,
 		deleteGame: PropTypes.func.isRequired,
 		error: PropTypes.object,
 		lendTo: PropTypes.func.isRequired,
@@ -55,6 +55,7 @@ export class GameContainer extends React.Component {
 
 	renderUsers() {
 		return React.cloneElement(this.props.Users, {
+			borrower: this.props.data.borrowed()?.id,
 			lendTo: this.lendTo.bind(this)
 		});
 	}
@@ -233,7 +234,7 @@ export default class Game extends Page {
 		let canMoveGame = (game) => this.props.user.canMoveGame(game);
 
 		return (
-			<div className="game">
+			<div key={this.props.id} className="game">
 				<this.swr model={GameModel} url={`/api/v1/game/${this.props.id}`}>
 					<GameContainer
 						canDeleteGame={canDeleteGame}
