@@ -1,5 +1,6 @@
 {
   "account": {
+    "changeName": "Changer le nom",
     "changePassword": "Modifier le mot de passe",
     "confirmPassword": "Confirmer le mot de passe",
     "confirmPasswordError": "Non concordance des mots de passe",

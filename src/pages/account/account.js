@@ -1,9 +1,9 @@
 import "./account.scss";
 import { Button, Col, Container, Form, FormFeedback, FormGroup, Input, Label } from "reactstrap";
+import CurrentUser from "models/currentUser";
+import EditNamesForm from "components/editNamesForm/editNamesForm";
 import info from "helpers/info";
 import LoadingButton from "components/loadingButton/loadingButton";
-import EditNamesForm from "../../components/editNamesForm/editNamesForm";
-import CurrentUser from "../../models/currentUser";
 import Page from "../page";
 import PropTypes from "prop-types";
 import React from "react";
@@ -160,8 +160,8 @@ export default class Account extends Page {
 						</Label>
 						<EditNamesForm
 							currentUser={this.props.user}
-							user={this.props.user}
 							updateUser={this.updateUser.bind(this)}
+							user={this.props.user}
 						/>
 						<Label className="section">
 							<Translate i18nKey="account.changePassword">Change password</Translate>
