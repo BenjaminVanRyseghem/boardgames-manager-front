@@ -126,6 +126,7 @@
     "email": "Courriel",
     "emailError": "Courriel vide",
     "failedToConvertUser": "Erreur lors de la conversion",
+    "failedToCreateUser": "Erreur lors de la création de l'utilisateur",
     "failedToLoadUser": "Erreur lors du chargement de l'utilisateur",
     "failedToUpdateUser": "Erreur lors de la mise à jour de l'utilisateur",
     "firstName": "Prénom",
@@ -136,6 +137,7 @@
     "passwordError": "Mot de passe vide",
     "update": "Mettre à jour",
     "updateDoneSuccessfully": "Mise à jour effectuée avec succès",
+    "userCreatedSuccessfully": "Utilisateur crée avec succès",
     "role": "Rôle"
   },
   "videoGame": "Jeu vidéo"
