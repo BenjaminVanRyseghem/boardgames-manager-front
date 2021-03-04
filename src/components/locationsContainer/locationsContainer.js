@@ -84,7 +84,7 @@ export default class LocationsContainer extends React.Component {
 				<ModalFooter>
 					<Button color="primary" onClick={() => {
 						this.props.toggle();
-						this.props.moveTo(this.state.candidate);
+						this.props.moveTo(this.state.candidate.id());
 					}}>
 						<Translate i18nKey="move">Move</Translate>
 					</Button>{" "}

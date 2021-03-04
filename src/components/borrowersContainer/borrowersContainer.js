@@ -79,7 +79,7 @@ export default class BorrowersContainer extends React.Component {
 				<ModalFooter>
 					<Button color="primary" onClick={() => {
 						this.props.toggle();
-						this.props.lendTo(this.state.candidate);
+						this.props.lendTo(this.state.candidate.id());
 					}}>
 						<Translate i18nKey="lend">Lend</Translate>
 					</Button>{" "}
