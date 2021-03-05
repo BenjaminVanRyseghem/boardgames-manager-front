@@ -184,6 +184,11 @@ export default class Games extends Page {
 			state.showBorrowed = state.showBorrowedFilter ? 1 : 0;
 		}
 
+		if (search.showFavorites) {
+			state.showFavoritesFilter = !!+search.showFavorites;
+			state.showFavorites = state.showFavoritesFilter ? 1 : 0;
+		}
+
 		state.showExpansions = +search.showExpansions ? 1 : 0;
 
 		if (search.categories) {

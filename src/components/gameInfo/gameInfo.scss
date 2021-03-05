@@ -18,6 +18,22 @@ $border-color: #CCC;
     margin-bottom: 20px;
     font-family: Ubuntu, sans-serif;
     padding: 20px;
+
+    .container {
+      position: relative;
+
+      .title-icon {
+        position: absolute;
+
+        &.borrowed {
+          left: -2em;
+        }
+
+        &.like {
+          right: -2em;
+        }
+      }
+    }
   }
 
   .summary-container {
@@ -199,6 +215,13 @@ $border-color: #CCC;
 
   .title-icon {
     margin-right: 1ch;
+    margin-left: 1ch;
+
+    &.like path {
+      fill: $yellow;
+      stroke: black;
+      stroke-width: 0.5em;
+    }
   }
 
 }

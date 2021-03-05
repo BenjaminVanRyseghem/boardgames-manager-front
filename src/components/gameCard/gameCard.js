@@ -1,4 +1,5 @@
 import "./gameCard.scss";
+import classnames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
@@ -32,6 +33,14 @@ export default class GameCard extends React.Component {
 		);
 	}
 
+	renderfavorite(game) {
+		if (!game.favorite()) {
+			return null;
+		}
+
+		return <FontAwesomeIcon className="icon favorite" icon="star"/>;
+	}
+
 	renderBorrowed(game) {
 		if (!game.isBorrowed()) {
 			return null;
@@ -51,9 +60,14 @@ export default class GameCard extends React.Component {
 
 		return (
 			<Link
-				className={`gameCard${game.isBorrowed() ? " borrowed" : ""}`}
+				className={classnames({
+					gameCard: true,
+					borrowed: game.isBorrowed(),
+					favorite: game.favorite()
+				})}
 				to={`/game/${game.id()}`}
 			>
+				{this.renderfavorite(game)}
 				<div className="image">
 					<img alt={`${game.name()} preview`} src={game.picture()}/>
 				</div>

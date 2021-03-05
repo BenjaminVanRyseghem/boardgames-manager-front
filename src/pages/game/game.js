@@ -1,5 +1,6 @@
 import "./game.scss";
 import BorrowersContainer from "components/borrowersContainer/borrowersContainer";
+import { Button } from "reactstrap";
 import DeleteGameButton from "components/deleteGameButton/deleteGameButton";
 import GameInfo from "components/gameInfo/gameInfo";
 import GameModel from "models/game";
@@ -33,6 +34,7 @@ export class GameContainer extends React.Component {
 		deleteGame: PropTypes.func.isRequired,
 		error: PropTypes.object,
 		lendTo: PropTypes.func.isRequired,
+		like: PropTypes.func.isRequired,
 		moveTo: PropTypes.func.isRequired,
 		user: PropTypes.object.isRequired
 	};
@@ -45,12 +47,16 @@ export class GameContainer extends React.Component {
 
 	moveTo(location) {
 		this.props.moveTo(location, this.props.data)
-			.then((datum) => this.props.dataMutate(datum, false));
+			.then((datum) => this.props.dataMutate(datum));
 	}
 
 	lendTo(borrowed) {
 		this.props.lendTo(borrowed, this.props.data)
-			.then((datum) => this.props.dataMutate(datum, false));
+			.then((datum) => this.props.dataMutate(datum));
+	}
+
+	like(bool) {
+		this.props.like(bool, this.props.dataMutate);
 	}
 
 	renderUsers() {
@@ -75,6 +81,21 @@ export class GameContainer extends React.Component {
 		}
 	}
 
+	renderLikeButton() {
+		if (this.props.data?.favorite()) {
+			return (
+				<Button color="primary" onClick={this.like.bind(this, false)}>
+					<Translate i18nKey="unlike">Unlike</Translate>
+				</Button>
+			);
+		}
+		return (
+			<Button color="primary" onClick={this.like.bind(this, true)}>
+				<Translate i18nKey="like">Like</Translate>
+			</Button>
+		);
+	}
+
 	render() {
 		let { data: game, error } = this.props;
 
@@ -93,6 +114,11 @@ export class GameContainer extends React.Component {
 			<div className="game-container">
 				<GameInfo game={game} user={this.props.user}/>
 				<div className="actions">
+					<div className="action like">
+						{this.renderLikeButton()}
+					</div>
+				</div>
+				<div className="admin-actions">
 					{this.props.canLendGame(game) && <div className="action lend">
 						<LendToButton
 							fetch={fetch}
@@ -222,6 +248,18 @@ export default class Game extends Page {
 			});
 	}
 
+	like(bool, mutate) {
+		return this.fetch(`/api/v1/game/${this.props.id}/like`, {
+			method: "POST",
+			body: {
+				like: bool
+			}
+		})
+			.then((datum) => {
+				mutate(datum);
+			});
+	}
+
 	renderContent() {
 		if (this.state.redirect) {
 			return (
@@ -242,6 +280,7 @@ export default class Game extends Page {
 						canMoveGame={canMoveGame}
 						deleteGame={this.deleteGame.bind(this)}
 						lendTo={this.lendTo.bind(this)}
+						like={this.like.bind(this)}
 						Locations={<this.swr model={Location} url="/api/v1/location"><LocationsContainer/></this.swr>}
 						moveTo={this.moveTo.bind(this)}
 						user={this.props.user}

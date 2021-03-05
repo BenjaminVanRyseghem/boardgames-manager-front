@@ -38,10 +38,18 @@ export default class GameInfo extends React.Component {
 	}
 
 	renderTitle(game) {
-		let icon = game.isBorrowed() ? <FontAwesomeIcon className="title-icon" icon="door-open"/> : null;
+		let icon = game.isBorrowed() ? <FontAwesomeIcon className="title-icon borrowed" icon="door-open"/> : null;
+		let favoriteIcon = game.favorite()
+			? <FontAwesomeIcon
+				className="title-icon like"
+				icon="star"
+			/>
+			: null;
 
 		return (
-			<h1 className="title">{icon}{game.name()}</h1>
+			<h1 className="title"><span className="container">
+				{icon}{game.name()}{favoriteIcon}
+			</span></h1>
 		);
 	}
 

@@ -10,6 +10,7 @@ const description = Symbol("description");
 const expand = Symbol("expand");
 const expansions = Symbol("expansions");
 const id = Symbol("id");
+const favorite = Symbol("favorite");
 const link = Symbol("link");
 const location = Symbol("location");
 const maxPlayers = Symbol("maxPlayers");
@@ -48,7 +49,8 @@ export default class Game {
 		type: typeData,
 		expansions: expansionsData = [],
 		expand: expandData,
-		link: linkData
+		link: linkData,
+		favorite: favoriteData
 	}) {
 		this[borrowed] = borrowedData ? new User(borrowedData) : null;
 		this[categories] = categoriesData ? categoriesData.map((datum) => new Category(datum)) : null;
@@ -56,6 +58,7 @@ export default class Game {
 		this[expand] = expandData ? new Game(expandData) : null;
 		this[expansions] = expansionsData.map((each) => new Game(each));
 		this[id] = idData;
+		this[favorite] = favoriteData;
 		this[link] = linkData;
 		this[location] = locationData ? new Location(locationData) : null;
 		this[maxPlayers] = maxPlayersData;
@@ -89,6 +92,10 @@ export default class Game {
 
 	isBorrowed() {
 		return !!this[borrowed];
+	}
+
+	favorite() {
+		return !!this[favorite];
 	}
 
 	type() {
