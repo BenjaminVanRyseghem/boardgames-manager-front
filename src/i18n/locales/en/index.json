@@ -1,6 +1,146 @@
 {
+  "account": {
+    "changeName": "Change name",
+    "changePassword": "Change password",
+    "confirmPassword": "Confirm password",
+    "confirmPasswordError": "Confirm password error",
+    "currentPassword": "Current password",
+    "currentPasswordError": "Empty password",
+    "failedToChangePassword": "Failed to change password",
+    "invalidPasswordError": "Invalid password",
+    "logout": "logout",
+    "newPassword": "New password",
+    "newPasswordError": "New password error",
+    "passwordChangedSuccessfully": "Password changed successfully",
+    "role": "Role",
+    "submit": "Submit"
+  },
+  "addAUser": "Add a user",
+  "addAGame": "Add a game",
+  "addALocation": "Add a location",
+  "addMultiple": "Add multiple",
+  "age": "Age",
+  "boardgame": "Boardgame",
+  "boardgameAccessory": "Boardgame accessory",
+  "boardgameExpansion": "Boardgame expansion",
+  "cancel": "Cancel",
+  "categories": "Categories",
+  "chooseAUser": "Choose a user:",
+  "chooseALocation": "Choose a location:",
+  "delete": {
+    "game": {
+      "header": "Delete %name%?",
+      "button": "Delete",
+      "label": "Are you sure to delete <1>%name%</1>?"
+    },
+    "location": {
+      "header": "Delete %name%?",
+      "button": "Delete",
+      "label": "Are you sure to delete <1>%name%</1>?"
+    },
+    "user": {
+      "header": "Delete %name%?",
+      "button": "Delete",
+      "label": "Are you sure to delete <1>%name%</1>?"
+    }
+  },
+  "exactMatch": "Exact match ?",
+  "failedToCreateLocation": "Failed to create location",
+  "failedToLoadCategories": "Failed to load categories",
+  "failedToLoadGame": "Failed to load game",
+  "failedToLoadGames": "Failed to load games",
+  "failedToLoadLocation": "Failed to load location",
+  "failedToLoadLocations": "Failed to load locations",
+  "failedToLoadMechanics": "Failed to load mechanics",
+  "failedToLoadPublishers": "Failed to load publishers",
+  "failedToLoadUsers": "Failed to load users",
+  "form": {
+    "name": "Name:"
+  },
+  "game": {
+    "addedSuccessfully": "%name% added successfully",
+    "addedUnsuccessfully": "Error while adding %name%",
+    "borrowedBy": "Game borrowed by %name%",
+    "borrowedByWithLink": "Game borrowed by <1>%name%</1>",
+    "lentSuccessfully": "Game lent successfully",
+    "movedSuccessfully": "Game moved successfully",
+    "removedSuccessfully": "Game removed successfully",
+    "retrievedSuccessfully": "Game retrieved successfully"
+  },
+  "games": "Games",
+  "gamesFound": "%count% game found",
+  "gamesFound_plural": "%count% games found",
+  "gameBorrowedBy": "Game borrowed by %name%",
+  "getBack": "Get back",
+  "home": "Home",
+  "info": {
+    "error": "Error",
+    "success": "Success"
+  },
+  "lend": "Lend",
+  "lendTo": "Lend to ...",
+  "like": "Like",
+  "location": "Location",
+  "locations": "Locations",
+  "locationUpdatedSuccessfully": "Location updated successfully",
+  "locationRemovedSuccessfully": "Location removed successfully",
+  "login": {
+    "email": "Email",
+    "password": "Password",
+    "submit": "Login"
+  },
   "matchingGames": "%count% matching game",
   "matchingGames_plural": "%count% matching games",
+  "mechanics": "Mechanics",
+  "move": "Move",
+  "moveTo": "Move to ...",
+  "name": "Name",
+  "noGameBorrowedByUser": "No game borrowed by user...",
+  "noGameFound": "No game found!",
+  "noGameInLocation": "No game found in this location ...",
+  "noLocationFound": "No location found!",
+  "noUserFound": "No user found!",
   "numberOfGames": "(%count% game)",
-  "numberOfGames_plural": "(%count% games)"
+  "numberOfGames_plural": "(%count% games)",
+  "numberOfPlayers": "Number of players",
+  "onlyFavorites": "Liked only",
+  "placeholder": "Select ...",
+  "publishers": "Publishers",
+  "rpg": "RPG",
+  "showBorrowed": "Show borrowed",
+  "showExpansions": "Show expansions",
+  "update": {
+    "location": {
+      "header": "Édit %name%",
+      "button": "Update"
+    }
+  },
+  "unauthorizedAction": "Unauthorized action",
+  "unlike": "Unlike",
+  "users": "Users",
+  "user": {
+    "cancel": "Cancel",
+    "confirmPassword": "Confirm password",
+    "confirmPasswordError": "Password mismatch",
+    "conversionDoneSuccessfully": "Conversion done successfully",
+    "convert": "Convert",
+    "convertToRegularUser": "Convert",
+    "email": "Email",
+    "emailError": "Empty email",
+    "failedToConvertUser": "Failed to convert user",
+    "failedToCreateUser": "Failed to create user",
+    "failedToLoadUser": "Failed to load user",
+    "failedToUpdateUser": "Failed to update user",
+    "firstName": "Fist name",
+    "firstNameError": "Empty first name",
+    "lastName": "Last name",
+    "lastNameError": "Empty last name",
+    "password": "Password",
+    "passwordError": "Empty password",
+    "update": "Update",
+    "updateDoneSuccessfully": "Update done successfully",
+    "userCreatedSuccessfully": "User created successfully",
+    "role": "Role"
+  },
+  "videoGame": "Video game"
 }
