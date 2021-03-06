@@ -8,7 +8,7 @@ import {
 	faIndustry, faMapMarkerAlt, faPen, faPlus, faPuzzlePiece, faStar,
 	faStopwatch,
 	faTags,
-	faTrash, faUser, faUsers
+	faTrash, faUser, faUsers, faUserTie
 } from "@fortawesome/free-solid-svg-icons";
 import { faCalendar, faCopyright } from "@fortawesome/free-regular-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -37,5 +37,6 @@ library.add(
 	faTags,
 	faTrash,
 	faUser,
+	faUserTie,
 	faUsers
 );

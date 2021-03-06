@@ -17,8 +17,8 @@ export default class NavigationMenu extends React.Component {
 	renderAccount() {
 		return (
 			<div className="account">
-				<div className="name">{this.props.user.fullName()}</div>
-				<FontAwesomeIcon className="icon" icon="user"/>
+				<div className="name large-only">{this.props.user.fullName()}</div>
+				<FontAwesomeIcon className="icon small-only" icon="user-tie"/>
 			</div>
 		);
 	}
@@ -30,11 +30,11 @@ export default class NavigationMenu extends React.Component {
 		return (
 			<div className="navigationMenu">
 				<div className="group left">
-					<NavLink exact className="link" to="/"><FontAwesomeIcon className="small-only" icon="chess"/><span className="large-only"><Translate i18nKey="games">Games</Translate></span></NavLink>
+					<NavLink exact className="link" to="/"><FontAwesomeIcon className="icon small-only" icon="chess"/><span className="large-only"><Translate i18nKey="games">Games</Translate></span></NavLink>
 					{canNavigateToLocations &&
-					<NavLink className="link" to="/locations"><FontAwesomeIcon className="small-only" icon="map-marker-alt"/><span className="large-only"><Translate i18nKey="locations">Locations</Translate></span></NavLink>}
+					<NavLink className="link" to="/locations"><FontAwesomeIcon className="icon small-only" icon="map-marker-alt"/><span className="large-only"><Translate i18nKey="locations">Locations</Translate></span></NavLink>}
 					{canNavigateToUsers &&
-					<NavLink className="link" to="/users"><FontAwesomeIcon className="small-only" icon="users"/><span className="large-only"><Translate i18nKey="users">Users</Translate></span></NavLink>}
+					<NavLink className="link" to="/users"><FontAwesomeIcon className="icon small-only" icon="users"/><span className="large-only"><Translate i18nKey="users">Users</Translate></span></NavLink>}
 				</div>
 				<div className="group right">
 					<NavLink exact className="link account" to="/account">{this.renderAccount()}</NavLink>
