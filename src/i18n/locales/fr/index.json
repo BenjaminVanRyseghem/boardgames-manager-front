@@ -104,12 +104,12 @@
   "numberOfGames": "(%count% jeu)",
   "numberOfGames_plural": "(%count% jeux)",
   "numberOfPlayers": "Nombre de Joueurs",
+  "onlyFavorites": "Uniquement les favoris",
   "placeholder": "Sélectionner ...",
   "publishers": "Éditeurs",
   "rpg": "Jeu de rôle",
   "showBorrowed": "Afficher les emprunts",
   "showExpansions": "Afficher les extensions",
-  "showFavorites": "Afficher les favoris",
   "update": {
     "location": {
       "header": "Éditer %name%",

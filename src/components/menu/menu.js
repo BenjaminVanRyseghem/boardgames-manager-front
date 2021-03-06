@@ -19,7 +19,7 @@ const updatableKeys = [
 	"publishers",
 	"showBorrowed",
 	"showExpansions",
-	"showFavorites"
+	"onlyFavorites"
 ];
 
 const defaults = {
@@ -43,8 +43,8 @@ const defaultState = {
 	publishersFilter: true,
 	showBorrowed: 1,
 	showBorrowedFilter: false,
-	showFavorites: 1,
-	showFavoritesFilter: false,
+	onlyFavorites: 1,
+	onlyFavoritesFilter: false,
 	showExpansions: 0,
 	showExpansionsFilter: true
 };
@@ -119,8 +119,8 @@ export default class Menu extends React.Component {
 		this.setState({ showBorrowedFilter });
 	}
 
-	showFavoritesFilter({ target: { checked: showFavoritesFilter } }) {
-		this.setState({ showFavoritesFilter });
+	onlyFavoritesFilter({ target: { checked: onlyFavoritesFilter } }) {
+		this.setState({ onlyFavoritesFilter });
 	}
 
 	showExpansionsFilter({ target: { checked: showExpansions } }) {
@@ -298,9 +298,9 @@ export default class Menu extends React.Component {
 					</FormGroup>
 					<FormGroup>
 						<Switch
-							text={<Translate i18nKey="showFavorites">Show Favorites</Translate>}
-							value={this.state.showFavoritesFilter}
-							onChange={this.showFavoritesFilter.bind(this)}
+							text={<Translate i18nKey="onlyFavorites">Only Favorites</Translate>}
+							value={this.state.onlyFavoritesFilter}
+							onChange={this.onlyFavoritesFilter.bind(this)}
 						/>
 					</FormGroup>
 					<FormGroup tag="fieldset">
