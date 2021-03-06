@@ -30,11 +30,11 @@ export default class NavigationMenu extends React.Component {
 		return (
 			<div className="navigationMenu">
 				<div className="group left">
-					<NavLink exact className="link" to="/"><Translate i18nKey="games">Games</Translate></NavLink>
+					<NavLink exact className="link" to="/"><FontAwesomeIcon className="small-only" icon="chess"/><span className="large-only"><Translate i18nKey="games">Games</Translate></span></NavLink>
 					{canNavigateToLocations &&
-					<NavLink className="link" to="/locations"><Translate i18nKey="locations">Locations</Translate></NavLink>}
+					<NavLink className="link" to="/locations"><FontAwesomeIcon className="small-only" icon="map-marker-alt"/><span className="large-only"><Translate i18nKey="locations">Locations</Translate></span></NavLink>}
 					{canNavigateToUsers &&
-					<NavLink className="link" to="/users"><Translate i18nKey="users">Users</Translate></NavLink>}
+					<NavLink className="link" to="/users"><FontAwesomeIcon className="small-only" icon="users"/><span className="large-only"><Translate i18nKey="users">Users</Translate></span></NavLink>}
 				</div>
 				<div className="group right">
 					<NavLink exact className="link account" to="/account">{this.renderAccount()}</NavLink>

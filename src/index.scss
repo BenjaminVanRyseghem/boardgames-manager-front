@@ -1,4 +1,8 @@
 @import "~react-bootstrap-switch/dist/css/bootstrap3/react-bootstrap-switch.min";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/grid";
 @import "./fonts/fonts";
 
 html.swal2-height-auto > body.swal2-height-auto {
@@ -18,7 +22,7 @@ body, h1, h2, h3, h4 {
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  monospace;
 }
 
 html, body, #root {
@@ -31,6 +35,29 @@ html, body, #root {
 
 body {
   background: transparent !important;
+  $breakpoint: md;
+
+  @include media-breakpoint-down($breakpoint) {
+    .small-only {
+      display: block;
+      visibility: visible;
+    }
+    .large-only {
+      display: none;
+      visibility: hidden;
+    }
+  }
+
+  @include media-breakpoint-up($breakpoint) {
+    .small-only {
+      display: none;
+      visibility: hidden;
+    }
+    .large-only {
+      display: block;
+      visibility: visible;
+    }
+  }
 }
 
 html.swal2-height-auto, body.swal2-height-auto {

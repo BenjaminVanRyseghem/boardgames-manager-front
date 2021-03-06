@@ -29,6 +29,10 @@
     border-right: 1px solid #ccc;
     color: #212529;
 
+    .small-only {
+      font-size: 1.5em;
+    }
+
     &.active {
       background: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url("./dust_scratches.png");
     }
