@@ -11,6 +11,13 @@
     transition: left 1s ease-in-out;
   }
 
+  .counter {
+    font-family: "Ubuntu Mono", sans-serif;
+    text-align: right;
+    margin-top: -0.5em;
+    margin-bottom: 0.5em;
+  }
+
   .no-game {
     margin-left: 40px;
     width: 100%;

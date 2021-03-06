@@ -92,6 +92,8 @@
     "password": "Mot de passe",
     "submit": "Se connecter"
   },
+  "matchingGames": "%count% jeu correspondant",
+  "matchingGames_plural": "%count% jeux correspondant",
   "mechanics": "Mécaniques",
   "move": "Déplacer",
   "moveTo": "Déplacer ...",

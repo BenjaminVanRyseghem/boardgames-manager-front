@@ -1,3 +1,6 @@
 {
-
+  "matchingGames": "%count% matching game",
+  "matchingGames_plural": "%count% matching games",
+  "numberOfGames": "(%count% game)",
+  "numberOfGames_plural": "(%count% games)"
 }
