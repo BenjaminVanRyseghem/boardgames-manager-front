@@ -74,7 +74,7 @@ export class GamesContainer extends React.Component {
 
 		return (
 			<div className="content">
-				<div className="counter"><Translate count={data.length} i18nKey="matchingGames">%count% matching games</Translate></div>
+				<div className="counter"><Translate count={data.length} i18nKey="matchingGames">%count% matching games difa</Translate></div>
 				<div className="games">
 					{this.renderAddGame()}
 					{data.map((game) => <div key={game.id()} className="card-holder">

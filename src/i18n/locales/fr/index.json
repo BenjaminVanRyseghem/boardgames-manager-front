@@ -15,9 +15,6 @@
     "role": "Rôle",
     "submit": "Changer"
   },
-  "add": {
-    "numberOfGames": "%numberOfGames% jeux"
-  },
   "addAUser": "Ajouter un utilisateur",
   "addAGame": "Ajouter un jeu",
   "addALocation": "Ajouter un emplacement",
