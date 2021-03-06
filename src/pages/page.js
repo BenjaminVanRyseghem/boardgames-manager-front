@@ -4,6 +4,7 @@ import fetcher from "helpers/fetcher";
 import NavigationMenu from "components/navigationMenu/navigationMenu";
 import PropTypes from "prop-types";
 import React from "react";
+import { Redirect } from "react-router";
 import smallScreen from "../helpers/smallScreen";
 
 const requests = Symbol("requests");
@@ -19,7 +20,10 @@ export default class Page extends React.Component {
 		super(...args);
 
 		this[requests] = [];
-		this.state = { [this.constructor.key]: null };
+		this.state = {
+			[this.constructor.key]: null,
+			redirectToLogin: null
+		};
 		this.swr = this.swr.bind(this);
 	}
 
@@ -75,7 +79,14 @@ export default class Page extends React.Component {
 		let promise = fetcher(input, init);
 		this[requests].push(promise);
 
-		return promise;
+		return promise
+			.catch((error) => {
+				if (error.response && error.response.status === 401) {
+					this.setState({ redirectToLogin: true });
+					return;
+				}
+				throw error;
+			});
 	}
 
 	componentWillUnmount() {
@@ -98,6 +109,12 @@ export default class Page extends React.Component {
 	}
 
 	render() {
+		if (this.state.redirectToLogin) {
+			return (<Redirect to={{
+				pathname: "/login",
+				state: { from: this.props.location } // eslint-disable-line react/prop-types
+			}}/>);
+		}
 		return (
 			<div className={`page 
 				${smallScreen() ? "small-screen" : ""}

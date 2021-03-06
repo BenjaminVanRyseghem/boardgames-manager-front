@@ -1,36 +1,6 @@
 import CancelablePromise from "cancelable-promise";
 import ServerError from "models/serverError";
 
-const networkDelay = 2000;
-
-/**
- * Wrap DATA as a fake Response.
- *
- * @param {*} data - Data to wrap
- * @return {{json: (function(): Promise<*>)}} Wrapped data
- */
-function wrapAsResponse(data) {
-	return {
-		json: () => Promise.resolve(data)
-	};
-}
-
-/**
- * Perform a function FN with or without a delay based on the
- * `REACT_APP_SLOW_CONNECTION` env var.
- *
- * @param {Function} fn - Function to perform
- */
-function perform(fn) {
-	if (process.env.REACT_APP_SLOW_CONNECTION) { // eslint-disable-line no-process-env
-		setTimeout(() => {
-			fn();
-		}, networkDelay);
-	} else {
-		fn();
-	}
-}
-
 /**
  * Perform a `fetch` request and wrap the result for a better error handling.
  *
@@ -46,8 +16,7 @@ function performFetch(input, init) {
 			if (!ok) {
 				return response.json()
 					.then((error) => {
-						error.status = status;
-						throw new ServerError(response, error);
+						throw new ServerError(response, error, response.status);
 					});
 			}
 
@@ -57,7 +26,12 @@ function performFetch(input, init) {
 
 			return response;
 		})
-		.then((data) => data.json());
+		.then((data) => {
+			if (init.noJSON) {
+				return data;
+			}
+			return data.json();
+		});
 }
 
 /**
@@ -69,24 +43,5 @@ function performFetch(input, init) {
  * @return {Promise<Response>} Promise handling data fetching
  */
 export default function fetcher(input, init) {
-	if (process.env.NODE_ENV === "development" && process.env.REACT_APP_FAKE_DATA) { // eslint-disable-line no-process-env
-		let url = input.url || input;
-		let method = input.method || "GET";
-
-		console.log(`[${method}] ${url}`); // eslint-disable-line no-console
-
-		let finalUrl = `/fakeData${url.replace(/\?[\s\S]+$/, "")}/${method}.json`;
-
-		return new CancelablePromise((resolve, reject) => fetch(finalUrl)
-			.then((response) => response.json())
-			.then(({ status, data }) => {
-				if (status < 400) {
-					perform(() => resolve(wrapAsResponse(data)));
-				} else {
-					perform(() => reject(status));
-				}
-			}));
-	}
-
 	return CancelablePromise.resolve(performFetch(input, init));
 }

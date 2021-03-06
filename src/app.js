@@ -27,6 +27,9 @@ class App extends React.Component {
 					let finalData = Object.assign({}, cookie.user, data);
 					let newUser = new CurrentUser(finalData);
 					this.setUser(newUser, null);
+				})
+				.catch(() => {
+					this.setUser(anonymousUser, null);
 				});
 		}
 
@@ -60,6 +63,9 @@ class App extends React.Component {
 			user,
 			redirect
 		}, () => {
+			if (user.isAnonymous()) {
+				return;
+			}
 			let payload = jwt.decode(user.token());
 
 			// Set a cookie expiring at the same time as the token
