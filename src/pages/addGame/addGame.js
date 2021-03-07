@@ -79,7 +79,7 @@ export class GameAdditionCandidates extends React.Component {
 
 class LocationContainer extends React.Component {
 	static propTypes = {
-		location: PropTypes.string,
+		location: PropTypes.object,
 		locations: PropTypes.array,
 		onLocationChange: PropTypes.func.isRequired
 	}
@@ -207,7 +207,16 @@ export default class AddGame extends Page {
 				</FormGroup>
 				<FormGroup row>
 					<Label for="type" sm={3}>Type</Label>
-					<Col sm={9}>
+					<Col
+						sm={{
+							offset: 0,
+							size: 9
+						}}
+						xs={{
+							offset: 1,
+							size: 11
+						}}
+					>
 						<FormGroup check>
 							<Label check>
 								<Input checked={this.isChecked("boardgame")} id="type-boardgame" name="boardgame" type="checkbox" onChange={this.onType.bind(this, "boardgame")}/>{" "}
@@ -240,7 +249,7 @@ export default class AddGame extends Page {
 						</FormGroup>
 					</Col>
 				</FormGroup>
-				<FormGroup row>
+				<FormGroup row className="large-only">
 					<Label for="exact" sm={3}><Translate i18nKey="exactMatch">Exact match?</Translate></Label>
 					<Col sm={9}>
 						<FormGroup check>
@@ -248,13 +257,29 @@ export default class AddGame extends Page {
 						</FormGroup>
 					</Col>
 				</FormGroup>
-				<FormGroup row>
+				<FormGroup row className="large-only">
 					<Label for="add-multiple" sm={3}>
 						<Translate i18nKey="addMultiple">Add multiple games?</Translate>
 					</Label>
 					<Col sm={9}>
 						<FormGroup check>
 							<Input checked={this.state.addMultiple} id="add-multiple" name="add-multiple" type="checkbox" onChange={this.onAddMultiple.bind(this)}/>{" "}
+						</FormGroup>
+					</Col>
+				</FormGroup>
+				<FormGroup row className="small-only">
+					<Col>
+						<FormGroup check>
+							<Label check>
+								<Input checked={this.state.exact} id="exact" name="exact" type="checkbox" onChange={this.onExact.bind(this)}/>{" "}
+								<Translate i18nKey="exactMatch">Exact match?</Translate>
+							</Label>
+						</FormGroup>
+						<FormGroup check>
+							<Label check>
+								<Input checked={this.state.addMultiple} id="add-multiple" name="add-multiple" type="checkbox" onChange={this.onAddMultiple.bind(this)}/>{" "}
+								<Translate i18nKey="addMultiple">Add multiple games?</Translate>
+							</Label>
 						</FormGroup>
 					</Col>
 				</FormGroup>

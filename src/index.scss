@@ -41,6 +41,10 @@ body {
     .small-only {
       display: block;
       visibility: visible;
+
+      &.row {
+        display: flex;
+      }
     }
     .large-only {
       display: none;
@@ -56,6 +60,10 @@ body {
     .large-only {
       display: block;
       visibility: visible;
+
+      &.row {
+        display: flex;
+      }
     }
   }
 }

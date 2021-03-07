@@ -26,8 +26,10 @@
     margin-top: 1em;
     border-radius: 8px;
 
-    #exact, #add-multiple {
-      margin-top: 0.8em;
+    .large-only {
+      #exact, #add-multiple {
+        margin-top: 0.8em;
+      }
     }
   }
 
