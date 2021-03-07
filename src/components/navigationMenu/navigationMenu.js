@@ -9,6 +9,7 @@ export default class NavigationMenu extends React.Component {
 	static defaultProps = {};
 
 	static propTypes = {
+		onRandom: PropTypes.func.isRequired,
 		user: PropTypes.object.isRequired
 	};
 
@@ -37,6 +38,7 @@ export default class NavigationMenu extends React.Component {
 					<NavLink className="link" to="/users"><FontAwesomeIcon className="icon small-only" icon="users"/><span className="large-only"><Translate i18nKey="users">Users</Translate></span></NavLink>}
 				</div>
 				<div className="group right">
+					<div className="link random" onClick={this.props.onRandom}><FontAwesomeIcon className="icon small-only" icon="random"/><span className="large-only"><Translate i18nKey="random">Random</Translate></span></div>
 					<NavLink exact className="link account" to="/account">{this.renderAccount()}</NavLink>
 				</div>
 			</div>

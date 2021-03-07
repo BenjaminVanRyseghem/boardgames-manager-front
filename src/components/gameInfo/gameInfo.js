@@ -176,7 +176,7 @@ export default class GameInfo extends React.Component {
 								{this.renderInfo("chess-pawn", game.playersRange())}
 								{this.renderInfo("stopwatch", time, { shouldRender: game.hasTime() })}
 								{this.renderInfo("birthday-cake", () => `${game.minAge()}+`, { shouldRender: !!game.minAge() })}
-								{this.renderInfo("brain", () => `${game.complexity().toFixed(2)}`, { shouldRender: !!game.complexity() })}
+								{this.renderInfo("balance-scale-left", () => `${game.complexity().toFixed(2)}`, { shouldRender: !!game.complexity() })}
 							</div>
 							{game.location() && this.props.user.canNavigateToLocations() && <div className="line">
 								{this.renderInfo("map-marker-alt", () => <div className="tag">

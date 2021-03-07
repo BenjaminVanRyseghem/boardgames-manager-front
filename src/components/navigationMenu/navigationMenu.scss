@@ -43,6 +43,11 @@
     }
   }
 
+  .link.random {
+    cursor: pointer;
+    user-select: none;
+  }
+
   .link.account {
     justify-self: right;
   }

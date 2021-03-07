@@ -94,6 +94,16 @@ export default class Page extends React.Component {
 		this[requests] = [];
 	}
 
+	onRandom() {
+		this.fetch("/api/v1/game/random")
+			.then(({ id }) => {
+				if (id === -1) {
+					return;
+				}
+				this.setState({ redirectTo: id });
+			});
+	}
+
 	renderTitle() {
 		if (!this.title) {
 			return null;
@@ -115,6 +125,12 @@ export default class Page extends React.Component {
 				state: { from: this.props.location } // eslint-disable-line react/prop-types
 			}}/>);
 		}
+
+		if (this.state.redirectTo) {
+			this.setState({ redirectTo: null });
+			return <Redirect push to={`/game/${this.state.redirectTo}`}/>;
+		}
+
 		return (
 			<div className={`page 
 				${smallScreen() ? "small-screen" : ""}
@@ -122,7 +138,7 @@ export default class Page extends React.Component {
 				${this.title ? "" : "no-title"}
 			`}>
 				<div className="navigation">
-					<NavigationMenu user={this.props.user}/>
+					<NavigationMenu user={this.props.user} onRandom={this.onRandom.bind(this)}/>
 				</div>
 				<div className="page-scroll">
 					{this.renderTitle()}

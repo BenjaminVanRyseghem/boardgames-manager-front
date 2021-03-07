@@ -1,11 +1,11 @@
 import {
-	faAngleLeft, faAngleRight,
-	faBirthdayCake, faBrain, faChess, faChessKnight,
+	faAngleLeft, faAngleRight, faBalanceScaleLeft,
+	faBirthdayCake, faChess, faChessKnight,
 	faChessPawn, faCogs,
 	faDiceD20,
 	faDoorOpen, faGamepad,
 	faHeart,
-	faIndustry, faMapMarkerAlt, faPen, faPlus, faPuzzlePiece, faStar,
+	faIndustry, faMapMarkerAlt, faPen, faPlus, faPuzzlePiece, faRandom, faStar,
 	faStopwatch,
 	faTags,
 	faTrash, faUser, faUsers, faUserTie
@@ -16,8 +16,8 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 library.add(
 	faAngleLeft,
 	faAngleRight,
+	faBalanceScaleLeft,
 	faBirthdayCake,
-	faBrain,
 	faCalendar,
 	faChess,
 	faChessKnight,
@@ -33,6 +33,7 @@ library.add(
 	faPen,
 	faPlus,
 	faPuzzlePiece,
+	faRandom,
 	faStar,
 	faStopwatch,
 	faTags,
