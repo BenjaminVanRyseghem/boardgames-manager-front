@@ -27,6 +27,7 @@
   "categories": "Catégories",
   "chooseAUser": "Choisissez un utilisateur :",
   "chooseALocation": "Choisissez un emplacement :",
+  "complexity": "Complexité",
   "delete": {
     "game": {
       "header": "Effacer %name% ?",

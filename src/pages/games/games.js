@@ -74,7 +74,8 @@ export class GamesContainer extends React.Component {
 
 		return (
 			<div className="content">
-				<div className="counter"><Translate count={data.length} i18nKey="matchingGames">%count% matching games difa</Translate></div>
+				<div className="counter"><Translate count={data.length} i18nKey="matchingGames">%count% matching games
+					difa</Translate></div>
 				<div className="games">
 					{this.renderAddGame()}
 					{data.map((game) => <div key={game.id()} className="card-holder">
@@ -178,6 +179,11 @@ export default class Games extends Page {
 		if (search.age) {
 			state.age = +search.age;
 			state.ageFilter = true;
+		}
+
+		if (search.complexity) {
+			state.complexity = +search.complexity;
+			state.complexityFilter = true;
 		}
 
 		if (search.showBorrowed) {

@@ -27,6 +27,7 @@
   "categories": "Categories",
   "chooseAUser": "Choose a user:",
   "chooseALocation": "Choose a location:",
+  "complexity": "Complexity",
   "delete": {
     "game": {
       "header": "Delete %name%?",

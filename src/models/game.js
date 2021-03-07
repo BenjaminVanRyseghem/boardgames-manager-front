@@ -6,6 +6,7 @@ import User from "./user";
 
 const borrowed = Symbol("borrowed");
 const categories = Symbol("categories");
+const complexity = Symbol("complexity");
 const description = Symbol("description");
 const expand = Symbol("expand");
 const expansions = Symbol("expansions");
@@ -31,29 +32,31 @@ const yearPublished = Symbol("yearPublished");
  */
 export default class Game {
 	constructor({ // eslint-disable-line max-statements
+		borrowed: borrowedData,
+		categories: categoriesData,
+		complexity: complexityData,
+		description: descriptionData,
+		expand: expandData,
+		expansions: expansionsData = [],
+		favorite: favoriteData,
 		id: idData,
+		link: linkData,
+		location: locationData,
+		maxPlayers: maxPlayersData,
+		maxPlaytime: maxPlaytimeData,
+		mechanics: mechanicsData,
+		minAge: minAgeData,
+		minPlayers: minPlayersData,
+		minPlaytime: minPlaytimeData,
 		name: nameData,
 		picture: pictureData,
-		borrowed: borrowedData,
-		minPlaytime: minPlaytimeData,
-		maxPlaytime: maxPlaytimeData,
-		minPlayers: minPlayersData,
-		maxPlayers: maxPlayersData,
-		minAge: minAgeData,
-		location: locationData,
-		yearPublished: yearPublishedData,
-		description: descriptionData,
-		categories: categoriesData,
-		mechanics: mechanicsData,
 		publishers: publishersData,
 		type: typeData,
-		expansions: expansionsData = [],
-		expand: expandData,
-		link: linkData,
-		favorite: favoriteData
+		yearPublished: yearPublishedData
 	}) {
 		this[borrowed] = borrowedData ? new User(borrowedData) : null;
 		this[categories] = categoriesData ? categoriesData.map((datum) => new Category(datum)) : null;
+		this[complexity] = complexityData ? +complexityData / 20 : null;
 		this[description] = descriptionData;
 		this[expand] = expandData ? new Game(expandData) : null;
 		this[expansions] = expansionsData.map((each) => new Game(each));
@@ -61,12 +64,12 @@ export default class Game {
 		this[favorite] = favoriteData;
 		this[link] = linkData;
 		this[location] = locationData ? new Location(locationData) : null;
-		this[maxPlayers] = maxPlayersData;
-		this[maxPlaytime] = maxPlaytimeData;
+		this[maxPlayers] = +maxPlayersData;
+		this[maxPlaytime] = +maxPlaytimeData;
 		this[mechanics] = mechanicsData ? mechanicsData.map((datum) => new Mechanic(datum)) : null;
-		this[minAge] = minAgeData;
-		this[minPlayers] = minPlayersData;
-		this[minPlaytime] = minPlaytimeData;
+		this[minAge] = +minAgeData;
+		this[minPlayers] = +minPlayersData;
+		this[minPlaytime] = +minPlaytimeData;
 		this[name] = nameData;
 		this[picture] = pictureData;
 		this[publishers] = publishersData ? publishersData.map((datum) => new Publisher(datum)) : null;
@@ -102,6 +105,10 @@ export default class Game {
 		return this[type];
 	}
 
+	complexity() {
+		return this[complexity];
+	}
+
 	expansions() {
 		return this[expansions];
 	}
@@ -118,6 +125,10 @@ export default class Game {
 		}
 
 		return time;
+	}
+
+	hasTime() {
+		return !!this[minPlaytime] && !!this[maxPlaytime];
 	}
 
 	link() {

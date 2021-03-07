@@ -75,8 +75,9 @@ export default class GameCard extends React.Component {
 					<h3 className="name">{game.name()}</h3>
 					<div className="summary">
 						{this.renderInfo("chess-pawn", game.playersRange())}
-						{this.renderInfo("stopwatch", time)}
-						{this.renderInfo("birthday-cake", () => `${game.minAge()}+`, { shouldRender: !!game.minAge })}
+						{this.renderInfo("stopwatch", time, { shouldRender: game.hasTime() })}
+						{this.renderInfo("birthday-cake", () => `${game.minAge()}+`, { shouldRender: !!game.minAge() })}
+						{this.renderInfo("brain", () => `${game.complexity().toFixed(2)}`, { shouldRender: !!game.complexity() })}
 					</div>
 					{this.renderBorrowed(game)}
 				</div>

@@ -101,7 +101,6 @@
     position: absolute;
     right: 0;
     top: 50%;
-    background: #ccc;
   }
 
   .input-range__track--active {
@@ -133,8 +132,8 @@
 
 
   .number-of-players {
-    .input-range__track--background {
-      background: #ccc;
+    .input-range__track--active {
+      background: initial;
     }
   }
 }

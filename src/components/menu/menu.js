@@ -12,6 +12,7 @@ const DELAY = 500;
 
 const updatableKeys = [
 	"age",
+	"complexity",
 	"categories",
 	"mechanics",
 	"name",
@@ -46,7 +47,9 @@ const defaultState = {
 	onlyFavorites: 1,
 	onlyFavoritesFilter: false,
 	showExpansions: 0,
-	showExpansionsFilter: true
+	showExpansionsFilter: true,
+	complexity: 3,
+	complexityFilter: false
 };
 
 export default class Menu extends React.Component {
@@ -131,6 +134,10 @@ export default class Menu extends React.Component {
 		this.setState({ ageFilter });
 	}
 
+	complexityFilter({ target: { checked: complexityFilter } }) {
+		this.setState({ complexityFilter });
+	}
+
 	renderActions() {
 		let actions = [];
 
@@ -200,19 +207,19 @@ export default class Menu extends React.Component {
 			return data
 				.sort((one, another) => (one.name() < another.name() ? -1 : 1))
 				.map((category) => (
-				<FormGroup key={category.id()} check>
-					<Label check>
-						<Input
-							checked={state.includes(category.id())}
-							type="checkbox"
-							onChange={({ target: { checked } }) => {
-								toggleFn(category.id(), checked);
-							}}
-						/>{" "}
-						{category.name()}
-					</Label>
-				</FormGroup>
-			));
+					<FormGroup key={category.id()} check>
+						<Label check>
+							<Input
+								checked={state.includes(category.id())}
+								type="checkbox"
+								onChange={({ target: { checked } }) => {
+									toggleFn(category.id(), checked);
+								}}
+							/>{" "}
+							{category.name()}
+						</Label>
+					</FormGroup>
+				));
 		};
 
 		return React.cloneElement(container, { transformFn });
@@ -266,6 +273,20 @@ export default class Menu extends React.Component {
 							minValue={1}
 							value={this.state.numberOfPlayers || defaults.numberOfPlayers}
 							onChange={(numberOfPlayers) => this.setState({ numberOfPlayers })}
+						/>
+					</FormGroup>
+					<FormGroup className="complexity-group">
+						<Switch
+							text={<Translate i18nKey="complexity">Complexity</Translate>}
+							value={this.state.complexityFilter}
+							onChange={this.complexityFilter.bind(this)}
+						/>
+						<InputRange
+							disabled={!this.state.complexityFilter}
+							maxValue={5}
+							minValue={1}
+							value={this.state.complexity}
+							onChange={(complexity) => this.setState({ complexity })}
 						/>
 					</FormGroup>
 					<FormGroup className="age-group">
