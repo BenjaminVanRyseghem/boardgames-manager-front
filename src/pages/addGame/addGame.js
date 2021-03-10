@@ -66,20 +66,22 @@ export class GameAdditionCandidates extends React.Component {
 					{data.map((game) => {
 						let { id, nameType, type } = game;
 						return <li key={`${type}-${id}`} className="game-preview">
-							{Object.keys(allLanguages).map((lang) => (
-								<Button
-									key={lang}
-									className={`flag-icon flag-icon-${allLanguages[lang]}`}
-									onClick={() => addGame({
-										id,
-										nameType,
-										name: game.name,
-										lang
-									})}
-								>
-									<FontAwesomeIcon icon="plus"/>
-								</Button>
-							))}
+							<div className="buttons">
+								{Object.keys(allLanguages).map((lang) => (
+									<Button
+										key={lang}
+										className={`flag-icon flag-icon-${allLanguages[lang]}`}
+										onClick={() => addGame({
+											id,
+											nameType,
+											name: game.name,
+											lang
+										})}
+									>
+										<FontAwesomeIcon icon="plus"/>
+									</Button>
+								))}
+							</div>
 							<div className="content">
 								<GamePreview data={game} query={query}/>
 							</div>

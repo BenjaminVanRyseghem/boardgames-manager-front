@@ -1,3 +1,7 @@
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/grid";
 @import "../../variables";
 @import "../../mixins";
 
@@ -44,18 +48,28 @@
 
     .game-preview {
       list-style: none;
+      display: flex;
+      align-items: center;
+
+      .buttons {
+        margin-right: 2ch;
+      }
 
       button {
         background-size: cover;
         border-radius: 50%;
         border: 1px solid #ccc;
-        margin: 1ch 2ch 1ch 0;
+        margin: 1ch 0;
         vertical-align: super;
         font-size: 18px;
         line-height: 14px;
         width: 30px;
         height: 30px;
         position: relative;
+
+        &:not(:last-of-type) {
+          margin-right: 1ch;
+        }
 
         &:hover svg path {
           fill: $add-background;
@@ -75,6 +89,29 @@
       & > * {
         display: inline-block;
       }
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    .candidates {
+      margin-left: 0;
+
+      .game-preview {
+        flex-direction: column-reverse;
+        margin-bottom: 14px;
+        box-shadow: 0 0 10px #bbb;
+        padding: 10px;
+        border-radius: 6px;
+        align-items: normal;
+      }
+    }
+
+    .buttons {
+      text-align: right;
+    }
+
+    .previews {
+      padding-left: 0;
     }
   }
 }
