@@ -7,9 +7,11 @@
     width: 100%;
   }
 
-  .locations-select {
+  .locations-select, .language-select {
     margin-left: -20px;
+  }
 
+  .locations-select {
     .name {
       span {
         margin-left: 1ch;
@@ -44,23 +46,29 @@
       list-style: none;
 
       button {
-        background: $add-background;
+        background-size: cover;
         border-radius: 50%;
-        border: 0 none;
+        border: 1px solid #ccc;
         margin: 1ch 2ch 1ch 0;
         vertical-align: super;
-        font-size: 14px;
+        font-size: 18px;
         line-height: 14px;
         width: 30px;
         height: 30px;
         position: relative;
 
-        &:hover {
-          background: darken($add-background, 10%);
+        &:hover svg path {
+          fill: $add-background;
         }
 
         svg {
           @include center;
+
+          path {
+            stroke-width: 20px;
+            stroke: black;
+            fill: white
+          }
         }
       }
 

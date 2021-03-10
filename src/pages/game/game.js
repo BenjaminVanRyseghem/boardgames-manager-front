@@ -1,3 +1,4 @@
+/* eslint max-lines: [2, 350] */
 import "./game.scss";
 import BorrowersContainer from "components/borrowersContainer/borrowersContainer";
 import { Button } from "reactstrap";
@@ -76,7 +77,12 @@ export class GameContainer extends React.Component {
 	componentDidUpdate(prevProps) {
 		if (prevProps.error !== this.props.error) {
 			info.error({
-				html: <Translate i18nKey="failedToLoadGame">Failed to load game!</Translate>
+				html: <Translate i18nKey="failedToLoadGame">Failed to load game!</Translate>,
+				onAfterClose: () => {
+					if (this.props.error?.error?.code === 404) {
+						this.setState({ redirectToGames: true });
+					}
+				}
 			});
 		}
 	}
@@ -98,6 +104,10 @@ export class GameContainer extends React.Component {
 
 	render() {
 		let { data: game, error } = this.props;
+
+		if (this.state.redirectToGames) {
+			return <Redirect to="/"/>;
+		}
 
 		if (error) {
 			return null;

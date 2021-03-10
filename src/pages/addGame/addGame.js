@@ -15,6 +15,11 @@ import Translate from "components/i18n/translate";
 
 const DELAY = 500;
 
+const allLanguages = {
+	en: "us",
+	fr: "fr"
+};
+
 export class GameAdditionCandidates extends React.Component {
 	static defaultProps = {
 		data: undefined,
@@ -61,11 +66,20 @@ export class GameAdditionCandidates extends React.Component {
 					{data.map((game) => {
 						let { id, nameType, type } = game;
 						return <li key={`${type}-${id}`} className="game-preview">
-							<Button onClick={() => addGame({
-								id,
-								nameType,
-								name: game.name
-							})}><FontAwesomeIcon icon="plus"/></Button>
+							{Object.keys(allLanguages).map((lang) => (
+								<Button
+									key={lang}
+									className={`flag-icon flag-icon-${allLanguages[lang]}`}
+									onClick={() => addGame({
+										id,
+										nameType,
+										name: game.name,
+										lang
+									})}
+								>
+									<FontAwesomeIcon icon="plus"/>
+								</Button>
+							))}
 							<div className="content">
 								<GamePreview data={game} query={query}/>
 							</div>
@@ -117,7 +131,7 @@ export default class AddGame extends Page {
 
 	state = {
 		location: null,
-		backToGames: false,
+		goToGame: false,
 		candidates: [],
 		query: "",
 		types: {
@@ -125,7 +139,8 @@ export default class AddGame extends Page {
 			boardgameexpansion: true
 		},
 		exact: false,
-		addMultiple: false
+		addMultiple: false,
+		language: allLanguages[1]
 	}
 
 	onSearch({ target: { value: query } }) {
@@ -165,22 +180,28 @@ export default class AddGame extends Page {
 		this.setState({ location });
 	}
 
-	addGame({ id, nameType, name }) {
-		this.fetch(`/api/v1/game/${id}`, {
+	onLanguageChange(language) {
+		this.setState({ language });
+	}
+
+	addGame({ id, nameType, name, lang }) {
+		this.fetch("/api/v1/game", {
 			method: "POST",
 			body: {
+				gameId: id,
 				location: this.state.location.id,
+				lang,
 				nameType,
 				name
 			}
 		})
-			.then(() => {
+			.then((game) => {
 				info.success({
 					title: <Translate i18nKey="info.success">Success</Translate>,
 					html: <Translate i18nKey="game.addedSuccessfully" name={name}>
 						{"\"%name%\" successfully added"}
 					</Translate>,
-					onAfterClose: () => !this.state.addMultiple && this.setState({ backToGames: true })
+					onAfterClose: () => !this.state.addMultiple && this.setState({ goToGame: game.id })
 				});
 			})
 			.catch(() => {
@@ -303,8 +324,8 @@ export default class AddGame extends Page {
 	}
 
 	renderContent() {
-		if (this.state.backToGames) {
-			return <Redirect push to="/games"/>;
+		if (this.state.goToGame) {
+			return <Redirect push to={`/game/${this.state.goToGame}`}/>;
 		}
 
 		let selectedTypes = Object.keys(this.state.types).filter((key) => this.state.types[key]);
