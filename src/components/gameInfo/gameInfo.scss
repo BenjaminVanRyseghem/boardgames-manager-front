@@ -46,8 +46,8 @@ $border-color: #CCC;
       flex: 0 0 $image-size;
 
       img {
-        width: 100%;
-        height: 100%;
+        width: $image-size;
+        height: $image-size;
         object-fit: contain;
       }
     }

@@ -1,5 +1,6 @@
 const CopyPlugin = require("copy-webpack-plugin");
 const jestConfig = require("./jest.config");
+const PreloadWebpackPlugin = require("preload-webpack-plugin");
 const webpackConfig = require("./webpack.config");
 
 module.exports = [
@@ -30,6 +31,16 @@ module.exports = [
 						transformPath: (path) => path.replace("src/i18n/", "")
 					}
 				])
+			);
+
+			webpack.plugins.push(
+				new PreloadWebpackPlugin({
+					rel: 'preload',
+					as: 'font',
+					include: 'allAssets',
+					fileWhitelist: [/\.(woff2?|eot|ttf|otf)(\?.*)?$/i],
+
+				})
 			);
 
 			webpack.resolve.modules = webpackConfig.resolve.modules;

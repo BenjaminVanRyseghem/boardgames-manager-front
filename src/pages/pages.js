@@ -1,19 +1,20 @@
 import "./pages.scss";
+import React, { lazy, Suspense } from "react";
 import { Redirect, Switch } from "react-router";
-import Account from "./account/account";
-import AddGame from "./addGame/addGame";
-import AddLocation from "./addLocation/addLocation";
-import Game from "./game/game";
-import Games from "./games/games";
-import Location from "./location/location";
-import Locations from "./locations/locations";
-import Login from "./login/login";
-import Page404 from "./page404/page404";
 import PropTypes from "prop-types";
-import React from "react";
 import { Route } from "react-router-dom";
-import User from "./user/user";
-import Users from "./users/users";
+
+const Account = lazy(() => import("./account/account"));
+const AddGame = lazy(() => import("./addGame/addGame"));
+const AddLocation = lazy(() => import("./addLocation/addLocation"));
+const Game = lazy(() => import("./game/game"));
+const Games = lazy(() => import("./games/games"));
+const Location = lazy(() => import("./location/location"));
+const Locations = lazy(() => import("./locations/locations"));
+const Login = lazy(() => import("./login/login"));
+const Page404 = lazy(() => import("./page404/page404"));
+const User = lazy(() => import("./user/user"));
+const Users = lazy(() => import("./users/users"));
 
 function PrivateRoute({ user, component: Component, conditionFn = () => true, ...routeProps }) { // eslint-disable-line react/prop-types
 	return (
@@ -50,9 +51,22 @@ export default class Pages extends React.Component {
 
 	state = {};
 
+	renderFallback() {
+		return (
+			<div className="splashscreen">
+				<div className="lds-ring">
+					<div/>
+					<div/>
+					<div/>
+					<div/>
+				</div>
+			</div>
+		);
+	}
+
 	render() {
 		return (
-			<>
+			<Suspense fallback={this.renderFallback()}>
 				<Switch>
 					<Route exact component={(props) => <Login setUser={this.props.setUser} user={this.props.user} {...props}/>} path="/login"/>
 					<Route exact component={() => "TO DO"} path="/register"/>
@@ -79,7 +93,7 @@ export default class Pages extends React.Component {
 					<Redirect from="/games" to="/"/>
 					<Route render={() => <Page404 user={this.props.user}/>}/>
 				</Switch>
-			</>
+			</Suspense>
 		);
 	}
 }
