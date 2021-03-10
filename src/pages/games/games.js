@@ -1,6 +1,7 @@
 import "./games.scss";
 import AddGameCard from "components/addGameCard/addGameCard";
 import Category from "models/category";
+import { ElementScroller } from "react-scroll-manager";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Game from "models/game";
 import GameCard from "components/gameCard/gameCard";
@@ -73,16 +74,19 @@ export class GamesContainer extends React.Component {
 		}
 
 		return (
-			<div className="content">
-				<div className="counter"><Translate count={data.length} i18nKey="matchingGames">%count% matching games
-					difa</Translate></div>
-				<div className="games">
-					{this.renderAddGame()}
-					{data.map((game) => <div key={game.id()} className="card-holder">
-						<GameCard game={game}/>
-					</div>)}
+			<ElementScroller scrollKey="gamesContent">
+				<div className="content">
+					<div className="counter"><Translate count={data.length} i18nKey="matchingGames">%count% matching
+						games
+						difa</Translate></div>
+					<div className="games">
+						{this.renderAddGame()}
+						{data.map((game) => <div key={game.id()} className="card-holder">
+							<GameCard game={game}/>
+						</div>)}
+					</div>
 				</div>
-			</div>
+			</ElementScroller>
 		);
 	}
 }

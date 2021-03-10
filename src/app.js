@@ -1,13 +1,15 @@
 import "./app.scss";
 import CurrentUser, { anonymousUser } from "models/currentUser";
-import { BrowserRouter } from "react-router-dom";
+import { ScrollManager, WindowScroller } from "react-scroll-manager";
 import Cookies from "js-cookie";
+import { createBrowserHistory as createHistory } from "history";
 import fetcher from "./helpers/fetcher";
 import { i18nPromise } from "./i18n/i18n";
 import jwt from "jsonwebtoken";
 import Pages from "./pages/pages";
 import React from "react";
 import { Redirect } from "react-router";
+import { Router } from "react-router-dom";
 import UserKindSwitcher from "./components/userKindSwitcher/userKindSwitcher";
 
 const cookieName = "com.boardgames-manager";
@@ -16,6 +18,7 @@ class App extends React.Component {
 	constructor(...args) {
 		super(...args);
 
+		this.history = createHistory();
 		let user = anonymousUser;
 		let cookie = Cookies.getJSON(cookieName);
 
@@ -92,18 +95,22 @@ class App extends React.Component {
 		let canSwitchRole = process.env.NODE_ENV === "development1"; // eslint-disable-line no-process-env
 
 		return (
-			<BrowserRouter>
-				{canSwitchRole && <UserKindSwitcher
-					setUser={(user) => this.setState({ user })}
-					user={this.state.user}
-				/>}
-				{this.state.redirect && <Redirect to={this.state.redirect}/>}
-				<Pages
-					logout={this.logout.bind(this)}
-					setUser={this.setUser.bind(this)}
-					user={this.state.user}
-				/>
-			</BrowserRouter>
+			<ScrollManager history={this.history}>
+				<Router history={this.history}>
+					<WindowScroller>
+						{canSwitchRole && <UserKindSwitcher
+							setUser={(user) => this.setState({ user })}
+							user={this.state.user}
+						/>}
+						{this.state.redirect && <Redirect to={this.state.redirect}/>}
+						<Pages
+							logout={this.logout.bind(this)}
+							setUser={this.setUser.bind(this)}
+							user={this.state.user}
+						/>
+					</WindowScroller>
+				</Router>
+			</ScrollManager>
 		);
 	}
 }
