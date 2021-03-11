@@ -17,7 +17,7 @@
     "flag-icon-css": "^3.5.0",
     "formik": "^2.1.4",
     "he": "^1.2.0",
-    "history": "^5.0.0",
+    "history": "^4.10.1",
     "i18next": "^19.4.3",
     "i18next-browser-languagedetector": "^4.1.1",
     "i18next-http-backend": "^1.0.4",
