@@ -25,8 +25,8 @@ export default class NavigationMenu extends React.Component {
 	}
 
 	render() {
-		let canNavigateToLocations = this.props.user.canNavigateToLocations();
-		let canNavigateToUsers = this.props.user.canNavigateToUsers();
+		let canNavigateToLocations = this.props.user?.canNavigateToLocations();
+		let canNavigateToUsers = this.props.user?.canNavigateToUsers();
 
 		return (
 			<div className="navigationMenu">
