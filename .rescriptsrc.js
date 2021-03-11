@@ -14,20 +14,11 @@ module.exports = [
 			return result;
 		},
 		webpack: (webpack) => {
-			let cssPlugin = webpack.plugins.find((plugin) => plugin.constructor.name === "MiniCssExtractPlugin");
-
-			if (cssPlugin) {
-				cssPlugin.options = {
-					filename: "main.css",
-					moduleFilename: ({name}) => `${name}.css`
-				};
-			}
-
 			webpack.plugins.push(
 				new CopyPlugin([
 					{
 						from: "src/i18n/locales/**/*.json",
-						to:"./",
+						to: "./",
 						transformPath: (path) => path.replace("src/i18n/", "")
 					}
 				])
@@ -35,11 +26,10 @@ module.exports = [
 
 			webpack.plugins.push(
 				new PreloadWebpackPlugin({
-					rel: 'preload',
-					as: 'font',
-					include: 'allAssets',
-					fileWhitelist: [/\.(woff2?|eot|ttf|otf)(\?.*)?$/i],
-
+					rel: "preload",
+					as: "font",
+					include: "allAssets",
+					fileWhitelist: [/\.(woff2?|eot|ttf|otf)(\?.*)?$/i]
 				})
 			);
 
