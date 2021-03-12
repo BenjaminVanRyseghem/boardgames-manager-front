@@ -4,25 +4,27 @@ import { Redirect, Switch } from "react-router";
 import PropTypes from "prop-types";
 import { Route } from "react-router-dom";
 
-function backgroundLoading(importCall) {
-	let promise = new Promise((resolve) => {
-		resolve(importCall);
+let pages = {};
+
+function backgroundLoading(name, importCall) {
+	importCall.then((data) => {
+		pages[name] = data.default;
 	});
 
-	return lazy(() => promise);
+	pages[name] = lazy(() => importCall);
 }
 
-const Account = backgroundLoading(import("./account/account"));
-const AddGame = backgroundLoading(import("./addGame/addGame"));
-const AddLocation = backgroundLoading(import("./addLocation/addLocation"));
-const Game = backgroundLoading(import("./game/game"));
-const Games = backgroundLoading(import("./games/games"));
-const Location = backgroundLoading(import("./location/location"));
-const Locations = backgroundLoading(import("./locations/locations"));
-const Login = backgroundLoading(import("./login/login"));
-const Page404 = backgroundLoading(import("./page404/page404"));
-const User = backgroundLoading(import("./user/user"));
-const Users = backgroundLoading(import("./users/users"));
+backgroundLoading("Account", import("./account/account"));
+backgroundLoading("AddGame", import("./addGame/addGame"));
+backgroundLoading("AddLocation", import("./addLocation/addLocation"));
+backgroundLoading("Game", import("./game/game"));
+backgroundLoading("Games", import("./games/games"));
+backgroundLoading("Location", import("./location/location"));
+backgroundLoading("Locations", import("./locations/locations"));
+backgroundLoading("Login", import("./login/login"));
+backgroundLoading("Page404", import("./page404/page404"));
+backgroundLoading("User", import("./user/user"));
+backgroundLoading("Users", import("./users/users"));
 
 function PrivateRoute({ user, component: Component, conditionFn = () => true, ...routeProps }) { // eslint-disable-line react/prop-types
 	return (
@@ -38,7 +40,7 @@ function PrivateRoute({ user, component: Component, conditionFn = () => true, ..
 					/>);
 				}
 				if (!conditionFn(user)) {
-					return <Page404 {...props} user={user}/>;
+					return <pages.Page404 {...props} user={user}/>;
 				}
 				return <Component {...props} user={user}/>;
 			}}
@@ -76,38 +78,38 @@ export default class Pages extends React.Component {
 		return (
 			<Suspense fallback={this.renderFallback()}>
 				<Switch>
-					<Route exact component={(props) => <Login
+					<Route exact component={(props) => <pages.Login
 						setUser={this.props.setUser}
 						user={this.props.user}
 						{...props}
 					/>} path="/login"/>
 					<Route exact component={() => "TO DO"} path="/register"/>
-					<PrivateRoute exact component={Games} conditionFn={(user) => user.canViewGames()} path="/" user={this.props.user}/>
-					<PrivateRoute exact component={Locations} conditionFn={(user) => user.canNavigateToLocations()} path="/locations" user={this.props.user}/>
-					<PrivateRoute exact component={({ user, match: { params: { id } } }) => <Game
+					<PrivateRoute exact component={pages.Games} conditionFn={(user) => user.canViewGames()} path="/" user={this.props.user}/>
+					<PrivateRoute exact component={pages.Locations} conditionFn={(user) => user.canNavigateToLocations()} path="/locations" user={this.props.user}/>
+					<PrivateRoute exact component={({ user, match: { params: { id } } }) => <pages.Game
 						key={id}
 						id={id}
 						user={user}
 					/>} path="/game/:id" user={this.props.user}/>
-					<PrivateRoute exact component={({ user, match: { params: { id } } }) => <Location
+					<PrivateRoute exact component={({ user, match: { params: { id } } }) => <pages.Location
 						id={id}
 						user={user}
 					/>} conditionFn={(user) => user.canNavigateToLocations()} path="/location/:id" user={this.props.user}/>
-					<PrivateRoute exact component={AddGame} conditionFn={(user) => user.canAddGames()} path="/add-game" user={this.props.user}/>
-					<PrivateRoute exact component={AddLocation} conditionFn={(user) => user.canAddLocations()} path="/add-location" user={this.props.user}/>
-					<PrivateRoute exact component={Users} conditionFn={(user) => user.canNavigateToUsers()} path="/users" user={this.props.user}/>
-					<PrivateRoute exact component={(props) => <Account
+					<PrivateRoute exact component={pages.AddGame} conditionFn={(user) => user.canAddGames()} path="/add-game" user={this.props.user}/>
+					<PrivateRoute exact component={pages.AddLocation} conditionFn={(user) => user.canAddLocations()} path="/add-location" user={this.props.user}/>
+					<PrivateRoute exact component={pages.Users} conditionFn={(user) => user.canNavigateToUsers()} path="/users" user={this.props.user}/>
+					<PrivateRoute exact component={(props) => <pages.Account
 						logout={this.props.logout}
 						setUser={this.props.setUser}
 						{...props}
 					/>} path="/account" user={this.props.user}/>
-					<PrivateRoute exact component={({ user, match: { params: { id } } }) => <User
+					<PrivateRoute exact component={({ user, match: { params: { id } } }) => <pages.User
 						key={id}
 						id={id}
 						user={user}
 					/>} conditionFn={(user) => user.canNavigateToUsers()} path="/user/:id" user={this.props.user}/>
 					<Redirect from="/games" to="/"/>
-					<Route render={() => <Page404 user={this.props.user}/>}/>
+					<Route render={() => <pages.Page404 user={this.props.user}/>}/>
 				</Switch>
 			</Suspense>
 		);
