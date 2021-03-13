@@ -1,6 +1,18 @@
 // eslint-disable-line max-lines
 import "./addGame.scss";
-import { Button, Col, Container, Form, FormGroup, Input, Label, Row } from "reactstrap";
+import {
+	Button,
+	Col,
+	Container,
+	Form,
+	FormGroup,
+	Input,
+	Label,
+	Modal,
+	ModalBody,
+	ModalHeader,
+	Row
+} from "reactstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import GamePreview from "components/gamePreview/gamePreview";
 import i18n from "i18n/i18n";
@@ -30,10 +42,13 @@ export class GameAdditionCandidates extends React.Component {
 		addGame: PropTypes.func.isRequired,
 		data: PropTypes.array,
 		error: PropTypes.object,
+		fetchVersions: PropTypes.func.isRequired,
 		query: PropTypes.string.isRequired
 	};
 
-	state = {};
+	state = {
+		modalOpen: false
+	};
 
 	componentDidUpdate(prevProps) {
 		if (prevProps.error !== this.props.error) {
@@ -43,8 +58,73 @@ export class GameAdditionCandidates extends React.Component {
 		}
 	}
 
+	toggleModal() {
+		this.setState((state) => ({
+			modalOpen: !state.modalOpen
+		}));
+	}
+
+	renderModal() {
+		let toggle = this.toggleModal.bind(this);
+
+		if (!this.state.versions || !this.state.gameToAdd) {
+			return (
+				<Modal className="choose-a-version centered loading" isOpen={this.state.modalOpen}>
+					<Loading dark full/>
+				</Modal>
+			);
+		}
+
+		return (
+			<Modal className="choose-a-version" isOpen={this.state.modalOpen} toggle={toggle}>
+				<ModalHeader toggle={toggle}>
+					<Translate i18nKey="add.chooseAVersion">
+						Choose a version
+					</Translate>
+				</ModalHeader>
+				<ModalBody>
+					{this.state.versions.map((version) => (
+						<div key={version.id} className="version" onClick={() => {
+							let { id, name } = this.state.gameToAdd;
+							this.props.addGame({
+								id,
+								version,
+								name
+							});
+						}}>
+							{/* eslint-disable-next-line no-process-env */}
+							<img alt={version.name} src={version.picture || `${process.env.PUBLIC_URL}/missing.png`}/>
+							<div className="name">{version.name}</div>
+						</div>
+					))}
+				</ModalBody>
+			</Modal>
+		);
+	}
+
+	fetchVersions(lang, game) {
+		this.setState({ modalOpen: true });
+
+		this.props.fetchVersions(lang, game)
+			.then((versions) => {
+				if (versions.length === 1) {
+					let { id } = game;
+					this.props.addGame({
+						id,
+						version: versions[0],
+						name: game.name
+					});
+				} else {
+					this.setState({
+						versions,
+						gameToAdd: game
+					});
+				}
+			});
+	}
+
 	render() {
-		let { data, error, addGame, query } = this.props;
+		let { data, error, query } = this.props;
 
 		if (error) {
 			return null;
@@ -60,23 +140,19 @@ export class GameAdditionCandidates extends React.Component {
 
 		return (
 			<div className="candidates">
+				{this.renderModal()}
 				<div className="counter"><Translate count={data.length} i18nKey="gamesFound">%count% games
 					found</Translate></div>
 				<ul className="previews">
 					{data.map((game) => {
-						let { id, nameType, type } = game;
+						let { id, type } = game;
 						return <li key={`${type}-${id}`} className="game-preview">
 							<div className="buttons">
 								{Object.keys(allLanguages).map((lang) => (
 									<Button
 										key={lang}
 										className={`flag-icon flag-icon-${allLanguages[lang]}`}
-										onClick={() => addGame({
-											id,
-											nameType,
-											name: game.name,
-											lang
-										})}
+										onClick={this.fetchVersions.bind(this, lang, game)}
 									>
 										<FontAwesomeIcon icon="plus"/>
 									</Button>
@@ -182,25 +258,23 @@ export default class AddGame extends Page {
 		this.setState({ location });
 	}
 
-	onLanguageChange(language) {
-		this.setState({ language });
+	fetchVersions(lang, game) {
+		return this.fetch(`/api/v1/game/versions/${game.id}/${lang}`);
 	}
 
-	addGame({ id, nameType, name, lang }) {
+	addGame({ id, name, version }) {
 		this.fetch("/api/v1/game", {
 			method: "POST",
 			body: {
 				gameId: id,
 				location: this.state.location.id,
-				lang,
-				nameType,
-				name
+				version
 			}
 		})
 			.then((game) => {
 				info.success({
 					title: <Translate i18nKey="info.success">Success</Translate>,
-					html: <Translate i18nKey="game.addedSuccessfully" name={name}>
+					html: <Translate i18nKey="game.addedSuccessfully" name={game.name}>
 						{"\"%name%\" successfully added"}
 					</Translate>,
 					onAfterClose: () => !this.state.addMultiple && this.setState({ goToGame: game.id })
@@ -210,7 +284,8 @@ export default class AddGame extends Page {
 				info.error({
 					html: <Translate i18nKey="game.addedUnsuccessfully" name={name}>
 						{"Error while adding \"%name%\""}
-					</Translate>
+					</Translate>,
+					onAfterClose: () => this.setState({ modalOpen: false })
 				});
 			});
 	}
@@ -345,6 +420,7 @@ export default class AddGame extends Page {
 						<this.swr url={`/api/v1/search/bgg?name=${this.state.query}&type=${stringifiedTypes}&exact=${this.state.exact}`}>
 							<GameAdditionCandidates
 								addGame={this.addGame.bind(this)}
+								fetchVersions={this.fetchVersions.bind(this)}
 								owner={this}
 								query={this.state.query}
 							/>
