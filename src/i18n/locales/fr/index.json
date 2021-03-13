@@ -15,6 +15,9 @@
     "role": "Rôle",
     "submit": "Changer"
   },
+  "add": {
+    "chooseAVersion": "Choisissez une version"
+  },
   "addAUser": "Ajouter un utilisateur",
   "addAGame": "Ajouter un jeu",
   "addALocation": "Ajouter un emplacement",
@@ -59,8 +62,8 @@
     "name": "Nom :"
   },
   "game": {
-    "addedSuccessfully": "%name% ajouté avec succès",
-    "addedUnsuccessfully": "Erreur lors de l'ajout de %name%",
+    "addedSuccessfully": "\"%name%\" ajouté avec succès",
+    "addedUnsuccessfully": "Erreur lors de l'ajout de \"%name%\"",
     "borrowedBy": "Jeu emprunté par %name%",
     "borrowedByWithLink": "Jeu emprunté par <1>%name%</1>",
     "lentSuccessfully": "Jeu prêté avec succès",
