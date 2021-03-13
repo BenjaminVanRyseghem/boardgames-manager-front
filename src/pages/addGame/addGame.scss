@@ -13,10 +13,22 @@
   height: 50vh;
   width: 50vw;
   max-width: 50vw;
+  margin: 0;
+  display: block;
+  padding: 0;
+  background: transparent;
 
   &.loading {
+    height: 247px;
+    width: 32em;
+    max-width: 100%;
+
+    padding-left: 0.625em;
+    padding-right: 0.625em;
+
     .modal-content {
       height: 100%;
+      border: none;
     }
   }
 

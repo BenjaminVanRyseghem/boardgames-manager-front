@@ -13,6 +13,7 @@ import {
 	ModalHeader,
 	Row
 } from "reactstrap";
+import classNames from "classnames";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import GamePreview from "components/gamePreview/gamePreview";
 import i18n from "i18n/i18n";
@@ -59,24 +60,30 @@ export class GameAdditionCandidates extends React.Component {
 	}
 
 	toggleModal() {
-		this.setState((state) => ({
-			modalOpen: !state.modalOpen
-		}));
+		this.setState((state) => {
+			let newState = {
+				modalOpen: !state.modalOpen
+			};
+
+			if (state.modalOpen) {
+				newState.gameToAdd = null;
+				newState.versions = null;
+				newState.bite = true;
+			}
+
+			return newState;
+		});
 	}
 
-	renderModal() {
-		let toggle = this.toggleModal.bind(this);
-
+	renderModalContent(toggle) {
 		if (!this.state.versions || !this.state.gameToAdd) {
 			return (
-				<Modal className="choose-a-version centered loading" isOpen={this.state.modalOpen}>
-					<Loading dark full/>
-				</Modal>
+				<Loading dark full/>
 			);
 		}
 
 		return (
-			<Modal className="choose-a-version" isOpen={this.state.modalOpen} toggle={toggle}>
+			<>
 				<ModalHeader toggle={toggle}>
 					<Translate i18nKey="add.chooseAVersion">
 						Choose a version
@@ -90,14 +97,41 @@ export class GameAdditionCandidates extends React.Component {
 								id,
 								version,
 								name
+							}).finally(() => {
+								this.setState({
+									modalOpen: false,
+									versions: null,
+									gameToAdd: null
+								});
 							});
 						}}>
-							{/* eslint-disable-next-line no-process-env */}
-							<img alt={version.name} src={version.picture || `${process.env.PUBLIC_URL}/missing.png`}/>
+							<img alt={version.name} src={version.picture}/>
 							<div className="name">{version.name}</div>
 						</div>
 					))}
 				</ModalBody>
+			</>
+		);
+	}
+
+	renderModal() {
+		let toggle = this.toggleModal.bind(this);
+		let loading = !this.state.versions || !this.state.gameToAdd;
+
+		let className = classNames({
+			"choose-a-version": true,
+			"swal2-popup": true,
+			loading
+		});
+
+		return (
+			<Modal className={className} isOpen={this.state.modalOpen} toggle={() => {
+				if (loading) {
+					return;
+				}
+				toggle();
+			}}>
+				{this.renderModalContent(toggle)}
 			</Modal>
 		);
 	}
@@ -113,6 +147,12 @@ export class GameAdditionCandidates extends React.Component {
 						id,
 						version: versions[0],
 						name: game.name
+					}).finally(() => {
+						this.setState({
+							modalOpen: false,
+							versions: null,
+							gameToAdd: null
+						});
 					});
 				} else {
 					this.setState({
@@ -263,7 +303,7 @@ export default class AddGame extends Page {
 	}
 
 	addGame({ id, name, version }) {
-		this.fetch("/api/v1/game", {
+		return this.fetch("/api/v1/game", {
 			method: "POST",
 			body: {
 				gameId: id,
