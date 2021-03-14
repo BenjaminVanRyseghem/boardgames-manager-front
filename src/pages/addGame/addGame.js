@@ -93,15 +93,17 @@ export class GameAdditionCandidates extends React.Component {
 					{this.state.versions.map((version) => (
 						<div key={version.id} className="version" onClick={() => {
 							let { id, name } = this.state.gameToAdd;
+							this.setState({
+								versions: null,
+								gameToAdd: null
+							});
 							this.props.addGame({
 								id,
 								version,
 								name
 							}).finally(() => {
 								this.setState({
-									modalOpen: false,
-									versions: null,
-									gameToAdd: null
+									modalOpen: false
 								});
 							});
 						}}>
