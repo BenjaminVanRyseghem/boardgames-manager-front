@@ -18,10 +18,12 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import GamePreview from "components/gamePreview/gamePreview";
 import i18n from "i18n/i18n";
 import info from "helpers/info";
+import { FixedSizeList as List } from "react-window";
 import Loading from "components/loading/loading";
 import Page from "../page";
 import PropTypes from "prop-types";
 import React from "react";
+import { ReactWindowScroller } from "react-window-scroller";
 import { Redirect } from "react-router";
 import Select from "react-select";
 import Translate from "components/i18n/translate";
@@ -165,8 +167,36 @@ export class GameAdditionCandidates extends React.Component {
 			});
 	}
 
+	renderCell(data) {
+		return ({ index, style }) => {
+			let game = data[index];
+			let { id, type } = game;
+			return <div key={`${type}-${id}`} className="game-preview-container" style={{
+				...style,
+				padding: "10px"
+			}}>
+				<li className="game-preview">
+					<div className="buttons">
+						{Object.keys(allLanguages).map((lang) => (
+							<Button
+								key={lang}
+								className={`flag-icon flag-icon-${allLanguages[lang]}`}
+								onClick={this.fetchVersions.bind(this, lang, game)}
+							>
+								<FontAwesomeIcon icon="plus"/>
+							</Button>
+						))}
+					</div>
+					<div className="content">
+						<GamePreview data={game} query={this.props.query}/>
+					</div>
+				</li>
+			</div>;
+		};
+	}
+
 	render() {
-		let { data, error, query } = this.props;
+		let { data, error } = this.props;
 
 		if (error) {
 			return null;
@@ -184,28 +214,26 @@ export class GameAdditionCandidates extends React.Component {
 			<div className="candidates">
 				{this.renderModal()}
 				<div className="counter"><Translate count={data.length} i18nKey="gamesFound">%count% games
-					found</Translate></div>
-				<ul className="previews">
-					{data.map((game) => {
-						let { id, type } = game;
-						return <li key={`${type}-${id}`} className="game-preview">
-							<div className="buttons">
-								{Object.keys(allLanguages).map((lang) => (
-									<Button
-										key={lang}
-										className={`flag-icon flag-icon-${allLanguages[lang]}`}
-										onClick={this.fetchVersions.bind(this, lang, game)}
-									>
-										<FontAwesomeIcon icon="plus"/>
-									</Button>
-								))}
-							</div>
-							<div className="content">
-								<GamePreview data={game} query={query}/>
-							</div>
-						</li>;
-					})}
-				</ul>
+					found</Translate>
+				</div>
+
+				<ReactWindowScroller>
+					{({ ref, outerRef, style, onScroll }) => (
+						<List
+							key={window.innerWidth <= 767 ? "small" : "big"}
+							ref={ref}
+							className="previews"
+							height={window.innerHeight}
+							itemCount={data.length}
+							itemSize={window.innerWidth <= 767 ? 114.3 : 50.3}
+							outerRef={outerRef}
+							style={style}
+							onScroll={onScroll}
+						>
+							{this.renderCell(data)}
+						</List>
+					)}
+				</ReactWindowScroller>
 			</div>
 		);
 	}

@@ -107,53 +107,61 @@
 
   .candidates {
     margin-left: 2em;
+    width: 100%;
 
     .counter {
       margin-bottom: 1em;
     }
 
-    .game-preview {
-      list-style: none;
-      display: flex;
-      align-items: center;
+    .game-preview-container {
+      //@include media-breakpoint-down(sm) {
+      //  height: 114.3px !important;
+      //}
+      //height: 50.3px !important;
 
-      .buttons {
-        margin-right: 2ch;
-      }
+      .game-preview {
+        list-style: none;
+        display: flex;
+        align-items: center;
 
-      button {
-        background-size: cover;
-        border-radius: 50%;
-        border: 1px solid #ccc;
-        margin: 1ch 0;
-        vertical-align: super;
-        font-size: 18px;
-        line-height: 14px;
-        width: 30px;
-        height: 30px;
-        position: relative;
-
-        &:not(:last-of-type) {
-          margin-right: 1ch;
+        .buttons {
+          margin-right: 2ch;
         }
 
-        &:hover svg path {
-          fill: $add-background;
-        }
+        button {
+          background-size: cover;
+          border-radius: 50%;
+          border: 1px solid #ccc;
+          margin: 1ch 0;
+          vertical-align: super;
+          font-size: 18px;
+          line-height: 14px;
+          width: 30px;
+          height: 30px;
+          position: relative;
 
-        svg {
-          @include center;
+          &:not(:last-of-type) {
+            margin-right: 1ch;
+          }
 
-          path {
-            stroke-width: 20px;
-            stroke: black;
-            fill: white
+          &:hover svg path {
+            fill: $add-background;
+          }
+
+          svg {
+            @include center;
+
+            path {
+              stroke-width: 20px;
+              stroke: black;
+              fill: white
+            }
           }
         }
-      }
 
-      & > * {
-        display: inline-block;
+        & > * {
+          display: inline-block;
+        }
       }
     }
   }

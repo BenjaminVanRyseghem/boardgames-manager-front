@@ -12,6 +12,15 @@ import { Redirect } from "react-router";
 import { Router } from "react-router-dom";
 import UserKindSwitcher from "./components/userKindSwitcher/userKindSwitcher";
 
+import { FixedSizeList as List } from "react-window";
+import { ReactWindowScroller } from "react-window-scroller/dist/index.jsx.modern";
+
+export const Row2 = ({ index, style }) => (
+	<div className={index % 2 ? "odd" : "even"} style={style}>
+		Row {index}
+	</div>
+);
+
 const cookieName = "com.boardgames-manager";
 
 class App extends React.Component {

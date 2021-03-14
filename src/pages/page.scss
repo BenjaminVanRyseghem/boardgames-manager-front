@@ -5,13 +5,13 @@
 @import "../variables";
 
 .page {
-  height: 100%;
   position: relative;
   background: url("./so-white.png");
   overflow: hidden;
 
   display: flex;
   flex-direction: column;
+  flex: 1 1 100%;
 
   .navigation {
     flex: 0 1 $navigation-menu-height;
@@ -36,7 +36,7 @@
 
   .page-scroll {
     flex: 1 1 auto;
-    overflow-y: auto;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
   }
