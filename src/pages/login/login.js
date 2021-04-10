@@ -92,7 +92,6 @@ export default class Login extends Page {
 
 	render() {
 		if (this.state.logged) {
-			debugger;
 			return (
 				<Redirect to={(this.props.location.state && this.props.location.state.from) || "/"}/>
 			);
