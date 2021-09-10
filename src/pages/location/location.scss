@@ -10,9 +10,9 @@
     position: relative;
 
     .actions {
-      cursor: pointer;
       @include center-y;
-      right: 10px;
+      cursor: pointer;
+      right: -10px;
       font-size: .5em;
 
       > * {

@@ -1,22 +1,27 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins/breakpoints";
+
 .game {
-  .admin-actions {
-    padding: 20px 0;
+  .admin-actions, .actions {
+    align-items: center;
+    padding: 20px 0 0 0;
     display: flex;
     justify-content: right;
+    gap: 1em;
 
     .action {
       flex: 0 1 auto;
-      margin-right: 2em;
+
+      .btn {
+        width: 200px;
+      }
     }
   }
 
-  .actions {
-    padding: 20px 0;
-    display: flex;
-
-    .action {
-      flex: 0 1 auto;
-      margin-right: 2em;
+  @include media-breakpoint-down(sm) {
+    .actions, .admin-actions {
+      flex-direction: column;
     }
   }
 }
