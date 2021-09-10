@@ -69,7 +69,10 @@ export default class GamePreview extends React.Component {
 		}
 
 		return (
-			<div className="name">{result}{this.renderYearOfPublication()}</div>
+			<>
+				<span className="name">{result}</span>
+				{this.renderYearOfPublication()}
+			</>
 		);
 	}
 
